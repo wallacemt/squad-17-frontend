@@ -9,13 +9,19 @@ import { UserCard } from "./UserCard";
 export const SearchPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState([]);
+  const [userResults, setUserResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [page, setPage] = useState(0);
+  const [mediaPage, setMediaPage] = useState(1);
+  const [userPage, setUserPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
-  const { ref, inView } = useInView({ threshold: 1 });
   const [searchType, setSearchType] = useState("media");
-  const [userResults, setUserResults] = useState([]);
+  const [isFetchingMore, setIsFetchingMore] = useState(false);
+  const { ref, inView } = useInView({ threshold: 1 });
+  const [page, setPage] = useState(1);
+
+  const { ref: mediaRef, inView: mediaInView } = useInView({ threshold: 1 });
+  const { ref: userRef, inView: userInView } = useInView({ threshold: 1 });
 
   useEffect(() => {
     if (!searchTerm) {
@@ -26,45 +32,36 @@ export const SearchPage = () => {
     }
   }, [searchTerm]);
 
-  useEffect(() => {
+  const fetchResults = async () => {
     if (!searchTerm) return;
-    const fetchData = async () => {
-      setError("");
-      setIsLoading(true);
-      try {
-        if (searchType === "user") {
-          if (searchTerm.length < 2) return;
-          const term = searchTerm.substring(1);
-          const data = await searchUser(term);
-          setUserResults((prev) =>
-            page === 1
-              ? data.content
-              : [
-                  ...prevResults,
-                  ...data.content.filter((newItem) => !prevResults.some((item) => item.id === newItem.id)),
-                ]
-          );
-          setHasMore(data.content.length > 0);
+    setIsLoading(true);
+    setError("");
+
+    try {
+      if (searchType === "media") {
+        const { success, data, message } = await searchResults(searchTerm, { page });
+        if (success) {
+          setResults((prev) => (page === 1 ? data : [...prev, ...data]));
+          setHasMore(data.length > 0);
         } else {
-          const { success, data, message } = await searchResults(searchTerm, { page });
-          if (success) {
-            setResults((prevResults) =>
-              page === 1
-                ? data
-                : [...prevResults, ...data.filter((newItem) => !prevResults.some((item) => item.id === newItem.id))]
-            );
-            setHasMore(data.length > 0);
-          } else {
-            setError(message);
-          }
+          setError(message);
         }
-      } catch (err) {
-        setError("Erro ao buscar os resultados. Tente novamente mais tarde.");
-      } finally {
-        setIsLoading(false);
+      } else {
+        if (searchTerm.length < 2) return;
+        const term = searchTerm.substring(1);
+        const data = await searchUser(term);
+        setUserResults(data.content);
+        setHasMore(data.content.length > 0);
       }
-    };
-    fetchData();
+    } catch {
+      setError("Erro ao buscar resultados. Tente novamente mais tarde.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchResults();
   }, [searchTerm, page, searchType]);
 
   useEffect(() => {
@@ -73,17 +70,12 @@ export const SearchPage = () => {
     }
   }, [inView, hasMore, isLoading]);
 
-  const handleSearch = async (e) => {
+  const handleSearch = (e) => {
     e.preventDefault();
     setPage(1);
     setResults([]);
     setUserResults([]);
-
-    if (searchTerm.startsWith("@")) {
-      setSearchType("user");
-    } else {
-      setSearchTerm("media");
-    }
+    setSearchType(searchTerm.startsWith("@") ? "user" : "media");
   };
 
   return (
@@ -120,22 +112,36 @@ export const SearchPage = () => {
       </form>
 
       {/* Resultados */}
-      {searchTerm && searchType === 'media' && (
+      {searchTerm && searchType === "media" && (
         <h3 className="relative text-3xl sm:text-3xl md:text-5xl text-white font-moonjelly mt-24 mb-4 flex items-center left-[4%] md:left-0 justify-center mx-auto text-center w-full">
-          {isLoading  ? "Buscando..." : `Resultados para "${searchTerm}"`}
+          {isLoading ? "Buscando..." : `Resultados para "${searchTerm}"`}
         </h3>
       )}
-      {searchTerm && searchType === 'user' && (
+      {searchTerm && searchType === "user" && (
         <h3 className="relative text-3xl sm:text-3xl md:text-5xl text-white font-moonjelly mt-24 mb-4 flex items-center left-[4%] md:left-0 justify-center mx-auto text-center w-full">
-          {isLoading  ? "Buscando usuario..." : `Resultados para @${searchTerm.substring(1)}`}
+          {isLoading ? "Buscando usuario..." : `Resultados para @${searchTerm.substring(1)}`}
         </h3>
       )}
 
       {searchType === "user" && (
         <div className="w-[80%] md:w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-10 mt-6 p-4 relative left-[8%] md:left-8 sm:mx-auto">
           {userResults.length > 0
-            ? userResults.map((user) => <UserCard key={user.id} user={user} className={"relative flex flex-col gap-2  w-full h-96 rounded-lg overflow-hidden shadow-sm cursor-pointer hover:scale-125 font-poppins mx-auto ease-linear duration-300"} />)
-            : !isLoading && <p className="text-white text-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">Nenhum usuário encontrado para "{searchTerm}".</p>}
+            ? userResults.map((user) => (
+                <div>
+                  <UserCard
+                    key={user.id}
+                    user={user}
+                    className={
+                      "relative flex flex-col gap-2  w-full h-96 rounded-lg overflow-hidden shadow-sm cursor-pointer hover:scale-125 font-poppins mx-auto ease-linear duration-300"
+                    }
+                  />
+                </div>
+              ))
+            : !isLoading && (
+                <p className="text-white text-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                  Nenhum usuário encontrado para "{searchTerm}".
+                </p>
+              )}
         </div>
       )}
 
@@ -173,8 +179,14 @@ export const SearchPage = () => {
       )}
 
       {/* Feedback */}
-      {isLoading && (
+      {isLoading && searchType === "user" && (
         <div className="mt-20 w-1/2 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:w-auto mx-auto">
+          <Loading />
+        </div>
+      )}
+      {/* Feedback */}
+      {isLoading && searchType === "media" && (
+        <div className="mt-20 absolute bottom-12 md:w-auto mx-auto">
           <Loading />
         </div>
       )}

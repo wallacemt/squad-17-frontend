@@ -117,6 +117,7 @@ export const TrendingBanner = () => {
                         grabCursor={true}
                         loop={true}
                         autoplay={{
+                            pauseOnMouseEnter: true,
                             delay: 3500, 
                             disableOnInteraction: false, 
                           }}

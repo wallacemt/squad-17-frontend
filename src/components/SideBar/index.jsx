@@ -300,7 +300,7 @@ export const SideBar = () => {
                 to="/notifications"
                 className={`flex items-center gap-4 p-3 rounded-xl text-xl font-poppins transition-colors hover:bg-gray-700 ${
                   location.pathname === "/notifications" ? "border-l-8 border-primary60 text-primary60 font-bold" : ""
-                } ${newNotify || notifications ? "animate-bounce text-primary90" : " text-yellow-400"}`}
+                } ${newNotify || notifications ? "animate-bounce text-primary90 duration-3000 delay-300" : " text-yellow-400"}`}
               >
                 <AiOutlineBell size={28} />
                 <span className="text-neutral10">Notifications</span>
