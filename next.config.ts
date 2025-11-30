@@ -1,6 +1,27 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  env: {
+    DATABASE_URL: process.env.DATABASE_URL,
+    BETTER_AUTH_URL: process.env.BETTER_AUTH_URL,
+    NEXT_PUBLIC_URL: process.env.NEXT_PUBLIC_URL,
+    BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
+    TMDB_API_TOKEN: process.env.TMDB_API_TOKEN,
+  },
+  images: {
+    formats: ["image/webp", "image/avif"],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 31_536_000,
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "image.tmdb.org",
+        pathname: "/**",
+      },
+    ],
+    dangerouslyAllowSVG: true,
+  },
   /* config options here */
   reactCompiler: true,
 };

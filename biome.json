@@ -7,13 +7,7 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": [
-      "**",
-      "!node_modules",
-      "!.next",
-      "!dist",
-      "!build"
-    ]
+    "includes": ["**", "!node_modules", "!.next", "!dist", "!build"]
   },
   "formatter": {
     "enabled": true,
@@ -24,8 +18,12 @@
     "enabled": true,
     "rules": {
       "recommended": true,
+      "nursery": { "useSortedClasses": "off" },
       "suspicious": {
         "noUnknownAtRules": "off"
+      },
+      "style": {
+        "useFilenamingConvention": "off"
       }
     },
     "domains": {
@@ -33,14 +31,14 @@
       "react": "recommended"
     }
   },
+
   "assist": {
     "actions": {
       "source": {
-        "organizeImports": "on"
+        "organizeImports": "on",
+        "useSortedAttributes": "off"
       }
     }
   },
-  "extends": [
-    "ultracite/core"
-  ]
+  "extends": ["ultracite/core"]
 }
