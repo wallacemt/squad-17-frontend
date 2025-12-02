@@ -2,23 +2,14 @@
 
 import { motion } from "framer-motion";
 import { Star } from "lucide-react";
-import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectCoverflow } from "swiper/modules";
 import Image from "next/image";
 
 import "swiper/css";
 import "swiper/css/effect-coverflow";
-
-import {
-  getTrending,
-  getImageUrl,
-  formatRating,
-  getTitle,
-  getYear,
-  getGenreNames,
-  type TMDBMedia,
-} from "@/services/tmdb";
+import type { TMDBMedia } from "@/types/tmdb";
+import { formatRating, getGenreNames, getImageUrl, getTitle, getYear } from "@/utils/tmdbUtils";
 
 const gradients = [
   "from-orange-500 to-amber-600",
@@ -31,43 +22,13 @@ const gradients = [
   "from-yellow-500 to-orange-600",
 ];
 
-export default function MovieCarousel() {
-  const [trending, setTrending] = useState<TMDBMedia[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchTrending = async () => {
-      try {
-        const data = await getTrending("all", "week");
-        setTrending(data.results.slice(0, 10));
-      } catch (error) {
-        console.error("Erro ao buscar trending:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTrending();
-  }, []);
-
-  if (loading) {
-    return (
-      <section className="relative overflow-hidden bg-bg-surface py-24">
-        <div className="container relative z-10 mx-auto px-6">
-          <div className="text-center">
-            <p className="text-text-secondary text-xl">Carregando conteúdos em alta...</p>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
+export default function MovieCarousel({ trending }: { trending: TMDBMedia[] }) {
   return (
     <section className="relative overflow-hidden bg-bg-surface py-24">
       {/* Fundo decorativo */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--color-primary)_0%,transparent_50%)] opacity-5" />
 
-      <div className="container relative z-10 mx-auto px-6">
+      <div className="w-full max-w-[95%] relative z-10 mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -77,14 +38,12 @@ export default function MovieCarousel() {
         >
           <h2 className="mb-4 font-bold text-4xl md:text-5xl">
             <span className="text-text-primary">Em Alta na</span>
-            <span className="bg-linear-to-l from-color-primary to-color-primary-hover bg-clip-text text-transparent">
+            <span className="bg-gradient-to-l from-primary-crx to-primary-hover-crx bg-clip-text text-transparent">
               {" "}
               Semana
             </span>
           </h2>
-          <p className="mx-auto max-w-2xl text-text-secondary text-xl">
-            Os filmes e séries mais populares do momento
-          </p>
+          <p className="mx-auto max-w-2xl text-text-secondary text-xl">Os filmes e séries mais populares do momento</p>
         </motion.div>
 
         {/* Carrossel com Swiper */}
@@ -95,21 +54,21 @@ export default function MovieCarousel() {
             centeredSlides
             slidesPerView="auto"
             coverflowEffect={{
-              rotate: 50,
+              rotate: 40,
               stretch: 0,
               depth: 100,
               modifier: 1,
               slideShadows: false,
             }}
             autoplay={{
-              delay: 3500,
+              delay: 7500,
               disableOnInteraction: false,
             }}
             modules={[EffectCoverflow, Autoplay]}
             className="pb-8!"
           >
             {trending.map((media, index) => (
-              <SwiperSlide key={media.id} className="w-80!">
+              <SwiperSlide key={media.id} className="w-[20rem]!">
                 <motion.div
                   initial={{ opacity: 0, scale: 0.8 }}
                   whileInView={{ opacity: 1, scale: 1 }}
@@ -125,8 +84,8 @@ export default function MovieCarousel() {
                         src={getImageUrl(media.backdrop_path, "w780")}
                         alt={getTitle(media)}
                         fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 320px"
+                        className="object-cover w-full h-full"
+                        // sizes="(max-width: 768px) 100vw, 420px"
                       />
                     ) : (
                       <div className={`absolute inset-0 bg-linear-to-br ${gradients[index % gradients.length]}`} />
@@ -140,10 +99,10 @@ export default function MovieCarousel() {
                       {/* Badge de ano e tipo */}
                       <div className="flex items-start justify-between">
                         <div className="flex gap-2">
-                          <span className="rounded-full bg-white/20 px-3 py-1 font-semibold text-xs text-white uppercase backdrop-blur-sm">
+                          <span className="rounded-full bg-black/50 px-3 py-1 font-semibold text-xs text-primary-crx uppercase backdrop-blur-sm">
                             {getYear(media)}
                           </span>
-                          <span className="rounded-full bg-color-primary/80 px-3 py-1 font-semibold text-xs text-black uppercase backdrop-blur-sm">
+                          <span className="rounded-full bg-black/60 px-3 py-1 font-semibold text-xs text-primary-crx uppercase backdrop-blur-sm">
                             {media.media_type === "movie" ? "Filme" : "Série"}
                           </span>
                         </div>
@@ -160,8 +119,10 @@ export default function MovieCarousel() {
                         <p className="mb-2 font-medium text-sm text-white/80">{getGenreNames(media.genre_ids)}</p>
                         <h3 className="mb-3 line-clamp-2 font-bold text-2xl text-white">{getTitle(media)}</h3>
 
-                        {media.overview && (
+                        {media.overview ? (
                           <p className="mb-4 line-clamp-3 text-sm text-white/70">{media.overview}</p>
+                        ) : (
+                          ""
                         )}
 
                         {/* Barra de progresso */}
@@ -169,9 +130,9 @@ export default function MovieCarousel() {
                           <div className="h-1 overflow-hidden rounded-full bg-white/20">
                             <motion.div
                               initial={{ width: 0 }}
-                              whileInView={{ width: `${(media.vote_average / 10) * 100}%` }}
+                              whileInView={{ width: `${(Number(media.vote_average) / 10) * 100}%` }}
                               transition={{ duration: 1, delay: 0.3 }}
-                              className="h-full rounded-full bg-color-primary"
+                              className="h-full rounded-full bg-primary-crx"
                             />
                           </div>
                         </div>
@@ -203,4 +164,3 @@ export default function MovieCarousel() {
     </section>
   );
 }
-

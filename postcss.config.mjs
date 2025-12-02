@@ -1,6 +1,11 @@
 const config = {
   plugins: {
-    "@tailwindcss/postcss": {},
+    "@tailwindcss/postcss": {
+      // Suppress canonicalClasses suggestions for gradient utilities
+      diagnostics: {
+        suggestCanonicalClasses: false,
+      },
+    },
   },
 };
 

@@ -7,10 +7,6 @@ export default function CTA() {
   return (
     <section className="relative overflow-hidden bg-bg-body py-32">
       {/* Background com gradiente radial */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--color-primary)_0%,_transparent_70%)] opacity-20" />
-        <div className="absolute top-0 left-0 h-full w-full bg-[linear-gradient(to_right,#333_1px,transparent_1px),linear-gradient(to_bottom,#333_1px,transparent_1px)] bg-size-[4rem_4rem] opacity-10" />
-      </div>
 
       <div className="container relative z-10 mx-auto px-6">
         <motion.div
@@ -23,7 +19,7 @@ export default function CTA() {
           {/* Card principal do CTA */}
           <div className="group relative">
             {/* Brilho animado de fundo */}
-            <div className="-inset-1 absolute rounded-3xl bg-gradient-to-r from-color-primary via-yellow-400 to-color-primary-hover opacity-50 blur-xl transition duration-1000 group-hover:opacity-75" />
+            <div className="-inset-1 absolute rounded-3xl bg-gradient-to-r from-primary/20 via-yellow-400/40 to-primary-hover-crx/40 opacity-50 blur-xl transition duration-1000 group-hover:opacity-75" />
 
             <div className="relative rounded-3xl border border-border-color bg-gradient-to-br from-bg-surface to-bg-surface-light p-12 text-center md:p-16">
               {/* Badge superior */}
@@ -32,10 +28,10 @@ export default function CTA() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.2 }}
-                className="mb-6 inline-flex items-center gap-2 rounded-full border border-color-primary/30 bg-color-primary/10 px-4 py-2"
+                className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary-crx/30 bg-primary-crx/10 px-4 py-2"
               >
-                <span className="h-2 w-2 animate-pulse rounded-full bg-color-primary" />
-                <span className="font-semibold text-color-primary text-sm">Junte-se a Milhares de Críticos</span>
+                <span className="h-2 w-2 animate-pulse rounded-full bg-primary-crx" />
+                <span className="font-semibold text-shadow-amber-50 text-sm">Cadastro 100% gratuito</span>
               </motion.div>
 
               {/* Título principal */}
@@ -46,12 +42,13 @@ export default function CTA() {
                 transition={{ delay: 0.3 }}
                 className="mb-6 font-bold text-4xl leading-tight md:text-6xl"
               >
-                <span className="text-text-primary">Pronto para </span>
-                <span className="bg-gradient-to-r from-color-primary via-yellow-400 to-color-primary-hover bg-clip-text text-transparent">
-                  Compartilhar
+                <span className="text-text-primary">Comece agora. </span>
+                <br />
+                <span className="bg-gradient-to-r from-primary-crx via-yellow-400 to-primary-hover-crx bg-clip-text text-transparent">
+                  O próximo grande review
                 </span>
                 <br />
-                <span className="text-text-primary">Suas Opiniões?</span>
+                <span className="text-text-primary">pode ser o seu</span>
               </motion.h2>
 
               {/* Descrição */}
@@ -62,7 +59,8 @@ export default function CTA() {
                 transition={{ delay: 0.4 }}
                 className="mx-auto mb-10 max-w-2xl text-text-secondary text-xl"
               >
-                Crie sua conta gratuitamente e comece a avaliar seus filmes e séries favoritos hoje mesmo.
+                Entre para uma comunidade apaixonada por cinema. Sem anúncios, sem spam, só você e sua paixão por filmes
+                e séries. ✨
               </motion.p>
 
               {/* Botões de ação */}
@@ -76,9 +74,9 @@ export default function CTA() {
                 <motion.button
                   whileHover={{ scale: 1.05, boxShadow: "0 0 40px rgba(255, 193, 7, 0.6)" }}
                   whileTap={{ scale: 0.95 }}
-                  className="flex items-center justify-center gap-2 rounded-full bg-linear-to-r from-color-primary to-color-primary-hover px-10 py-5 font-bold text-color-on-primary text-lg shadow-[0_0_20px_rgba(255,193,7,0.4)] transition-all hover:shadow-[0_0_40px_rgba(255,193,7,0.6)]"
+                  className="flex items-center justify-center gap-2 rounded-full bg-linear-to-r from-primary-crx to-primary-hover-crx px-10 py-5 font-bold text-lg shadow-[0_0_20px_rgba(255,193,7,0.4)] transition-all hover:shadow-[0_0_40px_rgba(255,193,7,0.6)] text-text-primary"
                 >
-                  Criar Conta Grátis
+                  Começar Agora
                   <ArrowRight className="h-5 w-5" />
                 </motion.button>
 
