@@ -1,9 +1,9 @@
 import { db } from "@/db/connection";
 import { schema } from "@/db/schemas";
-import { env } from "@/env";
+
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-
+import { env } from "node:process";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {

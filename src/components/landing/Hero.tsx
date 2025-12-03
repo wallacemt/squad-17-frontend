@@ -55,7 +55,7 @@ export default function Hero({ trending }: { trending: TMDBMedia[] }) {
               className="mb-6 inline-flex items-center gap-2 rounded-full border border-border-color bg-bg-surface-light px-4 py-2"
             >
               <TrendingUp className="h-4 w-4 text-primary-crx" />
-              <span className="text-sm text-text-secondary">O novo padrão em avaliações</span>
+              <span className="text-sm text-text-secondary">A Plataforma #1 de Avaliação de Filmes e Séries</span>
             </motion.div>
 
             <h1 className="mb-6 font-bold text-5xl leading-tight md:text-7xl">

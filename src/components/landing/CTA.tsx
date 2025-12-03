@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
 export default function CTA() {
+  
   return (
     <section className="relative overflow-hidden bg-bg-body py-32">
       {/* Background com gradiente radial */}

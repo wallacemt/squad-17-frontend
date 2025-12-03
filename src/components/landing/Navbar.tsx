@@ -34,7 +34,7 @@ export default function Navbar() {
       transition={{ duration: 0.6 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled ? "bg-bg-surface/95 backdrop-blur-xl  shadow-lg" : "bg-transparent"
-      }`}
+      } ${isMobileMenuOpen ? "bg-bg-surface/95 backdrop-blur-xl  shadow-lg" : ""}`}
     >
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-20">
@@ -66,22 +66,9 @@ export default function Navbar() {
               );
             })}
           </div>
+          <span className="left-0 w-0 h-0.5" />
+          <span className="left-0 w-0 h-0.5" />
 
-          {/* CTA Buttons */}
-          <div className="hidden md:flex items-center gap-4">
-            <Link
-              href="/auth/login"
-              className="px-6 cursor-pointer py-2.5 rounded-full font-semibold text-text-primary hover:bg-purple-700/80 transition-all"
-            >
-              Entrar
-            </Link>
-            <Link
-              href="/auth/register"
-              className="px-6 py-2.5 rounded-full bg-gradient-to-r from-indigo-600 to-indigo-800/70 text-amber-50 font-semibold hover:shadow-[0_0_20px_rgba(255,193,7,0.5)]  hover:scale-105 transition-all"
-            >
-              Cadastrar
-            </Link>
-          </div>
 
           {/* Mobile Menu Button */}
           <Button
@@ -111,25 +98,14 @@ export default function Navbar() {
                     key={item.name}
                     href={item.href}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-bg-surface-light transition-colors"
+                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-bg-surface-light transition-colors relative group   text-text-secondary hover:text-text-primary  "
                   >
                     <Icon className="h-5 w-5 text-primary-crx" />
                     <span className="font-medium text-text-primary">{item.name}</span>
+                    <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-primary-crx  transition-all duration-300 group-hover:w-full" />
                   </Link>
                 );
               })}
-              <div className="pt-4 border-t border-border-color space-y-3">
-                <Link
-                  href="/auth/login"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="block w-full text-center px-6 py-3 rounded-full font-semibold text-text-primary bg-bg-surface-light hover:bg-bg-surface transition-all"
-                >
-                  Entrar
-                </Link>
-                <Button className="w-full px-6 py-3 rounded-full bg-gradient-to-r from-primary-crx to-primary-hover-crx text-color-on-primary font-semibold">
-                  Cadastrar
-                </Button>
-              </div>
             </div>
           </motion.div>
         )}
