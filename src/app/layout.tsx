@@ -1,17 +1,29 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Poppins } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const moonjelly = localFont({
+  src: [
+    {
+      path: "./assets/fonts/Moonjelly-Light.otf",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "./assets/fonts/Moonjelly-Bold.otf",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-moonjelly",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const poppins = Poppins({
+  variable: "--font-poppins",
+  weight: ["200", "300", "400", "500", "600", "700", "800"],
   subsets: ["latin"],
 });
-
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "https://critix.app"),
@@ -91,6 +103,7 @@ export const metadata: Metadata = {
   referrer: "origin-when-cross-origin",
 };
 
+import { AuthProvider } from "@/hooks/useAuth";
 
 export default function RootLayout({
   children,
@@ -98,8 +111,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
+    <html lang="pt" className="dark">
+      <body className={`${moonjelly.variable} ${poppins.variable} antialiased`}>
+        <AuthProvider>{children}</AuthProvider>
+      </body>
     </html>
   );
 }

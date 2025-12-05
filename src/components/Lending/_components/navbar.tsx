@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { Menu, X, Star, TrendingUp, Users, Sparkles } from "lucide-react";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import Image from "next/image";
 
 const navItems = [
@@ -68,7 +68,6 @@ export default function Navbar() {
           </div>
           <span className="left-0 w-0 h-0.5" />
           <span className="left-0 w-0 h-0.5" />
-
 
           {/* Mobile Menu Button */}
           <Button

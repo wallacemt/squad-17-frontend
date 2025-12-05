@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Star, Users, TrendingUp, Award, Sparkles, Zap, Database, Brain, Shield, Code } from "lucide-react";
+import { Sparkles, Zap, Database, Brain, Shield, Code } from "lucide-react";
 
 const features = [
   {

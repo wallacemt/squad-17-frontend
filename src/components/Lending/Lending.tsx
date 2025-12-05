@@ -1,10 +1,11 @@
 import { TMDBMedia } from "@/types/tmdb";
-import CTA from "./CTA";
-import Features from "./Features";
-import Footer from "./Footer";
-import Hero from "./Hero";
-import MovieCarousel from "./MovieCarousel";
-import Navbar from "./Navbar";
+
+import CTA from "./_components/cta";
+import Footer from "./_components/footer";
+import Navbar from "./_components/navbar";
+import Features from "./_components/features";
+import Hero from "./_components/hero";
+import MovieCarousel from "./_components/movie-carousel";
 
 export default function LendingPage({ trending }: { trending: TMDBMedia[] }) {
   return (

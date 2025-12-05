@@ -3,6 +3,15 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@font-face {
+  font-family: "moonjelly-bold";
+  src: url("./assets/fonts/Moonjelly-Bold.otf");
+}
+@font-face {
+  font-family: "moonjelly-light";
+  src: url("./assets/fonts/Moonjelly-Light.otf");
+}
+
 :root {
   /* --- Cores de Marca (Brand Colors) --- */
 
@@ -46,16 +55,67 @@
   /* --- Bordas e Divisores --- */
   --border-color: #333333;
 
+  --primary90: "#FF2F00";
+  --primary80: "#F9370B";
+  --primary70: "#FF481F";
+  --primary60: "#FF552F";
+  --primary50: "#F25430";
+  --primary40: "#D1492A";
+  --primary30: "#94331E";
+  --primary20: "#702B1C";
+  --primary10: "#E98770";
+  --white: "#FFFFFF";
+  --neutral10: "#E5E5E5";
+  --neutral20: "#CCCCCC";
+  --neutral30: "#B2B2B2";
+  --neutral40: "#B2B2B2";
+  --neutral50: "#808080";
+  --neutral60: "#666666";
+  --neutral70: "#4C4C4C";
+  --neutral80: "#333333";
+  --neutral90: "#1A1A1A";
   /* --- Sombras (Glow para dar o ar de cinema) --- */
   --shadow-card: 0 4px 6px rgba(0, 0, 0, 0.3);
-  --glow-primary: 0 0 15px rgba(255, 193, 7, 0.4); /* Brilho dourado */ --radius: 0.625rem; --background: oklch(1 0 0); --foreground: oklch(0.145 0 0); --card: oklch(1 0 0); --card-foreground: oklch(0.145 0 0); --popover: oklch(1 0 0); --popover-foreground: oklch(0.145 0 0); --primary: oklch(0.205 0 0); --primary-foreground: oklch(0.985 0 0); --secondary: oklch(0.97 0 0); --secondary-foreground: oklch(0.205 0 0); --muted: oklch(0.97 0 0); --muted-foreground: oklch(0.556 0 0); --accent: oklch(0.97 0 0); --accent-foreground: oklch(0.205 0 0); --destructive: oklch(0.577 0.245 27.325); --border: oklch(0.922 0 0); --input: oklch(0.922 0 0); --ring: oklch(0.708 0 0); --chart-1: oklch(0.646 0.222 41.116); --chart-2: oklch(0.6 0.118 184.704); --chart-3: oklch(0.398 0.07 227.392); --chart-4: oklch(0.828 0.189 84.429); --chart-5: oklch(0.769 0.188 70.08); --sidebar: oklch(0.985 0 0); --sidebar-foreground: oklch(0.145 0 0); --sidebar-primary: oklch(0.205 0 0); --sidebar-primary-foreground: oklch(0.985 0 0); --sidebar-accent: oklch(0.97 0 0); --sidebar-accent-foreground: oklch(0.205 0 0); --sidebar-border: oklch(0.922 0 0); --sidebar-ring: oklch(0.708 0 0);
+  --glow-primary: 0 0 15px rgba(255, 193, 7, 0.4); /* Brilho dourado */
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-poppins);
+  --font-display: var(--font-moonjelly);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -86,27 +146,40 @@
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
 
-  --color-primary-crx: #ffc107;
-  --color-primary-hover-crx: #ffd54f;
-  --color-on-primary-crx: #0f0f0f;
-  --bg-body-crx: #121212;
-  --bg-surface-crx: #1e1e1e;
-  --bg-surface-light-crx: #2c2c2c;
-  --text-primary-crx: #f5f5f5;
-  --text-secondary-crx: #b0b0b0;
-  --text-muted-crx: #6e6e6e;
-  --color-danger-crx: #e50914;
-  --color-like-crx: #ff4081;
-  --color-success-crx: #00c853;
-  --color-info-crx: #2979ff;
-  --border-color-crx: #333333;
+  /* Custom Critix Colors - Disponíveis como utility classes */
+  --color-primary-crx: var(--color-primary);
+  --color-primary-hover-crx: var(--color-primary-hover);
+  --color-on-primary-crx: var(--color-on-primary);
+  --color-body-crx: var(--bg-body);
+  --color-surface-crx: var(--bg-surface);
+  --color-surface-light-crx: var(--bg-surface-light);
+  --color-text-primary-crx: var(--text-primary);
+  --color-text-secondary-crx: var(--text-secondary);
+  --color-text-muted-crx: var(--text-muted);
+  --color-danger-crx: var(--color-danger);
+  --color-like-crx: var(--color-like);
+  --color-success-crx: var(--color-success);
+  --color-info-crx: var(--color-info);
+  --border-color-crx: var(--border-color);
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 }
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
 
+::-webkit-scrollbar-track {
+  background-color: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #ffc107;
+  border-radius: 10px;
+}
 body {
   background: var(--bg-body);
   color: var(--text-primary);

@@ -6,7 +6,7 @@ import type { TMDBMedia } from "@/types/tmdb";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { getGenreNames, getImageUrl, getTitle } from "@/utils/tmdbUtils";
-import GradientBlinds from "../ui/blocks/background/GradientBlinds/GradientBlinds";
+import GradientBlinds from "../../ui/blocks/background/GradientBlinds/GradientBlinds";
 import { useRouter } from "next/navigation";
 export default function Hero({ trending }: { trending: TMDBMedia[] }) {
   const [sortMedia, setSortMedia] = useState<TMDBMedia[]>();

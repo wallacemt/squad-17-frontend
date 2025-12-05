@@ -1,4 +1,4 @@
-import LendingPage from "@/components/Lending/Lending";
+import LendingPage from "@/components/lending/Lending";
 import { getTrendingMedia } from "@/services/mediaService";
 
 export default async function Home() {
