@@ -25,3 +25,10 @@ export type TMDBTrendingResponse = {
   total_pages: number;
   total_results: number;
 };
+
+export type TMDBTrendingPostersResponse = {
+  src: string;
+  alt: string;
+  title: string;
+  subtitle: string;
+};

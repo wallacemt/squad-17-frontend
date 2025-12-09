@@ -1,41 +1,30 @@
 "use client";
 
-import * as React from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-
-interface CarouselImage {
-  src: string;
-  alt: string;
-  title?: string;
-  subtitle?: string;
-}
+import { useCallback, useEffect, useState } from "react";
+import { Button } from "./button";
+import type { TMDBTrendingPostersResponse } from "@/types/tmdb";
 
 interface AuthCarouselProps {
-  images: CarouselImage[];
+  images: TMDBTrendingPostersResponse[];
   autoPlayInterval?: number;
 }
 
 export function AuthCarousel({ images, autoPlayInterval = 5000 }: AuthCarouselProps) {
-  const [currentIndex, setCurrentIndex] = React.useState(0);
-
-  const nextSlide = React.useCallback(() => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const nextSlide = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % images.length);
   }, [images.length]);
 
-  const prevSlide = React.useCallback(() => {
-    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
-  }, [images.length]);
-
-  React.useEffect(() => {
+  useEffect(() => {
     const interval = setInterval(nextSlide, autoPlayInterval);
     return () => clearInterval(interval);
   }, [nextSlide, autoPlayInterval]);
 
   return (
-    <div className="relative h-full w-full overflow-hidden rounded-2xl bg-surface-crx">
-      <AnimatePresence mode="wait">
+    <div className="relative h-full w-full overflow-hidden rounded-r-2xl bg-surface-crx">
+      <AnimatePresence mode="sync">
         <motion.div
           key={currentIndex}
           initial={{ opacity: 0, scale: 1.1 }}
@@ -47,54 +36,40 @@ export function AuthCarousel({ images, autoPlayInterval = 5000 }: AuthCarouselPr
           <Image src={images[currentIndex].src} alt={images[currentIndex].alt} fill className="object-cover" priority />
 
           {/* Overlay gradiente */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent" />
 
           {/* Conteúdo do slide */}
-          {(images[currentIndex].title || images[currentIndex].subtitle) && (
-            <div className="absolute bottom-0 left-0 right-0 p-8">
+          {(!!images[currentIndex].title || !!images[currentIndex].subtitle) && (
+            <div className="absolute bottom-0 left-0 right-0 p-8 bg-black/60 rounded-b-2xl">
               <motion.div
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.3, duration: 0.5 }}
               >
-                {images[currentIndex].title && (
-                  <h3 className="mb-2 font-bold font-display text-3xl text-white">{images[currentIndex].title}</h3>
-                )}
-                {images[currentIndex].subtitle && (
-                  <p className="text-lg text-white/80">{images[currentIndex].subtitle}</p>
-                )}
+                <div className="flex flex-col gap-2 items-start">
+                  {!!images[currentIndex].title && (
+                    <h3 className="mb-2 font-bold font-display text-3xl text-white">{images[currentIndex].title}</h3>
+                  )}
+                  {!!images[currentIndex].subtitle && (
+                    <p className="text-lg text-white/80 ">{images[currentIndex].subtitle}</p>
+                  )}
+                  <span className="w-full border-b-2" />
+                </div>
               </motion.div>
             </div>
           )}
         </motion.div>
       </AnimatePresence>
 
-      {/* Controles de navegação */}
-      <div className="absolute inset-x-0 top-1/2 flex -translate-y-1/2 justify-between px-4">
-        <button
-          onClick={prevSlide}
-          className="flex h-10 w-10 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-sm transition-all hover:bg-black/60"
-          aria-label="Anterior"
-        >
-          <ChevronLeft className="h-6 w-6" />
-        </button>
-        <button
-          onClick={nextSlide}
-          className="flex h-10 w-10 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-sm transition-all hover:bg-black/60"
-          aria-label="Próximo"
-        >
-          <ChevronRight className="h-6 w-6" />
-        </button>
-      </div>
-
       {/* Indicadores */}
       <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
-        {images.map((_, index) => (
-          <button
-            key={index}
+        {images.map((i, index) => (
+          <Button
+            key={i.src}
+            size={"icon"}
             onClick={() => setCurrentIndex(index)}
             className={`h-2 rounded-full transition-all duration-300 ${
-              index === currentIndex ? "w-8 bg-primary-crx" : "w-2 bg-white/40 hover:bg-white/60"
+              index === currentIndex ? "w-8 bg-primary-crx" : "w-2 bg-white/40 hover:bg-white/60 cursor-pointer"
             }`}
             aria-label={`Ir para slide ${index + 1}`}
           />

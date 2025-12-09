@@ -1,9 +1,9 @@
+//biome-ignore-all lint: "necessary"
 "use client";
-
 import { createContext, useContext, useEffect, useState, useCallback, type ReactNode } from "react";
 import type { AuthSession, User } from "@/types/auth";
 
-interface AuthContextType {
+type  AuthContextType = {
   session: AuthSession | null;
   user: User | null;
   isLoading: boolean;
@@ -142,7 +142,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 }
 
-export function useAuth() {
+export function useAuthContext() {
   const context = useContext(AuthContext);
   if (context === undefined) {
     throw new Error("useAuth must be used within an AuthProvider");

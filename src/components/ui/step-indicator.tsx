@@ -43,10 +43,10 @@ export function StepIndicator({ steps, currentStep, className }: StepIndicatorPr
               <div
                 className={cn(
                   "relative z-10 flex h-12 w-12 items-center justify-center rounded-full border-2 transition-all duration-300",
-                  isCompleted &&
+                  !!isCompleted &&
                     "border-primary bg-gradient-to-br from-primary to-color-primary-hover shadow-[0_0_20px_rgba(255,193,7,0.3)]",
-                  isCurrent && "border-primary bg-surface-crx shadow-[0_0_20px_rgba(255,193,7,0.3)] scale-110",
-                  isPending && "border-border-color bg-bg-surface"
+                  !!isCurrent && "border-primary bg-surface-crx shadow-[0_0_20px_rgba(255,193,7,0.3)] scale-110",
+                  !!isPending && "border-border-color bg-bg-surface"
                 )}
               >
                 {isCompleted ? (
@@ -55,8 +55,8 @@ export function StepIndicator({ steps, currentStep, className }: StepIndicatorPr
                   <div
                     className={cn(
                       "text-sm font-bold transition-colors",
-                      isCurrent && "text-color-primary",
-                      isPending && "text-text-muted"
+                      !!isCurrent && "text-color-primary",
+                      !!isPending && "text-text-muted"
                     )}
                   >
                     {step.icon}
@@ -69,8 +69,8 @@ export function StepIndicator({ steps, currentStep, className }: StepIndicatorPr
                 <div
                   className={cn(
                     "text-sm font-semibold transition-colors",
-                    (isCompleted || isCurrent) && "text-text-primary",
-                    isPending && "text-text-muted"
+                    (!!isCompleted || isCurrent) && "text-text-primary",
+                    !!isPending && "text-text-muted"
                   )}
                 >
                   {step.title}
@@ -79,9 +79,9 @@ export function StepIndicator({ steps, currentStep, className }: StepIndicatorPr
               </div>
 
               {/* Status Badge */}
-              {isCurrent && (
+              {!!isCurrent && (
                 <div className="absolute -bottom-4 left-1/2 -translate-x-1/2">
-                  <span className="inline-flex items-center rounded-full w-20 bg-primary/50 px-2 py-0.5 text-xs font-medium "></span>
+                  <span className="inline-flex items-center rounded-full w-20 bg-primary/50 px-2 py-0.5 text-xs font-medium " />
                 </div>
               )}
             </div>

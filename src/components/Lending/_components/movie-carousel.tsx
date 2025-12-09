@@ -77,7 +77,7 @@ export default function MovieCarousel({ trending }: { trending: TMDBMedia[] }) {
                   className="group relative cursor-pointer"
                 >
                   {/* Card do filme */}
-                  <div className="relative h-[500px] overflow-hidden rounded-2xl shadow-2xl transition-all duration-300 hover:scale-105">
+                  <div className="relative h-[600px] mr-6 overflow-hidden rounded-2xl shadow-2xl transition-all duration-300 hover:scale-105">
                     {/* Imagem de backdrop */}
                     {media.backdrop_path ? (
                       <Image
@@ -85,7 +85,6 @@ export default function MovieCarousel({ trending }: { trending: TMDBMedia[] }) {
                         alt={getTitle(media)}
                         fill
                         className="object-cover w-full h-full"
-                        // sizes="(max-width: 768px) 100vw, 420px"
                       />
                     ) : (
                       <div className={`absolute inset-0 bg-linear-to-br ${gradients[index % gradients.length]}`} />

@@ -45,6 +45,7 @@ export default function Navbar() {
               width={140}
               height={30}
               alt="Critix Logo"
+              title="Critix"
               className="hover:scale-105 transition-all"
             />
           </Link>

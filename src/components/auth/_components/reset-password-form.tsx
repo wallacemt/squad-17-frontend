@@ -1,6 +1,4 @@
 "use client";
-
-import * as React from "react";
 import { motion } from "framer-motion";
 import { Lock, CheckCircle } from "lucide-react";
 import { PasswordInput } from "@/components/ui/auth-input";
@@ -9,20 +7,23 @@ import { PasswordStrengthBar } from "@/components/ui/password-strength-bar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Logo } from "@/components/ui/logo";
 import type { ResetPasswordData } from "@/types/auth";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-interface ResetPasswordFormProps {
+interface ResetPasswordFormProps  {
   token: string;
   onSubmit: (data: ResetPasswordData) => Promise<void>;
   isLoading?: boolean;
-}
+};
 
 export function ResetPasswordForm({ token, onSubmit, isLoading = false }: ResetPasswordFormProps) {
-  const [formData, setFormData] = React.useState({
+  const router = useRouter();
+  const [formData, setFormData] = useState({
     password: "",
     confirmPassword: "",
   });
-  const [errors, setErrors] = React.useState<{ password?: string; confirmPassword?: string }>({});
-  const [success, setSuccess] = React.useState(false);
+  const [errors, setErrors] = useState<{ password?: string; confirmPassword?: string }>({});
+  const [success, setSuccess] = useState(false);
 
   const validateForm = (): boolean => {
     const newErrors: typeof errors = {};
@@ -43,7 +44,9 @@ export function ResetPasswordForm({ token, onSubmit, isLoading = false }: ResetP
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validateForm()) return;
+    if (!validateForm()) {
+      return;
+    }
 
     try {
       await onSubmit({ token, ...formData });
@@ -78,7 +81,7 @@ export function ResetPasswordForm({ token, onSubmit, isLoading = false }: ResetP
               variant="primary"
               size="lg"
               fullWidth
-              onClick={() => (window.location.href = "/auth?mode=login")}
+              onClick={() => router.push("/auth?mode=login")}
             >
               Ir para login
             </AuthButton>

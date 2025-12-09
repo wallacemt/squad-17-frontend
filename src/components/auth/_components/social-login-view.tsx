@@ -1,12 +1,10 @@
 "use client";
-
-import * as React from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, Shield } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { AuthButton } from "@/components/ui/auth-button";
 import { SocialLoginButtons } from "@/components/ui/social-login-buttons";
-import { Logo } from "@/components/ui/logo";
+
 import type { OAuthProvider } from "@/types/auth";
 
 interface SocialLoginViewProps {
@@ -23,7 +21,7 @@ export function SocialLoginView({ onProviderClick, onBack, isLoading = false }: 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="w-full space-y-6"
+      className="w-full space-y-6  p-2 overflow-x-hidden"
     >
       {/* Header com Logo */}
       <div className="space-y-4">
@@ -48,9 +46,9 @@ export function SocialLoginView({ onProviderClick, onBack, isLoading = false }: 
       </Card>
 
       {/* Security Info */}
-      <Card className="border-border-color/50 bg-bg-surface/30">
-        <CardContent className="pt-6">
-          <div className="flex items-start gap-3 text-sm text-text-secondary">
+      <Card className="border-border-color/50 bg-bg-surface/30 p-2">
+        <CardContent>
+          <div className="flex items-center gap-3 text-sm text-text-secondary">
             <Shield className="h-5 w-5 text-color-success flex-shrink-0 mt-0.5" />
             <div>
               <p className="font-medium text-text-primary mb-1">Sua privacidade está protegida</p>

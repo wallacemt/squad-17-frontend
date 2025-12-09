@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import { motion } from "framer-motion";
 import { Mail, ArrowRight, ArrowLeft } from "lucide-react";
 import { Input } from "@/components/ui/auth-input";
@@ -8,7 +7,9 @@ import { AuthButton } from "@/components/ui/auth-button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import type { ForgotPasswordData } from "@/types/auth";
+import { useState } from "react";
 
+const validateFormRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 interface ForgotPasswordFormProps {
   onSubmit: (data: ForgotPasswordData) => Promise<void>;
   onBack: () => void;
@@ -16,9 +17,9 @@ interface ForgotPasswordFormProps {
 }
 
 export function ForgotPasswordForm({ onSubmit, onBack, isLoading = false }: ForgotPasswordFormProps) {
-  const [email, setEmail] = React.useState("");
-  const [error, setError] = React.useState("");
-  const [submitted, setSubmitted] = React.useState(false);
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+  const [submitted, setSubmitted] = useState(false);
 
   const validateForm = (): boolean => {
     if (!email.trim()) {
@@ -26,7 +27,7 @@ export function ForgotPasswordForm({ onSubmit, onBack, isLoading = false }: Forg
       return false;
     }
 
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (!validateFormRegex.test(email)) {
       setError("Email inválido");
       return false;
     }
@@ -37,14 +38,16 @@ export function ForgotPasswordForm({ onSubmit, onBack, isLoading = false }: Forg
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validateForm()) return;
+    if (!validateForm()) {
+      return;
+    }
 
     try {
       await onSubmit({ email });
       setSubmitted(true);
-    } catch (error) {
+    } catch (err) {
       setError("Erro ao enviar email. Tente novamente.");
-      console.error("Forgot password error:", error);
+      console.error("Forgot password error:", err);
     }
   };
 
@@ -53,7 +56,6 @@ export function ForgotPasswordForm({ onSubmit, onBack, isLoading = false }: Forg
       <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="w-full">
         <Card className="border-border-color bg-bg-surface-light/50 backdrop-blur-sm">
           <CardHeader className="space-y-4 pb-6">
-           
             <div className="space-y-3 text-center">
               <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-color-success/20">
                 <Mail className="h-8 w-8 text-color-success" />
@@ -95,7 +97,6 @@ export function ForgotPasswordForm({ onSubmit, onBack, isLoading = false }: Forg
     >
       <Card className="border-border-color bg-bg-surface-light/50 backdrop-blur-sm">
         <CardHeader className="space-y-4 pb-6">
-        
           <div className="space-y-2 text-center">
             <CardTitle className="font-bold font-display text-3xl text-text-primary">Esqueceu a senha?</CardTitle>
             <CardDescription className="text-text-secondary">

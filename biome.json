@@ -23,7 +23,14 @@
         "noUnknownAtRules": "off"
       },
       "style": {
-        "useFilenamingConvention": "off"
+        "useFilenamingConvention": "off",
+
+        "useConsistentTypeDefinitions": {
+          "level": "error",
+          "options": {
+            "style": "interface"
+          }
+        }
       }
     },
     "domains": {

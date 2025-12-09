@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/performance/useTopLevelRegex: abreviation regex */
 export const countries = [
   { code: "BR", name: "Brasil", flag: "🇧🇷" },
   { code: "US", name: "Estados Unidos", flag: "🇺🇸" },
@@ -63,7 +64,7 @@ export const genderOptions = [
  * Gera um nickname aleatório baseado no nome do usuário
  */
 export function generateNickname(fullName: string): string {
-  if (!fullName.trim()) return "";
+  if (!fullName.trim()){ return ""};
 
   // Remove espaços extras e divide o nome
   const names = fullName.trim().split(/\s+/);
@@ -77,8 +78,8 @@ export function generateNickname(fullName: string): string {
     // Estratégia 2: primeiro nome + últimas letras do sobrenome + números
     () => {
       if (names.length > 1) {
-        const lastName = names[names.length - 1].toLowerCase();
-        return `${firstName}${lastName.slice(-3)}${Math.floor(Math.random() * 999)}`;
+        const lastName = names.at(-1)?.toLowerCase();
+        return `${firstName}${lastName?.slice(-3)}${Math.floor(Math.random() * 999)}`;
       }
       return `${firstName}${Math.floor(Math.random() * 9999)}`;
     },

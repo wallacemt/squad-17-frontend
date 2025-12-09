@@ -1,48 +1,46 @@
 "use client";
 
-import * as React from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { forwardRef, useState } from "react";
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   error?: string;
   icon?: React.ReactNode;
 }
 
-const Input = React.forwardRef<HTMLInputElement, InputProps>(({ className, type, error, icon, ...props }, ref) => {
-  return (
-    <div className="relative w-full flex flex-col">
-      {icon && (
-        <div className="absolute left-3 top-3 flex items-center justify-center text-text-secondary pointer-events-none">
-          {icon}
-        </div>
+const Input = forwardRef<HTMLInputElement, InputProps>(({ className, type, error, icon, ...props }, ref) => (
+  <div className="relative w-full flex flex-col">
+    {!!icon && (
+      <div className="absolute left-3 top-3 flex items-center justify-center text-text-secondary pointer-events-none">
+        {icon}
+      </div>
+    )}
+    <input
+      type={type}
+      className={cn(
+        "flex h-12 w-full rounded-xl border border-border-color bg-bg-surface-light px-4 py-3 text-sm text-text-primary transition-all duration-200",
+        "placeholder:text-text-muted",
+        "focus:border-color-primary focus:outline-none focus:ring-2 focus:ring-color-primary/20",
+        "disabled:cursor-not-allowed disabled:opacity-50",
+        !!error && "border-color-danger focus:border-color-danger focus:ring-color-danger/20",
+        !!icon && "pl-11",
+        className
       )}
-      <input
-        type={type}
-        className={cn(
-          "flex h-12 w-full rounded-xl border border-border-color bg-bg-surface-light px-4 py-3 text-sm text-text-primary transition-all duration-200",
-          "placeholder:text-text-muted",
-          "focus:border-color-primary focus:outline-none focus:ring-2 focus:ring-color-primary/20",
-          "disabled:cursor-not-allowed disabled:opacity-50",
-          error && "border-color-danger focus:border-color-danger focus:ring-color-danger/20",
-          icon && "pl-11",
-          className
-        )}
-        ref={ref}
-        {...props}
-      />
-      {error && <p className="mt-1.5 text-xs text-color-danger">{error}</p>}
-    </div>
-  );
-});
+      ref={ref}
+      {...props}
+    />
+    {!!error && <p className="mt-1.5 text-xs text-color-danger">{error}</p>}
+  </div>
+));
 Input.displayName = "Input";
 
-const PasswordInput = React.forwardRef<HTMLInputElement, InputProps>(({ className, error, icon, ...props }, ref) => {
-  const [showPassword, setShowPassword] = React.useState(false);
+const PasswordInput = forwardRef<HTMLInputElement, InputProps>(({ className, error, icon, ...props }, ref) => {
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <div className="relative w-full">
-      {icon && (
+      {!!icon && (
         <div className="absolute left-3 top-3 flex items-center justify-center text-text-secondary pointer-events-none z-10">
           {icon}
         </div>
@@ -54,8 +52,8 @@ const PasswordInput = React.forwardRef<HTMLInputElement, InputProps>(({ classNam
           "placeholder:text-text-muted",
           "focus:border-color-primary focus:outline-none focus:ring-2 focus:ring-color-primary/20",
           "disabled:cursor-not-allowed disabled:opacity-50",
-          error && "border-color-danger focus:border-color-danger focus:ring-color-danger/20",
-          icon && "pl-11",
+          !!error && "border-color-danger focus:border-color-danger focus:ring-color-danger/20",
+          !!icon && "pl-11",
           className
         )}
         ref={ref}
@@ -69,7 +67,7 @@ const PasswordInput = React.forwardRef<HTMLInputElement, InputProps>(({ classNam
       >
         {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
       </button>
-      {error && <p className="mt-1.5 text-xs text-color-danger">{error}</p>}
+      {!!error && <p className="mt-1.5 text-xs text-color-danger">{error}</p>}
     </div>
   );
 });

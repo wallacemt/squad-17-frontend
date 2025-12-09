@@ -77,7 +77,7 @@ export default function CTA() {
                   whileHover={{ scale: 1.05, boxShadow: "0 0 40px rgba(255, 193, 7, 0.6)" }}
                   whileTap={{ scale: 0.95 }}
                   className="flex items-center justify-center gap-2 rounded-full bg-linear-to-r from-primary-crx to-primary-hover-crx px-10 py-5 font-bold text-lg shadow-[0_0_20px_rgba(255,193,7,0.4)] cursor-pointer transition-all hover:shadow-[0_0_40px_rgba(255,193,7,0.6)] text-text-primary"
-                  onClick={() => router.push("/auth/login")}
+                  onClick={() => router.push("/auth?mode=login")}
                 >
                   Começar Agora
                   <ArrowRight className="h-5 w-5" />

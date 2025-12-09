@@ -1,5 +1,4 @@
-import { TMDBMedia } from "@/types/tmdb";
-
+import type { TMDBMedia } from "@/types/tmdb";
 import CTA from "./_components/cta";
 import Footer from "./_components/footer";
 import Navbar from "./_components/navbar";

@@ -1,6 +1,6 @@
+/** biome-ignore-all lint/performance/useTopLevelRegex: abreviation regex logic */
 "use client";
 
-import * as React from "react";
 import { cn } from "@/lib/utils";
 
 interface PasswordStrengthBarProps {
@@ -13,19 +13,33 @@ function calculateStrength(password: string): {
   label: string;
   color: string;
 } {
-  if (!password) return { score: 0, label: "", color: "" };
+  if (!password) {
+    return { score: 0, label: "", color: "" };
+  }
 
   let score = 0;
 
   // Length check
-  if (password.length >= 8) score += 1;
-  if (password.length >= 12) score += 1;
+  if (password.length >= 8) {
+    score += 1;
+  }
+  if (password.length >= 12) {
+    score += 1;
+  }
 
   // Character variety
-  if (/[a-z]/.test(password)) score += 1;
-  if (/[A-Z]/.test(password)) score += 1;
-  if (/[0-9]/.test(password)) score += 1;
-  if (/[^a-zA-Z0-9]/.test(password)) score += 1;
+  if (/[a-z]/.test(password)) {
+    score += 1;
+  }
+  if (/[A-Z]/.test(password)) {
+    score += 1;
+  }
+  if (/[0-9]/.test(password)) {
+    score += 1;
+  }
+  if (/[^a-zA-Z0-9]/.test(password)) {
+    score += 1;
+  }
 
   const strength = Math.min(Math.floor((score / 6) * 4), 4);
 
@@ -42,7 +56,7 @@ function calculateStrength(password: string): {
 export function PasswordStrengthBar({ password, className }: PasswordStrengthBarProps) {
   const { score, label, color } = calculateStrength(password);
 
-  if (!password) return null;
+  if (!password) {return null};
 
   return (
     <div className={cn("space-y-2", className)}>
@@ -57,7 +71,7 @@ export function PasswordStrengthBar({ password, className }: PasswordStrengthBar
           />
         ))}
       </div>
-      {label && <p className={cn("text-xs font-medium", `text-${color.replace("bg-", "")}`)}>{label}</p>}
+      {!!label && <p className={cn("text-xs font-medium", `text-${color.replace("bg-", "")}`)}>{label}</p>}
     </div>
   );
 }

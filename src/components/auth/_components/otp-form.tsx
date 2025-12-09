@@ -1,13 +1,13 @@
 "use client";
 
-import * as React from "react";
 import { motion } from "framer-motion";
 import { Mail, ArrowRight, ArrowLeft } from "lucide-react";
 import { AuthButton } from "@/components/ui/auth-button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Logo } from "@/components/ui/logo";
+
 import type { OTPVerification } from "@/types/auth";
+import { useEffect, useRef, useState } from "react";
 
 interface OTPFormProps {
   email: string;
@@ -16,15 +16,17 @@ interface OTPFormProps {
   onResend: () => Promise<void>;
   onBack: () => void;
   isLoading?: boolean;
-}
+};
+const handleChangeRegex = /^\d*$/;
+const handlePasteRegex = /^\d+$/;
 
 export function OTPForm({ email, type, onSubmit, onResend, onBack, isLoading = false }: OTPFormProps) {
-  const [code, setCode] = React.useState<string[]>(["", "", "", "", "", ""]);
-  const [error, setError] = React.useState<string>("");
-  const [resendTimer, setResendTimer] = React.useState(60);
-  const inputRefs = React.useRef<(HTMLInputElement | null)[]>([]);
+  const [code, setCode] = useState<string[]>(["", "", "", "", "", ""]);
+  const [error, setError] = useState<string>("");
+  const [resendTimer, setResendTimer] = useState(60);
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (resendTimer > 0) {
       const timer = setTimeout(() => setResendTimer(resendTimer - 1), 1000);
       return () => clearTimeout(timer);
@@ -32,7 +34,9 @@ export function OTPForm({ email, type, onSubmit, onResend, onBack, isLoading = f
   }, [resendTimer]);
 
   const handleChange = (index: number, value: string) => {
-    if (!/^\d*$/.test(value)) return;
+    if (!handleChangeRegex.test(value)) {
+      return;
+    }
 
     const newCode = [...code];
     newCode[index] = value.slice(-1);
@@ -54,11 +58,15 @@ export function OTPForm({ email, type, onSubmit, onResend, onBack, isLoading = f
   const handlePaste = (e: React.ClipboardEvent) => {
     e.preventDefault();
     const pastedData = e.clipboardData.getData("text").slice(0, 6);
-    if (!/^\d+$/.test(pastedData)) return;
+    if (!handlePasteRegex.test(pastedData)) {
+      return;
+    }
 
     const newCode = [...code];
     pastedData.split("").forEach((char, index) => {
-      if (index < 6) newCode[index] = char;
+      if (index < 6) {
+        newCode[index] = char;
+      }
     });
     setCode(newCode);
 
@@ -81,14 +89,16 @@ export function OTPForm({ email, type, onSubmit, onResend, onBack, isLoading = f
 
     try {
       await onSubmit({ email, code: codeString, type });
-    } catch (error) {
+    } catch (err) {
       setError("Código inválido. Tente novamente.");
-      console.error("OTP verification error:", error);
+      console.error("OTP verification error:", err);
     }
   };
 
   const handleResend = async () => {
-    if (resendTimer > 0) return;
+    if (resendTimer > 0) {
+      return;
+    }
 
     try {
       await onResend();
@@ -96,8 +106,8 @@ export function OTPForm({ email, type, onSubmit, onResend, onBack, isLoading = f
       setCode(["", "", "", "", "", ""]);
       setError("");
       inputRefs.current[0]?.focus();
-    } catch (error) {
-      console.error("Resend error:", error);
+    } catch (err) {
+      console.error("Resend error:", err);
     }
   };
 
@@ -110,8 +120,6 @@ export function OTPForm({ email, type, onSubmit, onResend, onBack, isLoading = f
     >
       <Card className="border-border-color bg-bg-surface-light/50 backdrop-blur-sm">
         <CardHeader className="space-y-4 pb-6">
-         
-
           {/* Header */}
           <div className="space-y-3 text-center">
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-color-primary/20">
@@ -133,7 +141,7 @@ export function OTPForm({ email, type, onSubmit, onResend, onBack, isLoading = f
             <div className="flex justify-center gap-3">
               {code.map((digit, index) => (
                 <input
-                  key={index}
+                  key={digit}
                   ref={(el) => {
                     inputRefs.current[index] = el;
                   }}
@@ -154,7 +162,7 @@ export function OTPForm({ email, type, onSubmit, onResend, onBack, isLoading = f
               ))}
             </div>
 
-            {error && <p className="text-center text-sm text-color-danger">{error}</p>}
+            {!!error && <p className="text-center text-sm text-color-danger">{error}</p>}
 
             <AuthButton
               type="submit"

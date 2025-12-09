@@ -10,7 +10,6 @@ interface AuthUserProps {
 export default async function AuthUser({ searchParams }: AuthUserProps) {
   const { mode, resetToken } = await searchParams;
   const validModes = ["login", "register", "otp", "password", "reset-password", "forgot-password", "social"];
-
   if (!validModes.includes(mode)) {
     redirect("/auth?mode=login");
   }

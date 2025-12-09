@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
+import { AuthProvider } from "@/context/authContext";
 
 const moonjelly = localFont({
   src: [
@@ -102,8 +103,6 @@ export const metadata: Metadata = {
   classification: "Review Platform",
   referrer: "origin-when-cross-origin",
 };
-
-import { AuthProvider } from "@/hooks/useAuth";
 
 export default function RootLayout({
   children,

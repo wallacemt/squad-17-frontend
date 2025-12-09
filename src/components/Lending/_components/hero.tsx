@@ -76,7 +76,7 @@ export default function Hero({ trending }: { trending: TMDBMedia[] }) {
                 whileHover={{ scale: 1.05, boxShadow: "var(--glow-primary)" }}
                 whileTap={{ scale: 0.95 }}
                 className="flex items-center gap-2 rounded-full bg-gradient-to-r from-amber-600 to-primary-hover-crx/60 px-8 py-4 font-semibold  text-lg transition-all hover:shadow-[0_0_30px_rgba(255,193,7,0.6)] z-4 cursor-pointer"
-                onClick={() => router.push("/auth/login")}
+                onClick={() => router.push("/auth?mode=login")}
               >
                 <Play className="h-5 w-5" fill="currentColor" />
                 Começar Agora
