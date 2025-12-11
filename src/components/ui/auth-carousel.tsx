@@ -1,10 +1,10 @@
 "use client";
-
-import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCallback, useEffect, useState } from "react";
 import { Button } from "./button";
 import type { TMDBTrendingPostersResponse } from "@/types/tmdb";
+import { getImageUrl } from "@/utils/tmdbUtils";
+import Image from "next/image";
 
 interface AuthCarouselProps {
   images: TMDBTrendingPostersResponse[];
@@ -13,6 +13,7 @@ interface AuthCarouselProps {
 
 export function AuthCarousel({ images, autoPlayInterval = 5000 }: AuthCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [imageSrc, setImageSrc] = useState("/placeholder-image.webp");
   const nextSlide = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % images.length);
   }, [images.length]);
@@ -31,13 +32,20 @@ export function AuthCarousel({ images, autoPlayInterval = 5000 }: AuthCarouselPr
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95 }}
           transition={{ duration: 0.7, ease: "easeInOut" }}
-          className="relative h-full w-full"
+          className="relative h-full w-ful"
         >
-          <Image src={images[currentIndex].src} alt={images[currentIndex].alt} fill className="object-cover" priority />
+          <Image
+            onLoad={() => setImageSrc(getImageUrl(images[currentIndex].src || "", "original"))}
+            src={imageSrc}
+            alt={images[currentIndex].alt}
+            fill
+            onError={() => setImageSrc("/placeholder-image.webp")}
+            className="object-cover"
+            priority
+          />
 
           {/* Overlay gradiente */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent" />
-
           {/* Conteúdo do slide */}
           {(!!images[currentIndex].title || !!images[currentIndex].subtitle) && (
             <div className="absolute bottom-0 left-0 right-0 p-8 bg-black/60 rounded-b-2xl">

@@ -11,6 +11,7 @@ import { ForgotPasswordForm } from "./forgot-password-form";
 import { ResetPasswordForm } from "./reset-password-form";
 import { useAuth } from "@/hooks/useAuth";
 import { SocialLoginView } from "./social-login-view";
+import { useAuthModeCache } from "@/hooks/useAuthCache";
 import type { TMDBTrendingPostersResponse } from "@/types/tmdb";
 
 interface ModeManagerProps {
@@ -20,6 +21,7 @@ interface ModeManagerProps {
 }
 export function ModeManager({ posters, resetToken, mode }: ModeManagerProps) {
   const router = useRouter();
+  const modeCache = useAuthModeCache();
   const {
     isLoading,
     isAuthenticated,
@@ -34,6 +36,16 @@ export function ModeManager({ posters, resetToken, mode }: ModeManagerProps) {
     handleSocialLogin,
     pendingEmail,
   } = useAuth();
+
+  // Save visited mode to cache
+  useEffect(() => {
+    if (modeCache.isLoaded) {
+      modeCache.saveToCache({
+        mode,
+        lastVisited: new Date().toISOString(),
+      });
+    }
+  }, [mode, modeCache.isLoaded, modeCache.saveToCache]);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -55,7 +67,7 @@ export function ModeManager({ posters, resetToken, mode }: ModeManagerProps) {
       {/*  Left side - Auth Forms */}
       <div className="flex w-full relative items-center justify-center lg:w-1/2 overflow-y-auto ">
         <Logo variant="compact" className="absolute left-1/2 top-1/2  -translate-x-1/2 -translate-y-1/2 opacity-60" />
-        <div className="w-full max-w-lg flex flex-col items-center max-h-full p-0 md:p-3">
+        <div className="w-full max-w-lg flex flex-col items-center max-h-full mt-4 md:p-3">
           {mode === "login" && (
             <LoginForm
               onSubmit={handleLogin}

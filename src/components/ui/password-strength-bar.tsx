@@ -44,7 +44,7 @@ function calculateStrength(password: string): {
   const strength = Math.min(Math.floor((score / 6) * 4), 4);
 
   const labels = ["Muito fraca", "Fraca", "Razoável", "Forte", "Muito forte"];
-  const colors = ["bg-color-danger", "bg-orange-500", "bg-yellow-500", "bg-color-success", "bg-green-600"];
+  const colors = ["bg-danger-crx", "bg-yellow-400", "bg-blue-700", "bg-success-crx", "bg-success-crx"];
 
   return {
     score: strength,
@@ -56,7 +56,9 @@ function calculateStrength(password: string): {
 export function PasswordStrengthBar({ password, className }: PasswordStrengthBarProps) {
   const { score, label, color } = calculateStrength(password);
 
-  if (!password) {return null};
+  if (!password) {
+    return null;
+  }
 
   return (
     <div className={cn("space-y-2", className)}>
@@ -66,7 +68,7 @@ export function PasswordStrengthBar({ password, className }: PasswordStrengthBar
             key={index}
             className={cn(
               "h-1.5 flex-1 rounded-full transition-all duration-300",
-              index <= score ? color : "bg-bg-surface-light"
+              index <= score ? color : "bg-surface-light-crx"
             )}
           />
         ))}

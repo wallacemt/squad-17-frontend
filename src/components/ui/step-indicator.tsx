@@ -21,11 +21,11 @@ export function StepIndicator({ steps, currentStep, className }: StepIndicatorPr
     <div className={cn("w-full", className)}>
       <div className="relative flex justify-between">
         {/* Progress Line */}
-        <div className="absolute left-0 top-6 h-0.5 w-full bg-border-color">
+        <div className="absolute  left-0 top-6 h-0.5 w-full">
           <div
-            className="h-full bg-gradient-to-r from-primary to-primary-hover-crxr transition-all duration-500"
+            className="h-full bg-gradient-to-r from-primary/10  to-primary-hover-crx transition-all duration-500"
             style={{
-              width: `${((currentStep - 1) / (steps.length - 1)) * 100}%`,
+              width: `${(currentStep === 1 ? currentStep : currentStep - 1 / (steps.length - 1)) * 100}%`,
             }}
           />
         </div>
@@ -42,21 +42,21 @@ export function StepIndicator({ steps, currentStep, className }: StepIndicatorPr
               {/* Circle */}
               <div
                 className={cn(
-                  "relative z-10 flex h-12 w-12 items-center justify-center rounded-full border-2 transition-all duration-300",
+                  "relative z-20 flex h-12 w-12 items-center justify-center rounded-full border-2 transition-all duration-300",
                   !!isCompleted &&
-                    "border-primary bg-gradient-to-br from-primary to-color-primary-hover shadow-[0_0_20px_rgba(255,193,7,0.3)]",
+                    "border-primary bg-gradient-to-br from-primary-crx to-primary-hover-crx shadow-[0_0_20px_rgba(255,193,7,0.3)]",
                   !!isCurrent && "border-primary bg-surface-crx shadow-[0_0_20px_rgba(255,193,7,0.3)] scale-110",
                   !!isPending && "border-border-color bg-bg-surface"
                 )}
               >
                 {isCompleted ? (
-                  <Check className="h-6 w-6 text-on-primary-crx" strokeWidth={3} />
+                  <Check className="h-6 w-6 text-white" strokeWidth={3} />
                 ) : (
                   <div
                     className={cn(
                       "text-sm font-bold transition-colors",
-                      !!isCurrent && "text-color-primary",
-                      !!isPending && "text-text-muted"
+                      !!isCurrent && "text-primary-crx",
+                      !!isPending && "text-text-muted-crx"
                     )}
                   >
                     {step.icon}
@@ -69,13 +69,13 @@ export function StepIndicator({ steps, currentStep, className }: StepIndicatorPr
                 <div
                   className={cn(
                     "text-sm font-semibold transition-colors",
-                    (!!isCompleted || isCurrent) && "text-text-primary",
-                    !!isPending && "text-text-muted"
+                    (!!isCompleted || isCurrent) && "text-primary",
+                    !!isPending && "text-white"
                   )}
                 >
                   {step.title}
                 </div>
-                <div className="text-xs text-text-muted mt-1 max-w-[120px]">{step.description}</div>
+                <div className="text-xs text-white mt-1 max-w-[120px]">{step.description}</div>
               </div>
 
               {/* Status Badge */}

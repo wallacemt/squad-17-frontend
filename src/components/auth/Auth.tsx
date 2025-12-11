@@ -18,7 +18,7 @@ export default async function AuthPage({ mode, resetToken }: AuthPageProps) {
         <Image
           src={"/logo-short.png"}
           alt="App logo"
-          className="h-10 w-10 md:w-20 md:h-20  hover:scale-105 transition-transform ease-in-out duration-150"
+          className="h-8 w-8 md:w-20 md:h-20  hover:scale-105 transition-transform ease-in-out duration-150"
           title="Critix"
           height={200}
           width={200}

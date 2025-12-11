@@ -166,6 +166,14 @@ export default function Hero({ trending }: { trending: TMDBMedia[] }) {
                     width={600}
                     height={600}
                     className="object-cover rounded-2xl w-full h-full"
+                     onError={() => (
+                      <Image
+                        src={"/logo-short.png"}
+                        fill
+                        alt={sortMedia?.[0]?.title || "Media Trending"}
+                        className="object-cover "
+                      />
+                    )}
                   />
                 </div>
               </motion.div>
@@ -205,6 +213,14 @@ export default function Hero({ trending }: { trending: TMDBMedia[] }) {
                     width={600}
                     height={600}
                     className="object-cover rounded-2xl w-full h-full"
+                    onError={() => (
+                      <Image
+                        src={"/logo-short.png"}
+                        fill
+                        alt={sortMedia?.[0]?.title || "Media Trending"}
+                        className="object-cover "
+                      />
+                    )}
                   />
                 </div>
               </motion.div>

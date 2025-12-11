@@ -118,11 +118,11 @@ export function OTPForm({ email, type, onSubmit, onResend, onBack, isLoading = f
       transition={{ duration: 0.5 }}
       className="w-full"
     >
-      <Card className="border-border-color bg-bg-surface-light/50 backdrop-blur-sm">
+      <Card className="border-color bg-surface-light-crx/50 backdrop-blur-sm">
         <CardHeader className="space-y-4 pb-6">
           {/* Header */}
           <div className="space-y-3 text-center">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-color-primary/20">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary-crx/20">
               <Mail className="h-8 w-8 text-color-primary" />
             </div>
             <CardTitle className="font-bold font-display text-3xl text-text-primary">Verificar código</CardTitle>

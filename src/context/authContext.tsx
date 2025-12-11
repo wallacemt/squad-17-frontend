@@ -2,8 +2,9 @@
 "use client";
 import { createContext, useContext, useEffect, useState, useCallback, type ReactNode } from "react";
 import type { AuthSession, User } from "@/types/auth";
+import { clearEncryptionSalt } from "@/utils/clientHash";
 
-type  AuthContextType = {
+type AuthContextType = {
   session: AuthSession | null;
   user: User | null;
   isLoading: boolean;
@@ -12,7 +13,7 @@ type  AuthContextType = {
   logout: () => void;
   updateUser: (user: Partial<User>) => void;
   refreshSession: () => Promise<void>;
-}
+};
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -64,6 +65,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = useCallback(() => {
     setSession(null);
     localStorage.removeItem("auth_session");
+    // Clear encryption salt to ensure new key on next login
+    clearEncryptionSalt();
   }, []);
 
   const updateUser = useCallback(

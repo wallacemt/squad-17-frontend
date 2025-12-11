@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  allowedDevOrigins: ["192.168.248.200"],
+  allowedDevOrigins: [process.env.NEXT_PUBLIC_URL || "", "192.168.248.202"],
   env: {
     DATABASE_URL: process.env.DATABASE_URL,
     BACKEND_URL: process.env.BACKEND_URL,

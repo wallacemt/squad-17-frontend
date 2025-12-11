@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import { AuthProvider } from "@/context/authContext";
+import { Toaster } from "sonner";
 
 const moonjelly = localFont({
   src: [
@@ -113,6 +114,7 @@ export default function RootLayout({
     <html lang="pt" className="dark">
       <body className={`${moonjelly.variable} ${poppins.variable} antialiased`}>
         <AuthProvider>{children}</AuthProvider>
+        <Toaster />
       </body>
     </html>
   );

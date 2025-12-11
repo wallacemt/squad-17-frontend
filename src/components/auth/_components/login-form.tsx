@@ -6,9 +6,10 @@ import { Input, PasswordInput } from "@/components/ui/auth-input";
 import { AuthButton } from "@/components/ui/auth-button";
 import { Separator } from "@/components/ui/separator";
 import type { LoginCredentials, OAuthProvider } from "@/types/auth";
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { FcGoogle } from "react-icons/fc";
+import { useLoginFormCache } from "@/hooks/useAuthCache";
 interface LoginFormProps {
   onSubmit: (data: LoginCredentials) => Promise<void>;
   onSocialLogin: (provider: OAuthProvider) => void;
@@ -26,13 +27,47 @@ export function LoginForm({
   onRegister,
   isLoading = false,
 }: LoginFormProps) {
+  const formCache = useLoginFormCache();
   const [formData, setFormData] = useState<LoginCredentials>({
-    emailOrUsername: "",
-    password: "",
-    rememberMe: false,
+    emailOrUsername: formCache.data.email,
+    password: formCache.data.password,
+    rememberMe: formCache.data.rememberMe,
   });
 
   const [errors, setErrors] = useState<Partial<LoginCredentials>>({});
+  const saveTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
+
+  // Sync form data to cache (debounced to avoid excessive saves)
+  useEffect(() => {
+    if (!formCache.isLoaded) return;
+
+    // Clear previous timeout
+    if (saveTimeoutRef.current) {
+      clearTimeout(saveTimeoutRef.current);
+    }
+
+    // Debounce save to 1 second after last change
+    saveTimeoutRef.current = setTimeout(() => {
+      formCache.saveToCache({
+        email: formData.emailOrUsername,
+        password: formData.password,
+        rememberMe: formData.rememberMe ?? false,
+      });
+    }, 1000);
+
+    return () => {
+      if (saveTimeoutRef.current) {
+        clearTimeout(saveTimeoutRef.current);
+      }
+    };
+  }, [formData, formCache.isLoaded, formCache.saveToCache]);
+
+  // Show notification if cached data was loaded
+  useEffect(() => {
+    if (formCache.isLoaded && formCache.hasCachedData()) {
+      console.log("Dados de login restaurados");
+    }
+  }, [formCache.isLoaded, formCache.hasCachedData]);
 
   const validateForm = (): boolean => {
     const newErrors: Partial<LoginCredentials> = {};
@@ -59,6 +94,8 @@ export function LoginForm({
 
     try {
       await onSubmit(formData);
+      // Clear cache after successful login
+      formCache.clearCache();
     } catch (error) {
       console.error("Login error:", error);
     }
@@ -69,12 +106,12 @@ export function LoginForm({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="w-full space-y-6"
+      className="w-full space-y-6 "
     >
       {/* Logo */}
 
       {/* Main Card */}
-      <Card className="border-border-color itnc bg-surface-crx/50 backdrop-blur">
+      <Card className="border-border-color itnc bg-surface-crx/50 backdrop-blur py-2">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-display text-center text-primary">Bem-vindo de volta</CardTitle>
           <CardDescription className="text-center text-primary-crx">
@@ -184,6 +221,7 @@ export function LoginForm({
 
         <CardFooter className="flex flex-col space-y-4">
           <Separator className="bg-border-color" />
+
           <div className="text-center text-sm text-text-secondary">
             Não tem uma conta?{" "}
             <Button

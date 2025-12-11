@@ -1,3 +1,6 @@
+import { string } from "better-auth";
+import { UserAccount, UserData } from "./user";
+
 export type AuthMode = "login" | "register" | "otp" | "social" | "forgot-password" | "reset-password";
 
 export type OAuthProvider = "google" | "github" | "discord" | "figma" | "reddit" | "apple";
@@ -23,6 +26,10 @@ export interface RegisterStep2Data {
 }
 
 export interface RegisterData extends RegisterStep1Data, RegisterStep2Data {}
+export interface LoginData {
+  email: string;
+  password: string;
+}
 
 export interface UserProfile {
   id: string;
@@ -80,4 +87,13 @@ export interface AuthError {
 export interface NicknameValidation {
   available: boolean;
   message?: string;
+}
+
+export interface LoginResponse {
+  message: string;
+  token: string;
+  refreshToken: string;
+  user: UserData
+  account: UserAccount;
+  userProfile: UserProfile;
 }

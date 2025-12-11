@@ -8,7 +8,7 @@ import MovieCarousel from "./_components/movie-carousel";
 
 export default function LendingPage({ trending }: { trending: TMDBMedia[] }) {
   return (
-    <main className="min-h-screen bg-on-primary-crx">
+    <main className="min-h-screen bg-on-primary-crx overflow-x-hidden" style={{ userSelect: "none" }}>
       <Navbar />
       <Hero trending={trending} />
       <Features />

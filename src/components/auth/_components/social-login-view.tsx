@@ -26,16 +26,16 @@ export function SocialLoginView({ onProviderClick, onBack, isLoading = false }: 
       {/* Header com Logo */}
       <div className="space-y-4">
         <div className="text-center">
-          <h1 className="font-display text-4xl font-bold text-text-primary mb-2">Escolha sua conta</h1>
-          <p className="text-text-secondary">Acesse rapidamente com sua conta favorita</p>
+          <h1 className="font-display text-3xl font-bold text-primary-crx mb-2">Escolha sua conta</h1>
+          <p className="text-text-secondary-crx">Acesse rapidamente com sua conta favorita</p>
         </div>
       </div>
 
       {/* Social Login Options */}
-      <Card className="border-border-color bg-bg-surface/50 backdrop-blur">
+      <Card className="border-color bg-surface-crx/50 backdrop-blur">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-text-primary">
-            <Shield className="h-5 w-5 text-color-primary" />
+          <CardTitle className="flex items-center gap-2 text-primary">
+            <Shield className="h-5 w-5 text-primary" />
             Métodos de Login Social
           </CardTitle>
           <CardDescription>Rápido, seguro e sem necessidade de criar nova senha</CardDescription>
@@ -43,15 +43,19 @@ export function SocialLoginView({ onProviderClick, onBack, isLoading = false }: 
         <CardContent className="space-y-3">
           <SocialLoginButtons onProviderClick={onProviderClick} isLoading={isLoading} providers={allProviders} />
         </CardContent>
+        {/* Back Button */}
+        <AuthButton variant="ghost" size="md" className="-mb-6" onClick={onBack} icon={<ArrowLeft className="h-5 w-5" />}>
+          Voltar ao login
+        </AuthButton>
       </Card>
 
       {/* Security Info */}
-      <Card className="border-border-color/50 bg-bg-surface/30 p-2">
+      <Card className="border-color/50 bg-surface-crx/30 p-2 mb-4">
         <CardContent>
-          <div className="flex items-center gap-3 text-sm text-text-secondary">
-            <Shield className="h-5 w-5 text-color-success flex-shrink-0 mt-0.5" />
+          <div className="flex items-center gap-3 text-sm text-text-secondary-crx">
+            <Shield className="h-5 w-5 text-success-crx flex-shrink-0 mt-0.5" />
             <div>
-              <p className="font-medium text-text-primary mb-1">Sua privacidade está protegida</p>
+              <p className="font-medium text-primary mb-1">Sua privacidade está protegida</p>
               <p className="text-xs">
                 Usamos OAuth 2.0 para garantir que suas credenciais nunca sejam compartilhadas. Apenas seu nome e email
                 serão utilizados.
@@ -60,11 +64,6 @@ export function SocialLoginView({ onProviderClick, onBack, isLoading = false }: 
           </div>
         </CardContent>
       </Card>
-
-      {/* Back Button */}
-      <AuthButton variant="ghost" size="md" fullWidth onClick={onBack} icon={<ArrowLeft className="h-5 w-5" />}>
-        Voltar ao login
-      </AuthButton>
     </motion.div>
   );
 }

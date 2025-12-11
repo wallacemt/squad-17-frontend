@@ -14,6 +14,8 @@ import type {
   User,
 } from "@/types/auth";
 import { useRouter } from "next/navigation";
+import { getCheckInfo, postRegisterUser } from "@/services/authService";
+import { toast } from "sonner";
 
 export function useAuth() {
   const { login, isAuthenticated, isLoading: contextLoading, user, session, logout, updateUser } = useAuthContext();
@@ -52,13 +54,15 @@ export function useAuth() {
   const handleRegister = async (data: RegisterStep1Data & RegisterStep2Data) => {
     setIsLoading(true);
     try {
-      // TODO: Replace with actual Better Auth implementation
-      await api.post("/auth/register", data, { skipAuth: true });
-
-      setPendingEmail(data.email);
-      setMode("otp", data.email);
+      const res = await postRegisterUser(data);
+      if (res) {
+        toast.success(res.message);
+        setPendingEmail(data.email);
+        setMode("otp", data.email);
+      }
     } catch (error) {
       console.error("Registration failed:", error);
+      toast.error("Erro ao realizar cadastro");
       throw error;
     } finally {
       setIsLoading(false);
@@ -100,12 +104,10 @@ export function useAuth() {
     }
   };
 
-  const handleCheckNickname = async (nickname: string): Promise<boolean> => {
+  const handleCheckNickname = async (nickName: string): Promise<boolean> => {
     try {
-      const response = await api.get<{ available: boolean }>(`/auth/check-nickname?nickname=${nickname}`, {
-        skipAuth: true,
-      });
-      return response.available;
+      const response = await getCheckInfo({ nickName });
+      return response.userNameExists;
     } catch (error) {
       console.error("Nickname check failed:", error);
       return false;

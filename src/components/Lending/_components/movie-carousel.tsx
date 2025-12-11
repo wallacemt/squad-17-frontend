@@ -10,6 +10,7 @@ import "swiper/css";
 import "swiper/css/effect-coverflow";
 import type { TMDBMedia } from "@/types/tmdb";
 import { formatRating, getGenreNames, getImageUrl, getTitle, getYear } from "@/utils/tmdbUtils";
+import { useRouter } from "next/navigation";
 
 const gradients = [
   "from-orange-500 to-amber-600",
@@ -23,6 +24,7 @@ const gradients = [
 ];
 
 export default function MovieCarousel({ trending }: { trending: TMDBMedia[] }) {
+  const route = useRouter();
   return (
     <section className="relative overflow-hidden bg-bg-surface py-24">
       {/* Fundo decorativo */}
@@ -85,6 +87,14 @@ export default function MovieCarousel({ trending }: { trending: TMDBMedia[] }) {
                         alt={getTitle(media)}
                         fill
                         className="object-cover w-full h-full"
+                        onError={() => (
+                          <Image
+                            src={"/logo-short.png"}
+                            fill
+                            alt={getTitle(media)}
+                            className="object-cover "
+                          />
+                        )}
                       />
                     ) : (
                       <div className={`absolute inset-0 bg-linear-to-br ${gradients[index % gradients.length]}`} />
@@ -141,7 +151,8 @@ export default function MovieCarousel({ trending }: { trending: TMDBMedia[] }) {
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           type="button"
-                          className="w-full rounded-full bg-color-primary py-3 font-semibold text-color-on-primary transition-colors hover:bg-color-primary-hover"
+                          className="w-full hover:cursor-pointer rounded-full bg-primary py-3 font-semibold text-on-primary-crx transition-colors hover:bg-primary-hover-crx"
+                          onClick={() => route.push("/auth")}
                         >
                           Ver Detalhes
                         </motion.button>

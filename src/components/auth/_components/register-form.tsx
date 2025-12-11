@@ -1,17 +1,6 @@
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  User,
-  Mail,
-  Lock,
-  Calendar,
-  UserCircle,
-  ArrowRight,
-  ArrowLeft,
-  Check,
-  Shuffle,
-  HelpCircle,
-} from "lucide-react";
+import { User, Mail, Lock, UserCircle, ArrowRight, ArrowLeft, Check, Shuffle, HelpCircle } from "lucide-react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input, PasswordInput } from "@/components/ui/auth-input";
 import { AuthButton } from "@/components/ui/auth-button";
@@ -21,8 +10,12 @@ import { Separator } from "@/components/ui/separator";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { countries, genderOptions, generateNickname, nicknameTips } from "@/utils/countries";
 import type { RegisterStep1Data, RegisterStep2Data } from "@/types/auth";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
+import { useDebounce } from "@/utils/debounce";
+import { CalendarPicker } from "@/components/ui/calendar-picker";
+import { getCheckInfo } from "@/services/authService";
+import { useRegisterFormCache } from "@/hooks/useAuthCache";
 
 interface RegisterFormProps {
   onSubmit: (data: RegisterStep1Data & RegisterStep2Data) => Promise<void>;
@@ -34,23 +27,19 @@ const validadeStep1Regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const validadeStep2Regex = /^[a-zA-Z0-9_]+$/;
 const handleSubmitRegex = /^[a-zA-Z0-9_]+$/;
 export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = false }: RegisterFormProps) {
-  const [currentStep, setCurrentStep] = useState<1 | 2>(2);
-  const [step1Data, setStep1Data] = useState<RegisterStep1Data>({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
-  const [step2Data, setStep2Data] = useState<RegisterStep2Data>({
-    nickname: "",
-    birthDate: "",
-    gender: "prefer-not-to-say",
-    country: "",
-  });
+  const formCache = useRegisterFormCache();
+  const [currentStep, setCurrentStep] = useState<1 | 2>(formCache.data.currentStep);
+  const [step1Data, setStep1Data] = useState<RegisterStep1Data>(formCache.data.step1);
+  const [step2Data, setStep2Data] = useState<RegisterStep2Data>(formCache.data.step2);
   const [errors, setErrors] = useState<Partial<RegisterStep1Data & RegisterStep2Data>>({});
   const [nicknameChecking, setNicknameChecking] = useState(false);
-  const [nicknameAvailable, setNicknameAvailable] = useState<boolean | null>(null);
+  const [nicknameExistis, setNicknameExistis] = useState<boolean | null>(null);
   const [showNicknameTips, setShowNicknameTips] = useState(false);
+  const [emailChecking, setEmailChecking] = useState(false);
+  const [emailAvailable, setEmailAvailable] = useState<boolean | null>(null);
+
+  const debouncedEmail = useDebounce(step1Data.email, 500);
+  const saveTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
   const validateStep1 = (): boolean => {
     const newErrors: Partial<RegisterStep1Data> = {};
@@ -88,7 +77,7 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
       newErrors.nickname = "Nome de usuário deve ter no mínimo 3 caracteres";
     } else if (!validadeStep2Regex.test(step2Data.nickname)) {
       newErrors.nickname = "Nome de usuário deve conter apenas letras, números e _";
-    } else if (nicknameAvailable === false) {
+    } else if (nicknameExistis === true) {
       newErrors.nickname = "Nome de usuário já está em uso";
     }
 
@@ -107,6 +96,11 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
   const handleNextStep = () => {
     if (validateStep1()) {
       setCurrentStep(2);
+      formCache.saveToCache({
+        currentStep,
+        step1: step1Data,
+        step2: step2Data,
+      });
     }
   };
 
@@ -118,6 +112,8 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
 
     try {
       await onSubmit({ ...step1Data, ...step2Data });
+      // Clear cache after successful registration
+      formCache.clearCache();
     } catch (error) {
       console.error("Registration error:", error);
     }
@@ -126,14 +122,14 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
   const checkNickname = useCallback(
     async (nickname: string) => {
       if (nickname.length < 3 || !handleSubmitRegex.test(nickname)) {
-        setNicknameAvailable(null);
+        setNicknameExistis(null);
         return;
       }
 
       setNicknameChecking(true);
       try {
         const available = await onCheckNickname(nickname);
-        setNicknameAvailable(available);
+        setNicknameExistis(available);
       } catch (error) {
         console.error("Nickname check error:", error);
       } finally {
@@ -142,6 +138,36 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
     },
     [onCheckNickname]
   );
+
+  const checkEmail = useCallback(async (email: string) => {
+    const isValidEmail = email && validadeStep1Regex.test(email);
+    if (!isValidEmail) {
+      setEmailAvailable(null);
+      return;
+    }
+    setErrors((prev) => ({ ...prev, email: undefined }));
+    setEmailChecking(true);
+    try {
+      const { emailExists } = await getCheckInfo({ email });
+      setEmailAvailable(!emailExists);
+      if (emailExists) {
+        setErrors((prev) => ({ ...prev, email: "Email já cadastrado" }));
+      } else {
+        setErrors((prev) => ({ ...prev, email: undefined }));
+      }
+    } catch (error) {
+      console.error("Email check error:", error);
+      setErrors((prev) => ({ ...prev, email: "Erro ao verificar email" }));
+    } finally {
+      setEmailChecking(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (debouncedEmail) {
+      checkEmail(debouncedEmail);
+    }
+  }, [debouncedEmail, checkEmail]);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -153,6 +179,22 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
     return () => clearTimeout(timeout);
   }, [step2Data.nickname, checkNickname]);
 
+  const getNotValid = () => {
+    if (step1Data.confirmPassword.length === 0 && step1Data.password.length === 0) {
+      return true;
+    }
+    if (step1Data.confirmPassword !== step1Data.password) {
+      return true;
+    }
+    if (!(step1Data.email.trim() || step1Data.name.trim())) {
+      return true;
+    }
+    if (!validadeStep1Regex.test(step1Data.email)) {
+      return true;
+    }
+    return false;
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -160,12 +202,12 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
       transition={{ duration: 0.5 }}
       className="w-full"
     >
-      <Card className="border-border-color bg-bg-surface-light/50 backdrop-blur-sm">
+      <Card className="border-color bg-surface-light-crx/50 backdrop-blur-sm">
         <CardHeader className="space-y-4 pb-6">
           {/* Header */}
           <div className="space-y-2 text-center">
-            <CardTitle className="font-bold font-display text-3xl text-text-primary">Criar conta</CardTitle>
-            <CardDescription className="text-text-secondary">
+            <CardTitle className="font-bold font-display text-3xl text-primary">Criar conta</CardTitle>
+            <CardDescription className="text-text-secondary-crx">
               Junte-se à comunidade de críticos de cinema
             </CardDescription>
           </div>
@@ -208,40 +250,52 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
                   value={step1Data.name}
                   onChange={(e) => setStep1Data({ ...step1Data, name: e.target.value })}
                   error={errors.name}
-                  icon={<User className="h-5 w-5" />}
+                  icon={<User className="h-5 w-5 text-primary-crx" />}
                   disabled={isLoading}
                 />
 
-                <Input
-                  type="email"
-                  placeholder="Email"
-                  value={step1Data.email}
-                  onChange={(e) => setStep1Data({ ...step1Data, email: e.target.value })}
-                  error={errors.email}
-                  icon={<Mail className="h-5 w-5" />}
+                <div className="relative">
+                  <Input
+                    type="email"
+                    placeholder="Email"
+                    value={step1Data.email}
+                    onChange={(e) => setStep1Data({ ...step1Data, email: e.target.value })}
+                    error={errors.email}
+                    icon={<Mail className="h-5 w-5 text-primary-crx" />}
+                    disabled={isLoading}
+                  />
+                  {!!emailChecking && (
+                    <div className="absolute right-3 top-3">
+                      <div className="h-5 w-5 animate-spin rounded-full border-2 border-primary-crx border-t-transparent" />
+                    </div>
+                  )}
+                  {emailAvailable === true && !emailChecking && (
+                    <div className="absolute right-3 top-3">
+                      <Check className="h-5 w-5 text-success-crx" />
+                    </div>
+                  )}
+                </div>
+
+                <PasswordInput
+                  placeholder="Senha"
+                  value={step1Data.password}
+                  onChange={(e) => setStep1Data({ ...step1Data, password: e.target.value })}
+                  error={errors.password}
+                  icon={<Lock className="h-5 w-5 text-primary-crx" />}
                   disabled={isLoading}
                 />
 
                 <div className="space-y-2">
                   <PasswordInput
-                    placeholder="Senha"
-                    value={step1Data.password}
-                    onChange={(e) => setStep1Data({ ...step1Data, password: e.target.value })}
-                    error={errors.password}
-                    icon={<Lock className="h-5 w-5" />}
+                    placeholder="Confirmar senha"
+                    value={step1Data.confirmPassword}
+                    onChange={(e) => setStep1Data({ ...step1Data, confirmPassword: e.target.value })}
+                    error={errors.confirmPassword}
+                    icon={<Lock className="h-5 w-5 text-primary-crx" />}
                     disabled={isLoading}
                   />
                   <PasswordStrengthBar password={step1Data.password} />
                 </div>
-
-                <PasswordInput
-                  placeholder="Confirmar senha"
-                  value={step1Data.confirmPassword}
-                  onChange={(e) => setStep1Data({ ...step1Data, confirmPassword: e.target.value })}
-                  error={errors.confirmPassword}
-                  icon={<Lock className="h-5 w-5" />}
-                  disabled={isLoading}
-                />
 
                 <AuthButton
                   type="button"
@@ -249,7 +303,8 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
                   size="lg"
                   fullWidth
                   onClick={handleNextStep}
-                  icon={<ArrowRight className="h-5 w-5" />}
+                  disabled={isLoading || getNotValid()}
+                  icon={<ArrowRight className="h-5 w-5 text-primary-crx" />}
                 >
                   Continuar
                 </AuthButton>
@@ -266,14 +321,14 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
               >
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
-                    <label className="text-sm font-medium text-text-secondary" htmlFor="userName">
+                    <label className="text-sm font-medium " htmlFor="userName">
                       Nome de usuário
                     </label>
                     <button
                       type="button"
                       onClick={() => setShowNicknameTips(!showNicknameTips)}
                       id="userName"
-                      className="text-text-muted hover:text-text-secondary transition-colors"
+                      className="text-text-muted hover:text-text-secondary-crx transition-colors"
                     >
                       <HelpCircle className="h-4 w-4" />
                     </button>
@@ -284,7 +339,7 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: "auto" }}
                       exit={{ opacity: 0, height: 0 }}
-                      className="rounded-lg bg-bg-surface p-3 space-y-1"
+                      className="rounded-lg bg-surface-crx p-3 space-y-1"
                     >
                       {nicknameTips.map((tip, _idx) => (
                         <p key={tip} className="text-xs text-text-muted flex items-start gap-2">
@@ -308,12 +363,12 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
                       />
                       {!!nicknameChecking && (
                         <div className="absolute right-3 top-3">
-                          <div className="h-5 w-5 animate-spin rounded-full border-2 border-color-primary border-t-transparent" />
+                          <div className="h-5 w-5 animate-spin rounded-full border-2 border-primary-crx border-t-transparent" />
                         </div>
                       )}
-                      {nicknameAvailable === true && !nicknameChecking && (
+                      {nicknameExistis === false && !nicknameChecking && (
                         <div className="absolute right-3 top-3">
-                          <Check className="h-5 w-5 text-color-success" />
+                          <Check className="h-5 w-5 text-success-crx" />
                         </div>
                       )}
                     </div>
@@ -324,7 +379,7 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
                         setStep2Data({ ...step2Data, nickname: newNickname });
                       }}
                       disabled={!step1Data.name || isLoading}
-                      className="flex h-12 items-center gap-2 rounded-xl border border-border-color bg-bg-surface px-4 text-sm font-medium text-text-secondary transition-all hover:border-color-primary hover:text-color-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="flex h-12 items-center gap-2 rounded-xl border border-color bg-surface-crx px-4 text-sm font-medium text-text-secondary-crx transition-all hover:border-primary-crx hover:text-primary-crx disabled:opacity-50 disabled:cursor-not-allowed"
                       title="Gerar nickname aleatório"
                     >
                       <Shuffle className="h-4 w-4" />
@@ -332,17 +387,11 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
                   </div>
                 </div>
 
-                <Input
-                  type="date"
-                  placeholder="Data de nascimento"
-                  value={step2Data.birthDate}
-                  onChange={(e) => setStep2Data({ ...step2Data, birthDate: e.target.value })}
-                  error={errors.birthDate}
-                  icon={<Calendar className="h-5 w-5" />}
-                  disabled={isLoading}
-                  max={new Date().toISOString().split("T")[0]}
+                <CalendarPicker
+                  date={new Date(step2Data.birthDate)}
+                  setDate={(e) => setStep2Data({ ...step2Data, birthDate: String(e) })}
+                  text="Nascimento"
                 />
-
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-text-secondary" htmlFor="gender">
                     Gênero
@@ -353,17 +402,17 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
                     disabled={isLoading}
                   >
                     <SelectTrigger
-                      className="h-12 w-full rounded-xl border-border-color bg-bg-surface-light text-text-primary focus:border-color-primary focus:ring-2 focus:ring-color-primary/20"
+                      className="h-12 w-full rounded-xl border-color bg-surface-light-crx text-primary-crx focus:border-primary-crx focus:ring-2 focus:ring-primary-crx/20"
                       id="gender"
                     >
                       <SelectValue placeholder="Selecione seu gênero" />
                     </SelectTrigger>
-                    <SelectContent className="bg-bg-surface-light border-border-color">
+                    <SelectContent className="bg-surface-light-crx border-color">
                       {genderOptions.map((option) => (
                         <SelectItem
                           key={option.value}
                           value={option.value}
-                          className="text-text-primary hover:bg-bg-surface focus:bg-bg-surface cursor-pointer"
+                          className="text-primary-crx hover:bg-surface-crx focus:bg-surface-crx cursor-pointer"
                         >
                           {option.label}
                         </SelectItem>
@@ -382,7 +431,7 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
                     disabled={isLoading}
                   >
                     <SelectTrigger
-                      className="h-12 w-full rounded-xl border-border-color bg-bg-surface-light text-text-primary focus:border-color-primary focus:ring-2 focus:ring-color-primary/20"
+                      className="h-12 w-full rounded-xl border bg-surface-light-crx text-primary-crx focus:border-primary-crx focus:ring-2 focus:ring-primary-crx/20"
                       id="country"
                     >
                       <SelectValue placeholder="Selecione seu país">
@@ -394,12 +443,12 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
                         )}
                       </SelectValue>
                     </SelectTrigger>
-                    <SelectContent className="bg-bg-surface-light border-border-color max-h-60">
+                    <SelectContent className="bg-surface-light-crx border-amber-100/20 max-h-60">
                       {countries.map((country) => (
                         <SelectItem
                           key={country.code}
                           value={country.code}
-                          className="text-text-primary hover:bg-bg-surface focus:bg-bg-surface cursor-pointer"
+                          className="text-primary hover:bg-surface-crx focus:bg-surface-crx cursor-pointer"
                         >
                           <span className="flex items-center gap-2">
                             <span>{country.flag}</span>
@@ -409,7 +458,7 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
                       ))}
                     </SelectContent>
                   </Select>
-                  {!!errors.country && <p className="text-xs text-color-danger">{errors.country}</p>}
+                  {!!errors.country && <p className="text-xs text-danger-crx">{errors.country}</p>}
                 </div>
 
                 <div className="flex gap-3">
@@ -441,6 +490,7 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
 
         <CardFooter className="flex-col space-y-4 pt-6">
           <Separator />
+
           <div className="text-center text-sm text-text-secondary">
             Já tem uma conta?{" "}
             <Button

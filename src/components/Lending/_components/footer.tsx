@@ -104,7 +104,7 @@ export default function Footer() {
                 Receba recomendações personalizadas, reviews em destaque e lançamentos toda semana. Direto na sua caixa
                 de entrada. 💌
               </p>
-              <div className="flex w-full gap-2">
+              <div className="flex flex-col md:flex-row w-full gap-3">
                 <input
                   type="email"
                   placeholder="seu-melhor@email.com"
@@ -113,7 +113,7 @@ export default function Footer() {
                 <motion.button
                   whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(255, 193, 7, 0.3)" }}
                   whileTap={{ scale: 0.95 }}
-                  className="rounded-full bg-primary-crx px-6 py-3 font-semibold transition-all hover:bg-primary-hover-crx"
+                  className="rounded-full bg-primary-crx/80 px-6 py-3 font-semibold transition-all hover:bg-primary-hover-crx"
                   style={{ color: "#000" }}
                 >
                   Quero receber ✨
