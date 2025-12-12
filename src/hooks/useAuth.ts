@@ -1,6 +1,6 @@
 "use client";
+import { useState, useCallback } from "react";
 import { useAuthContext } from "@/context/authContext";
-import { useState } from "react";
 import { useApi } from "./useApi";
 import type {
   AuthMode,
@@ -14,8 +14,9 @@ import type {
   User,
 } from "@/types/auth";
 import { useRouter } from "next/navigation";
-import { getCheckInfo, postRegisterUser } from "@/services/authService";
+import { getCheckInfo, postRegisterUser, postUserLogin, postVerifyCode, postResendCode } from "@/services/authService";
 import { toast } from "sonner";
+
 
 export function useAuth() {
   const { login, isAuthenticated, isLoading: contextLoading, user, session, logout, updateUser } = useAuthContext();
@@ -23,6 +24,27 @@ export function useAuth() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [pendingEmail, setPendingEmail] = useState<string>("");
+  const [passForAfterRegister, setPassForAfterRegister] = useState<string>("");
+  // Prevenir fechamento da aba durante loading
+  const handleBeforeUnload = useCallback(
+    (e: BeforeUnloadEvent) => {
+      if (isLoading) {
+        e.preventDefault();
+        e.returnValue = "Existem operações em andamento. Tem certeza que deseja sair?";
+        return e.returnValue;
+      }
+    },
+    [isLoading]
+  );
+
+  // Adicionar listener de beforeunload
+  if (typeof window !== "undefined") {
+    if (isLoading) {
+      window.addEventListener("beforeunload", handleBeforeUnload);
+    } else {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    }
+  }
 
   const setMode = (newMode: AuthMode, email?: string) => {
     if (email) {
@@ -34,17 +56,41 @@ export function useAuth() {
   const handleLogin = async (credentials: LoginCredentials) => {
     setIsLoading(true);
     try {
-      // TODO: Replace with actual Better Auth implementation
-      const response = await api.post<{ user: User; accessToken: string; refreshToken: string }>(
-        "/auth?mode=login",
-        credentials,
-        { skipAuth: true }
-      );
+      const { email, password } = {
+        email: credentials.emailOrUsername,
+        password: credentials.password,
+      };
 
-      login(response.accessToken, response.refreshToken, response.user);
+      const response = await postUserLogin({ email, password });
+
+      if (!(response.token || response.user)) {
+        throw new Error("Resposta inválida do servidor");
+      }
+
+      if (!response.user.emailVerified) {
+        toast.success("Confirme seu email para poder acessar a plataforma!");
+        setPendingEmail(email);
+        setPassForAfterRegister(password);
+        await handleResendOTP(email);
+        return setMode("otp", email);
+      }
+
+      // Construir objeto User completo
+      const userData: User = {
+        id: response.user.id,
+        name: response.user.name,
+        email: response.user.email,
+        emailVerified: response.user.emailVerified,
+        profile: response.userProfile,
+        createdAt: response.user.createdAt,
+      };
+      login(response.token, response.refreshToken, userData);
+      toast.success(response.message);
       router.push("/");
     } catch (error) {
       console.error("Login failed:", error);
+      const errorMessage = error instanceof Error ? error.message : "Erro ao fazer login";
+      toast.error(errorMessage.replace("Error: ", "").replace("Erro ao realizar login: ", ""));
       throw error;
     } finally {
       setIsLoading(false);
@@ -58,6 +104,7 @@ export function useAuth() {
       if (res) {
         toast.success(res.message);
         setPendingEmail(data.email);
+        setPassForAfterRegister(data.password);
         setMode("otp", data.email);
       }
     } catch (error) {
@@ -72,35 +119,47 @@ export function useAuth() {
   const handleOTPVerification = async (data: OTPVerification) => {
     setIsLoading(true);
     try {
-      // TODO: Replace with actual Better Auth implementation
-      const response = await api.post<{ user: User; accessToken: string; refreshToken: string }>(
-        "/auth/verify-otp",
-        data,
-        { skipAuth: true }
-      );
+      const response = await postVerifyCode(data.code, data.email);
 
-      if (data.type === "email-verification") {
-        // Auto login after email verification
-        login(response.accessToken, response.refreshToken, response.user);
-        router.push("/");
+      if (response.success) {
+        // Redirecionar para login após verificação
+        toast.success("Email verificado com sucesso!");
+        await handleLogin({ emailOrUsername: data.email, password: passForAfterRegister });
       } else {
-        // Redirect to reset password
-        setMode("reset-password");
+        throw new Error(response.message || "Falha na verificação");
       }
     } catch (error) {
       console.error("OTP verification failed:", error);
+      const errorMessage = error instanceof Error ? error.message : "Código inválido";
+      toast.error(errorMessage.replace("Error: ", "").replace("Erro ao verificar codigo usuario: ", ""));
       throw error;
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleResendOTP = async () => {
+  const handleResendOTP = async (email: string) => {
+    if (!email) {
+      toast.error("Email não encontrado");
+      return;
+    }
+
+    setIsLoading(true);
     try {
-      await api.post("/auth/resend-otp", { email: pendingEmail }, { skipAuth: true });
+      const response = await postResendCode(email);
+
+      if (response.success) {
+        toast.success("Código reenviado com sucesso!");
+      } else {
+        throw new Error(response.message || "Falha ao reenviar código");
+      }
     } catch (error) {
       console.error("Resend OTP failed:", error);
+      const errorMessage = error instanceof Error ? error.message : "Erro ao reenviar código";
+      toast.error(errorMessage.replace("Error: ", "").replace("Erro ao verificar codigo usuario: ", ""));
       throw error;
+    } finally {
+      setIsLoading(false);
     }
   };
 

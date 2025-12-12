@@ -1,5 +1,5 @@
-import { string } from "better-auth";
-import { UserAccount, UserData } from "./user";
+
+import type { UserAccount, UserData } from "./user";
 
 export type AuthMode = "login" | "register" | "otp" | "social" | "forgot-password" | "reset-password";
 
@@ -51,8 +51,8 @@ export interface User {
   email: string;
   emailVerified: boolean;
   profile?: UserProfile;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface AuthSession {
@@ -93,7 +93,7 @@ export interface LoginResponse {
   message: string;
   token: string;
   refreshToken: string;
-  user: UserData
+  user: UserData;
   account: UserAccount;
   userProfile: UserProfile;
 }

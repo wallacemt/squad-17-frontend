@@ -1,11 +1,16 @@
 "use client";
 
+import { useAuthContext } from "@/context/authContext";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export default function CTA() {
   const router = useRouter();
+  const { user } = useAuthContext();
+  if (user) {
+    return;
+  }
   return (
     <section className="relative overflow-hidden bg-bg-body py-32">
       {/* Background com gradiente radial */}

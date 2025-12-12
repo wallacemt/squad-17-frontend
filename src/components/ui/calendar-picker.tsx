@@ -12,10 +12,12 @@ export function CalendarPicker({
   date,
   setDate,
   text,
+  isLoading
 }: {
   date: Date;
   setDate: Dispatch<SetStateAction<Date | string | undefined>>;
   text: string;
+  isLoading:boolean
 }) {
   const [open, setOpen] = useState(false);
 
@@ -25,7 +27,7 @@ export function CalendarPicker({
         {text}
       </Label>
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
+        <PopoverTrigger asChild  disabled={isLoading}>
           <Button variant="outline" id="date" className="w-full justify-between font-normal">
             {date ? date.toLocaleDateString() : "Selecione a data"}
             <ChevronDownIcon />

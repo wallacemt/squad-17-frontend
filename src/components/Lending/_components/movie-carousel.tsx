@@ -4,13 +4,13 @@ import { motion } from "framer-motion";
 import { Star } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectCoverflow } from "swiper/modules";
-import Image from "next/image";
 
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import type { TMDBMedia } from "@/types/tmdb";
 import { formatRating, getGenreNames, getImageUrl, getTitle, getYear } from "@/utils/tmdbUtils";
 import { useRouter } from "next/navigation";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 
 const gradients = [
   "from-orange-500 to-amber-600",
@@ -82,19 +82,12 @@ export default function MovieCarousel({ trending }: { trending: TMDBMedia[] }) {
                   <div className="relative h-[600px] mr-6 overflow-hidden rounded-2xl shadow-2xl transition-all duration-300 hover:scale-105">
                     {/* Imagem de backdrop */}
                     {media.backdrop_path ? (
-                      <Image
+                      <OptimizedImage
                         src={getImageUrl(media.backdrop_path, "w780")}
                         alt={getTitle(media)}
                         fill
                         className="object-cover w-full h-full"
-                        onError={() => (
-                          <Image
-                            src={"/logo-short.png"}
-                            fill
-                            alt={getTitle(media)}
-                            className="object-cover "
-                          />
-                        )}
+                        fallbackSrc="/placeholder-old-movies.webp"
                       />
                     ) : (
                       <div className={`absolute inset-0 bg-linear-to-br ${gradients[index % gradients.length]}`} />

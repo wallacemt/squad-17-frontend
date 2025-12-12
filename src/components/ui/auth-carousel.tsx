@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Button } from "./button";
 import type { TMDBTrendingPostersResponse } from "@/types/tmdb";
 import { getImageUrl } from "@/utils/tmdbUtils";
-import Image from "next/image";
+import { OptimizedImage } from "./optimized-image";
 
 interface AuthCarouselProps {
   images: TMDBTrendingPostersResponse[];
@@ -13,7 +13,6 @@ interface AuthCarouselProps {
 
 export function AuthCarousel({ images, autoPlayInterval = 5000 }: AuthCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [imageSrc, setImageSrc] = useState("/placeholder-image.webp");
   const nextSlide = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % images.length);
   }, [images.length]);
@@ -34,12 +33,11 @@ export function AuthCarousel({ images, autoPlayInterval = 5000 }: AuthCarouselPr
           transition={{ duration: 0.7, ease: "easeInOut" }}
           className="relative h-full w-ful"
         >
-          <Image
-            onLoad={() => setImageSrc(getImageUrl(images[currentIndex].src || "", "original"))}
-            src={imageSrc}
+          <OptimizedImage
+            src={getImageUrl(images[currentIndex].src || "", "original")}
             alt={images[currentIndex].alt}
             fill
-            onError={() => setImageSrc("/placeholder-image.webp")}
+            fallbackSrc="/placeholder-image-carrousel.webp"
             className="object-cover"
             priority
           />

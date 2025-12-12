@@ -10,7 +10,7 @@ import { Separator } from "@/components/ui/separator";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { countries, genderOptions, generateNickname, nicknameTips } from "@/utils/countries";
 import type { RegisterStep1Data, RegisterStep2Data } from "@/types/auth";
-import { useCallback, useEffect, useState, useRef } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useDebounce } from "@/utils/debounce";
 import { CalendarPicker } from "@/components/ui/calendar-picker";
@@ -39,7 +39,6 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
   const [emailAvailable, setEmailAvailable] = useState<boolean | null>(null);
 
   const debouncedEmail = useDebounce(step1Data.email, 500);
-  const saveTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
   const validateStep1 = (): boolean => {
     const newErrors: Partial<RegisterStep1Data> = {};
@@ -391,6 +390,7 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
                   date={new Date(step2Data.birthDate)}
                   setDate={(e) => setStep2Data({ ...step2Data, birthDate: String(e) })}
                   text="Nascimento"
+                  isLoading={isLoading}
                 />
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-text-secondary" htmlFor="gender">
@@ -467,6 +467,7 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
                     variant="secondary"
                     size="lg"
                     onClick={() => setCurrentStep(1)}
+                    disabled={isLoading}
                     icon={<ArrowLeft className="h-5 w-5" />}
                     className="flex-1"
                   >
@@ -491,12 +492,13 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
         <CardFooter className="flex-col space-y-4 pt-6">
           <Separator />
 
-          <div className="text-center text-sm text-text-secondary">
+          <div className="text-center text-sm text-text-secondary-crx">
             Já tem uma conta?{" "}
             <Button
               onClick={onLogin}
               variant={"ghost"}
-              className="font-semibold text-color-primary hover:text-color-primary-hover transition-colors"
+              disabled={isLoading}
+              className="font-semibold text-primary hover:text-primary-hover-crx transition-colors"
             >
               Entrar
             </Button>

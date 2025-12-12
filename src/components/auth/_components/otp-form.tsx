@@ -1,30 +1,37 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail, ArrowRight, ArrowLeft } from "lucide-react";
+import { Mail, ArrowRight } from "lucide-react";
 import { AuthButton } from "@/components/ui/auth-button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+
+import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/components/ui/input-otp";
 
 import type { OTPVerification } from "@/types/auth";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 interface OTPFormProps {
   email: string;
   type: "email-verification" | "password-reset";
   onSubmit: (data: OTPVerification) => Promise<void>;
-  onResend: () => Promise<void>;
+  onResend: (email: string) => Promise<void>;
   onBack: () => void;
   isLoading?: boolean;
-};
-const handleChangeRegex = /^\d*$/;
-const handlePasteRegex = /^\d+$/;
+}
 
-export function OTPForm({ email, type, onSubmit, onResend, onBack, isLoading = false }: OTPFormProps) {
-  const [code, setCode] = useState<string[]>(["", "", "", "", "", ""]);
+export function OTPForm({ email, type, onSubmit, onResend, isLoading = false }: OTPFormProps) {
+  const [code, setCode] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [resendTimer, setResendTimer] = useState(60);
-  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!email) {
+      router.push("/auth?mode=login");
+    }
+  }, [email, router.push]);
 
   useEffect(() => {
     if (resendTimer > 0) {
@@ -33,65 +40,21 @@ export function OTPForm({ email, type, onSubmit, onResend, onBack, isLoading = f
     }
   }, [resendTimer]);
 
-  const handleChange = (index: number, value: string) => {
-    if (!handleChangeRegex.test(value)) {
-      return;
-    }
-
-    const newCode = [...code];
-    newCode[index] = value.slice(-1);
-    setCode(newCode);
-    setError("");
-
-    // Auto focus next input
-    if (value && index < 5) {
-      inputRefs.current[index + 1]?.focus();
-    }
-  };
-
-  const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Backspace" && !code[index] && index > 0) {
-      inputRefs.current[index - 1]?.focus();
-    }
-  };
-
-  const handlePaste = (e: React.ClipboardEvent) => {
-    e.preventDefault();
-    const pastedData = e.clipboardData.getData("text").slice(0, 6);
-    if (!handlePasteRegex.test(pastedData)) {
-      return;
-    }
-
-    const newCode = [...code];
-    pastedData.split("").forEach((char, index) => {
-      if (index < 6) {
-        newCode[index] = char;
-      }
-    });
-    setCode(newCode);
-
-    const nextEmptyIndex = newCode.findIndex((c) => !c);
-    if (nextEmptyIndex !== -1) {
-      inputRefs.current[nextEmptyIndex]?.focus();
-    } else {
-      inputRefs.current[5]?.focus();
-    }
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const codeString = code.join("");
 
-    if (codeString.length !== 6) {
+    if (code.length !== 6) {
       setError("Por favor, insira o código completo");
       return;
     }
 
     try {
-      await onSubmit({ email, code: codeString, type });
+      await onSubmit({ email, code, type });
+      // Sucesso é tratado no useAuth com toast e redirect
     } catch (err) {
       setError("Código inválido. Tente novamente.");
       console.error("OTP verification error:", err);
+      // Error já é tratado no useAuth com toast
     }
   };
 
@@ -101,13 +64,14 @@ export function OTPForm({ email, type, onSubmit, onResend, onBack, isLoading = f
     }
 
     try {
-      await onResend();
+      await onResend(email);
       setResendTimer(60);
-      setCode(["", "", "", "", "", ""]);
+      setCode("");
       setError("");
-      inputRefs.current[0]?.focus();
+      // Sucesso é tratado no useAuth com toast
     } catch (err) {
       console.error("Resend error:", err);
+      // Error já é tratado no useAuth com toast
     }
   };
 
@@ -138,37 +102,37 @@ export function OTPForm({ email, type, onSubmit, onResend, onBack, isLoading = f
         <CardContent>
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="flex justify-center gap-3">
-              {code.map((digit, index) => (
-                <input
-                  key={digit}
-                  ref={(el) => {
-                    inputRefs.current[index] = el;
-                  }}
-                  type="text"
-                  inputMode="numeric"
-                  maxLength={1}
-                  value={digit}
-                  onChange={(e) => handleChange(index, e.target.value)}
-                  onKeyDown={(e) => handleKeyDown(index, e)}
-                  onPaste={handlePaste}
-                  disabled={isLoading}
-                  className={`h-14 w-12 rounded-xl border bg-bg-surface-light text-center font-bold text-2xl text-text-primary transition-all duration-200 ${
-                    error
-                      ? "border-color-danger focus:border-color-danger focus:ring-color-danger/20"
-                      : "border-border-color focus:border-color-primary focus:ring-color-primary/20"
-                  } focus:outline-none focus:ring-2 disabled:opacity-50`}
-                />
-              ))}
+            <div className="flex justify-center">
+              <InputOTP
+                maxLength={6}
+                value={code}
+                onChange={(value) => {
+                  setCode(value);
+                  setError("");
+                }}
+                disabled={isLoading}
+                aria-invalid={!!error}
+              >
+                <InputOTPGroup>
+                  <InputOTPSlot index={0} />
+                  <InputOTPSlot index={1} />
+                  <InputOTPSlot index={2} />
+                  <InputOTPSeparator />
+                  <InputOTPSlot index={3} />
+                  <InputOTPSlot index={4} />
+                  <InputOTPSlot index={5} />
+                </InputOTPGroup>
+              </InputOTP>
             </div>
 
-            {!!error && <p className="text-center text-sm text-color-danger">{error}</p>}
+            {!!error && <p className="text-center text-sm text-danger-crx">{error}</p>}
 
             <AuthButton
               type="submit"
               variant="primary"
               size="lg"
               fullWidth
+              disabled={isLoading}
               isLoading={isLoading}
               icon={<ArrowRight className="h-5 w-5" />}
             >
@@ -177,38 +141,25 @@ export function OTPForm({ email, type, onSubmit, onResend, onBack, isLoading = f
 
             {/* Resend */}
             <div className="text-center">
-              <p className="text-sm text-text-secondary">
+              <p className="text-sm text-text-secondary-crx">
                 Não recebeu o código?{" "}
                 {resendTimer > 0 ? (
                   <span className="font-semibold text-text-muted">Reenviar em {resendTimer}s</span>
                 ) : (
-                  <button
+                  <Button
                     type="button"
                     onClick={handleResend}
-                    className="font-semibold text-color-primary hover:text-color-primary-hover transition-colors"
+                    disabled={isLoading}
+                    variant={"ghost"}
+                    className="font-semibold cursor-pointer text-primary-crx hover:text-primary-hover-crx transition-colors"
                   >
                     Reenviar código
-                  </button>
+                  </Button>
                 )}
               </p>
             </div>
           </form>
         </CardContent>
-
-        <CardFooter className="flex-col space-y-4 pt-6">
-          <Separator />
-          {/* Back button */}
-          <AuthButton
-            type="button"
-            variant="ghost"
-            size="md"
-            fullWidth
-            onClick={onBack}
-            icon={<ArrowLeft className="h-5 w-5" />}
-          >
-            Voltar
-          </AuthButton>
-        </CardFooter>
       </Card>
     </motion.div>
   );

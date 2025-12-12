@@ -98,6 +98,7 @@ export function LoginForm({
       formCache.clearCache();
     } catch (error) {
       console.error("Login error:", error);
+      // Error já é tratado no useAuth com toast
     }
   };
 

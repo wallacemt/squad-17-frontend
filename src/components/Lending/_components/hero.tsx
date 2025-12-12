@@ -1,21 +1,26 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Play, Star, TrendingUp } from "lucide-react";
+import { Play, Star, TrendingUp, Home } from "lucide-react";
 import type { TMDBMedia } from "@/types/tmdb";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { getGenreNames, getImageUrl, getTitle } from "@/utils/tmdbUtils";
 import GradientBlinds from "../../ui/blocks/background/GradientBlinds/GradientBlinds";
 import { useRouter } from "next/navigation";
+import { useAuthContext } from "@/context/authContext";
+import { OptimizedImage } from "@/components/ui/optimized-image";
+
+function getRandomMedia(medias: TMDBMedia[]) {
+  const shuffledArray = [...medias].sort(() => Math.random() - 0.5);
+  return shuffledArray.slice(0, 2);
+}
+
 export default function Hero({ trending }: { trending: TMDBMedia[] }) {
-  const [sortMedia, setSortMedia] = useState<TMDBMedia[]>();
+  const [sortMedia, setSortMedia] = useState<TMDBMedia[]>(getRandomMedia(trending));
+  const { user } = useAuthContext();
+
 
   useEffect(() => {
-    function getRandomMedia(medias: TMDBMedia[]) {
-      const shuffledArray = [...medias].sort(() => Math.random() - 0.5);
-      return shuffledArray.slice(0, 2);
-    }
     setSortMedia(getRandomMedia(trending));
   }, [trending]);
   const router = useRouter();
@@ -72,15 +77,29 @@ export default function Hero({ trending }: { trending: TMDBMedia[] }) {
             </p>
 
             <div className="flex flex-wrap justify-center gap-4 lg:justify-start">
-              <motion.button
-                whileHover={{ scale: 1.05, boxShadow: "var(--glow-primary)" }}
-                whileTap={{ scale: 0.95 }}
-                className="flex items-center gap-2 rounded-full bg-gradient-to-r from-amber-600 to-primary-hover-crx/60 px-8 py-4 font-semibold  text-lg transition-all hover:shadow-[0_0_30px_rgba(255,193,7,0.6)] z-4 cursor-pointer"
-                onClick={() => router.push("/auth?mode=login")}
-              >
-                <Play className="h-5 w-5" fill="currentColor" />
-                Começar Agora
-              </motion.button>
+              {user ? (
+                // Usuário autenticado - botão para Home
+                <motion.button
+                  whileHover={{ scale: 1.05, boxShadow: "var(--glow-primary)" }}
+                  whileTap={{ scale: 0.95 }}
+                  className="flex items-center gap-2 rounded-full bg-gradient-to-r from-amber-600 to-primary-hover-crx/60 px-8 py-4 font-semibold text-lg transition-all hover:shadow-[0_0_30px_rgba(255,193,7,0.6)] z-4 cursor-pointer"
+                  onClick={() => router.push("/")}
+                >
+                  <Home className="h-5 w-5" />
+                  Ir para Home
+                </motion.button>
+              ) : (
+                // Usuário não autenticado - botão para Login
+                <motion.button
+                  whileHover={{ scale: 1.05, boxShadow: "var(--glow-primary)" }}
+                  whileTap={{ scale: 0.95 }}
+                  className="flex items-center gap-2 rounded-full bg-gradient-to-r from-amber-600 to-primary-hover-crx/60 px-8 py-4 font-semibold text-lg transition-all hover:shadow-[0_0_30px_rgba(255,193,7,0.6)] z-4 cursor-pointer"
+                  onClick={() => router.push("/auth?mode=login")}
+                >
+                  <Play className="h-5 w-5" fill="currentColor" />
+                  Começar Agora
+                </motion.button>
+              )}
 
               <motion.button
                 whileHover={{ scale: 1.05 }}
@@ -160,20 +179,13 @@ export default function Hero({ trending }: { trending: TMDBMedia[] }) {
                     <h3 className="mb-3 line-clamp-2 font-bold text-sm text-white">{getTitle(sortMedia?.[1])}</h3>
                   </div>
 
-                  <Image
+                  <OptimizedImage
                     alt={sortMedia?.[1]?.title || "Media Trending"}
                     src={getImageUrl(sortMedia?.[1].backdrop_path || "", "w780")}
                     width={600}
                     height={600}
                     className="object-cover rounded-2xl w-full h-full"
-                     onError={() => (
-                      <Image
-                        src={"/logo-short.png"}
-                        fill
-                        alt={sortMedia?.[0]?.title || "Media Trending"}
-                        className="object-cover "
-                      />
-                    )}
+                    fallbackSrc="/placeholder-movies.webp"
                   />
                 </div>
               </motion.div>
@@ -207,20 +219,13 @@ export default function Hero({ trending }: { trending: TMDBMedia[] }) {
                     <h3 className="mb-3 line-clamp-2 font-bold text-sm text-white">{getTitle(sortMedia?.[0])}</h3>
                   </div>
 
-                  <Image
+                  <OptimizedImage
                     alt={sortMedia?.[0]?.title || "Media Trending"}
                     src={getImageUrl(sortMedia?.[0].backdrop_path || "", "w780")}
                     width={600}
                     height={600}
                     className="object-cover rounded-2xl w-full h-full"
-                    onError={() => (
-                      <Image
-                        src={"/logo-short.png"}
-                        fill
-                        alt={sortMedia?.[0]?.title || "Media Trending"}
-                        className="object-cover "
-                      />
-                    )}
+                    fallbackSrc="/placeholder-old-movies.webp"
                   />
                 </div>
               </motion.div>
