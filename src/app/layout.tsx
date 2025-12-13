@@ -5,6 +5,7 @@ import "./globals.css";
 import { AuthProvider } from "@/context/authContext";
 import { Toaster } from "sonner";
 import TopLoadingBar from "@/components/ui/top-loading-bar";
+import BackendStatusGate from "@/components/startup/BackendStatusGate";
 
 const moonjelly = localFont({
   src: [
@@ -123,8 +124,10 @@ export default function RootLayout({
       </head>
       <body className="antialiased">
         <TopLoadingBar />
-        <AuthProvider>{children}</AuthProvider>
-        <Toaster />
+        <BackendStatusGate>
+          <AuthProvider>{children}</AuthProvider>
+        </BackendStatusGate>
+        <Toaster richColors />
       </body>
     </html>
   );

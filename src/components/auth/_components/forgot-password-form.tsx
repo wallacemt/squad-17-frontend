@@ -6,20 +6,21 @@ import { Input } from "@/components/ui/auth-input";
 import { AuthButton } from "@/components/ui/auth-button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import type { ForgotPasswordData } from "@/types/auth";
 import { useState } from "react";
+import { postForgotPassword } from "@/services/authService";
+import { toast } from "sonner";
 
 const validateFormRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 interface ForgotPasswordFormProps {
-  onSubmit: (data: ForgotPasswordData) => Promise<void>;
   onBack: () => void;
   isLoading?: boolean;
 }
 
-export function ForgotPasswordForm({ onSubmit, onBack, isLoading = false }: ForgotPasswordFormProps) {
+export function ForgotPasswordForm({ onBack, isLoading: externalLoading = false }: ForgotPasswordFormProps) {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const validateForm = (): boolean => {
     if (!email.trim()) {
@@ -42,14 +43,28 @@ export function ForgotPasswordForm({ onSubmit, onBack, isLoading = false }: Forg
       return;
     }
 
+    setIsLoading(true);
+    setError("");
+
     try {
-      await onSubmit({ email });
-      setSubmitted(true);
-    } catch (err) {
-      setError("Erro ao enviar email. Tente novamente.");
+      const response = await postForgotPassword(email);
+
+      if (response.success) {
+        setSubmitted(true);
+        toast.success("Email de recuperação enviado com sucesso!");
+      } else {
+        toast.error(response.message || "Erro ao enviar email");
+      }
+    } catch (err: unknown) {
       console.error("Forgot password error:", err);
+      const errorMessage = err instanceof Error ? err.message : "Erro ao enviar email. Tente novamente.";
+      setError(errorMessage.replace("Error: ", "").replace("Erro ao solicitar recuperação de senha: ", ""));
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  const loading = isLoading || externalLoading;
 
   if (submitted) {
     return (
@@ -112,10 +127,13 @@ export function ForgotPasswordForm({ onSubmit, onBack, isLoading = false }: Forg
               type="email"
               placeholder="Seu email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setError("");
+              }}
               error={error}
               icon={<Mail className="h-5 w-5" />}
-              disabled={isLoading}
+              disabled={loading}
               autoFocus
             />
 
@@ -124,7 +142,7 @@ export function ForgotPasswordForm({ onSubmit, onBack, isLoading = false }: Forg
               variant="primary"
               size="lg"
               fullWidth
-              isLoading={isLoading}
+              isLoading={loading}
               icon={<ArrowRight className="h-5 w-5" />}
             >
               Enviar instruções
@@ -141,6 +159,7 @@ export function ForgotPasswordForm({ onSubmit, onBack, isLoading = false }: Forg
             size="md"
             fullWidth
             onClick={onBack}
+            disabled={loading}
             icon={<ArrowLeft className="h-5 w-5" />}
           >
             Voltar ao login

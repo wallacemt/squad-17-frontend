@@ -126,4 +126,57 @@ const postResendCode = async (email: string) => {
   }
 };
 
-export { getCheckInfo, postRegisterUser, postUserLogin, postResendCode, postVerifyCode };
+const postForgotPassword = async (email: string) => {
+  try {
+    const url = new URL(`${baseUrl}/auth/recover/send`);
+    url.searchParams.append("email", email);
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      cache: "no-cache",
+    });
+    if (!response.ok) {
+      const { error } = (await response.json()) as { error: string };
+      throw new Error(error || "Erro ao solicitar recuperação de senha");
+    }
+    const dataRes = (await response.json()) as { message: string; success: boolean };
+
+    return dataRes;
+  } catch (error) {
+    throw new Error(`Erro ao solicitar recuperação de senha: ${error}`);
+  }
+};
+
+const postResetPassword = async (data: { token: string; password: string; confirmPassword: string }) => {
+  try {
+    const response = await fetch(`${baseUrl}/auth/reset-password`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+      cache: "no-cache",
+    });
+    if (!response.ok) {
+      const { error } = (await response.json()) as { error: string };
+      throw new Error(error || "Erro ao redefinir senha");
+    }
+    const dataRes = (await response.json()) as { message: string; success: boolean };
+
+    return dataRes;
+  } catch (error) {
+    throw new Error(`Erro ao redefinir senha: ${error}`);
+  }
+};
+
+export {
+  getCheckInfo,
+  postRegisterUser,
+  postUserLogin,
+  postResendCode,
+  postVerifyCode,
+  postForgotPassword,
+  postResetPassword,
+};

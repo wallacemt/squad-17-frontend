@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { Play, Star, TrendingUp, Home } from "lucide-react";
 import type { TMDBMedia } from "@/types/tmdb";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { getGenreNames, getImageUrl, getTitle } from "@/utils/tmdbUtils";
 import GradientBlinds from "../../ui/blocks/background/GradientBlinds/GradientBlinds";
 import { useRouter } from "next/navigation";
@@ -16,13 +16,9 @@ function getRandomMedia(medias: TMDBMedia[]) {
 }
 
 export default function Hero({ trending }: { trending: TMDBMedia[] }) {
-  const [sortMedia, setSortMedia] = useState<TMDBMedia[]>(getRandomMedia(trending));
+  const [sortMedia, _setSortMedia] = useState<TMDBMedia[]>(getRandomMedia(trending));
   const { user } = useAuthContext();
 
-
-  useEffect(() => {
-    setSortMedia(getRandomMedia(trending));
-  }, [trending]);
   const router = useRouter();
   return (
     <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-linear-to-b from-bg-body via-bg-surface to-bg-body">

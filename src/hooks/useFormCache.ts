@@ -12,7 +12,7 @@ interface CachedData<T> {
   expiresAt: number;
 }
 
-export function useFormCache<T extends Record<string, unknown>>({
+export function useFormCache<T>({
   key,
   initialData,
   ttl = 24 * 60 * 60 * 1000, // 24 hours default

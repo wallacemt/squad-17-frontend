@@ -18,7 +18,7 @@ import { getCheckInfo } from "@/services/authService";
 import { useRegisterFormCache } from "@/hooks/useAuthCache";
 
 interface RegisterFormProps {
-  onSubmit: (data: RegisterStep1Data & RegisterStep2Data) => Promise<void>;
+  onSubmit: (data: RegisterStep1Data & RegisterStep2Data, clearCache?: () => void) => Promise<void>;
   onLogin: () => void;
   onCheckNickname: (nickname: string) => Promise<boolean>;
   isLoading?: boolean;
@@ -28,9 +28,9 @@ const validadeStep2Regex = /^[a-zA-Z0-9_]+$/;
 const handleSubmitRegex = /^[a-zA-Z0-9_]+$/;
 export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = false }: RegisterFormProps) {
   const formCache = useRegisterFormCache();
-  const [currentStep, setCurrentStep] = useState<1 | 2>(formCache.data.currentStep);
-  const [step1Data, setStep1Data] = useState<RegisterStep1Data>(formCache.data.step1);
-  const [step2Data, setStep2Data] = useState<RegisterStep2Data>(formCache.data.step2);
+  const [currentStep, setCurrentStep] = useState<1 | 2>(formCache.currentStep);
+  const [step1Data, setStep1Data] = useState<RegisterStep1Data>(formCache.step1Data);
+  const [step2Data, setStep2Data] = useState<RegisterStep2Data>(formCache.step2Data);
   const [errors, setErrors] = useState<Partial<RegisterStep1Data & RegisterStep2Data>>({});
   const [nicknameChecking, setNicknameChecking] = useState(false);
   const [nicknameExistis, setNicknameExistis] = useState<boolean | null>(null);
@@ -95,11 +95,9 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
   const handleNextStep = () => {
     if (validateStep1()) {
       setCurrentStep(2);
-      formCache.saveToCache({
-        currentStep,
-        step1: step1Data,
-        step2: step2Data,
-      });
+      formCache.updateStep1(step1Data);
+      formCache.updateStep2(step2Data);
+      formCache.setCurrentStep(currentStep);
     }
   };
 
@@ -110,11 +108,12 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
     }
 
     try {
-      await onSubmit({ ...step1Data, ...step2Data });
-      // Clear cache after successful registration
+      await onSubmit({ ...step1Data, ...step2Data }, formCache.clearCache);
       formCache.clearCache();
     } catch (error) {
       console.error("Registration error:", error);
+    } finally {
+      formCache.clearCache();
     }
   };
 

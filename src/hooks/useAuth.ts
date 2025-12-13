@@ -1,26 +1,22 @@
 "use client";
 import { useState, useCallback } from "react";
 import { useAuthContext } from "@/context/authContext";
-import { useApi } from "./useApi";
 import type {
   AuthMode,
-  ForgotPasswordData,
   LoginCredentials,
   OAuthProvider,
   OTPVerification,
   RegisterStep1Data,
   RegisterStep2Data,
-  ResetPasswordData,
   User,
 } from "@/types/auth";
 import { useRouter } from "next/navigation";
 import { getCheckInfo, postRegisterUser, postUserLogin, postVerifyCode, postResendCode } from "@/services/authService";
 import { toast } from "sonner";
 
-
 export function useAuth() {
   const { login, isAuthenticated, isLoading: contextLoading, user, session, logout, updateUser } = useAuthContext();
-  const api = useApi();
+
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [pendingEmail, setPendingEmail] = useState<string>("");
@@ -53,7 +49,7 @@ export function useAuth() {
     router.push(`/auth?mode=${newMode}`);
   };
 
-  const handleLogin = async (credentials: LoginCredentials) => {
+  const handleLogin = async (credentials: LoginCredentials, clearCache?: () => void) => {
     setIsLoading(true);
     try {
       const { email, password } = {
@@ -73,6 +69,11 @@ export function useAuth() {
         setPassForAfterRegister(password);
         await handleResendOTP(email);
         return setMode("otp", email);
+      }
+
+      if (clearCache) {
+        clearCache();
+        localStorage.clear();
       }
 
       // Construir objeto User completo
@@ -97,7 +98,7 @@ export function useAuth() {
     }
   };
 
-  const handleRegister = async (data: RegisterStep1Data & RegisterStep2Data) => {
+  const handleRegister = async (data: RegisterStep1Data & RegisterStep2Data, clearCache?: () => void) => {
     setIsLoading(true);
     try {
       const res = await postRegisterUser(data);
@@ -105,6 +106,10 @@ export function useAuth() {
         toast.success(res.message);
         setPendingEmail(data.email);
         setPassForAfterRegister(data.password);
+        if (clearCache) {
+          localStorage.clear();
+          clearCache();
+        }
         setMode("otp", data.email);
       }
     } catch (error) {
@@ -179,33 +184,13 @@ export function useAuth() {
     window.location.href = oauthUrl;
   };
 
-  const handleForgotPassword = async (data: ForgotPasswordData) => {
-    try {
-      await api.post("/auth/forgot-password", data, { skipAuth: true });
-    } catch (error) {
-      console.error("Forgot password failed:", error);
-      throw error;
-    }
-  };
+  
 
-  const handleResetPassword = async (data: ResetPasswordData) => {
-    setIsLoading(true);
-    try {
-      await api.post("/auth/reset-password", data, { skipAuth: true });
-    } catch (error) {
-      console.error("Reset password failed:", error);
-      throw error;
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return {
     handleCheckNickname,
-    handleForgotPassword,
     handleLogin,
     handleOTPVerification,
-    handleResetPassword,
     isLoading: isLoading || contextLoading,
     setIsLoading,
     handleSocialLogin,

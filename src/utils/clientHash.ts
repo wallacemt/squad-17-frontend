@@ -7,13 +7,13 @@
  */
 
 const SALT_KEY = "critix_cache_salt_v1";
-const ITERATIONS = 100000; // PBKDF2 iterations
+const ITERATIONS = 100_000; // PBKDF2 iterations
 
 /**
  * Generates a consistent salt for the user session.
  * Salt is stored in sessionStorage to ensure consistency within the same session.
  */
-async function getSalt(): Promise<Uint8Array> {
+function getSalt(): Uint8Array {
   // Check if sessionStorage is available (SSR guard)
   if (typeof window === "undefined" || !window.sessionStorage) {
     // Return a default salt for SSR (not used in practice)
@@ -33,7 +33,7 @@ async function getSalt(): Promise<Uint8Array> {
 
   // Convert hex string back to Uint8Array
   const matches = salt.match(/.{1,2}/g);
-  return new Uint8Array(matches ? matches.map((byte) => parseInt(byte, 16)) : []);
+  return new Uint8Array(matches ? matches.map((byte) => Number.parseInt(byte, 16)) : []);
 }
 
 /**
@@ -44,7 +44,7 @@ async function getSalt(): Promise<Uint8Array> {
  * @returns Promise resolving to encrypted password string
  */
 export async function encryptPassword(password: string): Promise<string> {
-  if (!password) return "";
+  if (!password) {return ""};
 
   // Check if Web Crypto API is available (SSR guard)
   if (typeof window === "undefined" || !window.crypto || !window.crypto.subtle) {
@@ -83,7 +83,7 @@ export async function encryptPassword(password: string): Promise<string> {
     const iv = crypto.getRandomValues(new Uint8Array(12));
 
     // Encrypt
-    const encrypted = await crypto.subtle.encrypt({ name: "AES-GCM", iv: iv }, key, data);
+    const encrypted = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, data);
 
     // Combine IV + encrypted data
     const combined = new Uint8Array(iv.length + encrypted.byteLength);
@@ -105,7 +105,7 @@ export async function encryptPassword(password: string): Promise<string> {
  * @returns Promise resolving to plaintext password
  */
 export async function decryptPassword(encryptedPassword: string): Promise<string> {
-  if (!encryptedPassword) return "";
+  if (!encryptedPassword){ return ""};
 
   // Check if Web Crypto API is available (SSR guard)
   if (typeof window === "undefined" || !window.crypto || !window.crypto.subtle) {
@@ -147,7 +147,7 @@ export async function decryptPassword(encryptedPassword: string): Promise<string
     );
 
     // Decrypt
-    const decrypted = await crypto.subtle.decrypt({ name: "AES-GCM", iv: iv }, key, encrypted);
+    const decrypted = await crypto.subtle.decrypt({ name: "AES-GCM", iv }, key, encrypted);
 
     // Convert back to string
     const decoder = new TextDecoder();

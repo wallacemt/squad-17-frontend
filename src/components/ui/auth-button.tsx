@@ -45,7 +45,7 @@ const AuthButton = forwardRef<HTMLButtonElement, AuthButtonProps>(
       <button
         ref={ref}
         className={cn(
-          "inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-all duration-200",
+          "inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-all duration-200 cursor-pointer",
           "disabled:cursor-not-allowed disabled:opacity-50",
           "hover:scale-[1.02] active:scale-[0.98]",
           "focus:outline-none focus:ring-2 focus:ring-color-primary/20",

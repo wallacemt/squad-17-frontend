@@ -10,8 +10,9 @@ import { useEffect, useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { FcGoogle } from "react-icons/fc";
 import { useLoginFormCache } from "@/hooks/useAuthCache";
+import { Label } from "@/components/ui/label";
 interface LoginFormProps {
-  onSubmit: (data: LoginCredentials) => Promise<void>;
+  onSubmit: (data: LoginCredentials, clearCache?: () => void) => Promise<void>;
   onSocialLogin: (provider: OAuthProvider) => void;
   onViewAllSocialLogins: () => void;
   onForgotPassword: () => void;
@@ -28,18 +29,16 @@ export function LoginForm({
   isLoading = false,
 }: LoginFormProps) {
   const formCache = useLoginFormCache();
-  const [formData, setFormData] = useState<LoginCredentials>({
-    emailOrUsername: formCache.data.email,
-    password: formCache.data.password,
-    rememberMe: formCache.data.rememberMe,
-  });
+  const [formData, setFormData] = useState<LoginCredentials>(formCache.loginData);
 
   const [errors, setErrors] = useState<Partial<LoginCredentials>>({});
   const saveTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
   // Sync form data to cache (debounced to avoid excessive saves)
   useEffect(() => {
-    if (!formCache.isLoaded) return;
+    if (!formCache.isLoaded) {
+      return;
+    }
 
     // Clear previous timeout
     if (saveTimeoutRef.current) {
@@ -48,11 +47,7 @@ export function LoginForm({
 
     // Debounce save to 1 second after last change
     saveTimeoutRef.current = setTimeout(() => {
-      formCache.saveToCache({
-        email: formData.emailOrUsername,
-        password: formData.password,
-        rememberMe: formData.rememberMe ?? false,
-      });
+      formCache.updateLoginData(formData);
     }, 1000);
 
     return () => {
@@ -60,14 +55,7 @@ export function LoginForm({
         clearTimeout(saveTimeoutRef.current);
       }
     };
-  }, [formData, formCache.isLoaded, formCache.saveToCache]);
-
-  // Show notification if cached data was loaded
-  useEffect(() => {
-    if (formCache.isLoaded && formCache.hasCachedData()) {
-      console.log("Dados de login restaurados");
-    }
-  }, [formCache.isLoaded, formCache.hasCachedData]);
+  }, [formData, formCache.isLoaded, formCache.updateLoginData]);
 
   const validateForm = (): boolean => {
     const newErrors: Partial<LoginCredentials> = {};
@@ -93,8 +81,7 @@ export function LoginForm({
     }
 
     try {
-      await onSubmit(formData);
-      // Clear cache after successful login
+      await onSubmit(formData, formCache.clearCache);
       formCache.clearCache();
     } catch (error) {
       console.error("Login error:", error);
@@ -139,6 +126,7 @@ export function LoginForm({
             variant={"ghost"}
             onClick={onViewAllSocialLogins}
             className="w-full flex items-center cursor-pointer hover:underline hover:scale-105  justify-center gap-2 text-sm hover:text-primary-hover-crx transition-colors"
+            disabled={isLoading}
           >
             <ExternalLink className="h-4 w-4" />
             Ver todos os métodos de login
@@ -175,13 +163,14 @@ export function LoginForm({
                 <label htmlFor="password" className="text-sm font-medium text-primary-crx">
                   Senha
                 </label>
-                <button
+                <Button
                   type="button"
+                  variant={"ghost"}
                   onClick={onForgotPassword}
                   className="text-sm text-primary-crx hover:underline cursor-pointer hover:text-primary-hover-crx transition-colors"
                 >
                   Esqueceu?
-                </button>
+                </Button>
               </div>
               <PasswordInput
                 id="password"
@@ -194,17 +183,18 @@ export function LoginForm({
               />
             </div>
 
-            <div className="flex items-center space-x-2">
-              <input
+            <div className="flex items-center justify-between w-full">
+              <Label htmlFor="remember" className=" text-sm text-text-secondary-crx w-full  cursor-pointer">
+                Manter-me conectado
+              </Label>
+              <Input
                 id="remember"
                 type="checkbox"
                 checked={formData.rememberMe}
                 onChange={(e) => setFormData({ ...formData, rememberMe: e.target.checked })}
-                className="h-4 w-4 rounded border-border-color bg-surface-light-crx text-primary-crx focus:ring-2 focus:ring-color-primary/20 focus:ring-offset-0"
+                className="h-4 w-4 rounded border-primary   border-2 bg-surface-light-crx self-end text-primary-crx focus:ring-2 focus:ring-color-primary/20 focus:ring-offset-0"
+                disabled={isLoading}
               />
-              <label htmlFor="remember" className="text-sm text-text-secondary cursor-pointer">
-                Manter-me conectado
-              </label>
             </div>
 
             <AuthButton
@@ -229,6 +219,7 @@ export function LoginForm({
               onClick={onRegister}
               variant={"ghost"}
               className="font-semibold text-color-primary hover:text-color-primary-hover transition-colors"
+              disabled={isLoading}
             >
               Criar conta gratuitamente
             </Button>

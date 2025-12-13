@@ -19,9 +19,6 @@ export const auth = betterAuth({
   trustedOrigins: [env.NEXT_PUBLIC_URL || "", "http://localhost:3000"],
   advanced: {
     useSecureCookies: env.NODE_ENV === "production",
-    cookiePrefix: "pdfInsight",
+    cookiePrefix: "critix",
   },
 });
-
-export type Session = typeof auth.$Infer.Session.session;
-export type User = typeof auth.$Infer.Session.user;

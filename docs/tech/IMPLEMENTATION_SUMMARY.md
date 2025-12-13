@@ -234,14 +234,12 @@ NEXT_PUBLIC_URL=http://localhost:3000
 ```typescript
 "use client";
 import { useAuth } from "@/hooks/useAuth";
-import { useApi } from "@/hooks/useApi";
 
 export function MyComponent() {
   const { user, isAuthenticated, logout } = useAuth();
-  const api = useApi();
-
+ 
   const fetchData = async () => {
-    const data = await api.get("/api/movies");
+    const data = await fetch("/api/movies");
     // Token adicionado automaticamente
   };
 

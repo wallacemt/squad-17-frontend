@@ -8,31 +8,29 @@ import { LoginForm } from "./login-form";
 import { RegisterForm } from "./register-form";
 import { OTPForm } from "./otp-form";
 import { ForgotPasswordForm } from "./forgot-password-form";
-import { ResetPasswordForm } from "./reset-password-form";
 import { useAuth } from "@/hooks/useAuth";
 import { SocialLoginView } from "./social-login-view";
 import { useAuthModeCache } from "@/hooks/useAuthCache";
 import type { TMDBTrendingPostersResponse } from "@/types/tmdb";
+import { ResetPasswordContent } from "./reset-password";
 
 interface ModeManagerProps {
   mode: "login" | "register" | "otp" | "password" | "reset-password" | "forgot-password" | "social";
   posters: TMDBTrendingPostersResponse[];
   resetToken?: string;
 }
-export function ModeManager({ posters, resetToken, mode }: ModeManagerProps) {
+export function ModeManager({ posters, mode }: ModeManagerProps) {
   const router = useRouter();
   const modeCache = useAuthModeCache();
   const {
     isLoading,
     isAuthenticated,
     handleCheckNickname,
-    handleForgotPassword,
     handleLogin,
     handleOTPVerification,
     handleRegister,
     setMode,
     handleResendOTP,
-    handleResetPassword,
     handleSocialLogin,
     pendingEmail,
   } = useAuth();
@@ -42,7 +40,6 @@ export function ModeManager({ posters, resetToken, mode }: ModeManagerProps) {
     if (modeCache.isLoaded) {
       modeCache.saveToCache({
         mode,
-        lastVisited: new Date().toISOString(),
       });
     }
   }, [mode, modeCache.isLoaded, modeCache.saveToCache]);
@@ -101,13 +98,8 @@ export function ModeManager({ posters, resetToken, mode }: ModeManagerProps) {
             />
           )}
 
-          {mode === "forgot-password" && (
-            <ForgotPasswordForm onSubmit={handleForgotPassword} onBack={() => setMode("login")} isLoading={isLoading} />
-          )}
-
-          {mode === "reset-password" && resetToken && (
-            <ResetPasswordForm token={resetToken} onSubmit={handleResetPassword} isLoading={isLoading} />
-          )}
+          {mode === "forgot-password" && <ForgotPasswordForm onBack={() => setMode("login")} isLoading={isLoading} />}
+          {mode === "reset-password" && <ResetPasswordContent />}
         </div>
       </div>
     </div>

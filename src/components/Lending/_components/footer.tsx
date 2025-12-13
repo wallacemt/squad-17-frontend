@@ -3,7 +3,9 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { Github, Twitter, Instagram, Mail } from "lucide-react";
+import { Github, Twitter, Instagram, Mail, Stars } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 const footerLinks = {
   Comunidade: [
@@ -105,19 +107,17 @@ export default function Footer() {
                 de entrada. 💌
               </p>
               <div className="flex flex-col md:flex-row w-full gap-3">
-                <input
+                <Input
                   type="email"
                   placeholder="seu-melhor@email.com"
                   className="flex-1 rounded-full border border-border-color bg-bg-surface-light px-6 py-3 text-text-primary transition-all placeholder:text-text-muted focus:border-primary-crx focus:outline-none focus:ring-2 focus:ring-primary-crx/20"
                 />
-                <motion.button
-                  whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(255, 193, 7, 0.3)" }}
-                  whileTap={{ scale: 0.95 }}
+                <Button
                   className="rounded-full bg-primary-crx/80 px-6 py-3 font-semibold transition-all hover:bg-primary-hover-crx"
                   style={{ color: "#000" }}
                 >
-                  Quero receber ✨
-                </motion.button>
+                  Inscrever-se <Stars className="text-purple-700" />
+                </Button>
               </div>
             </div>
           </div>

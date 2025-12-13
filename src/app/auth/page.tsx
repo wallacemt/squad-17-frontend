@@ -4,14 +4,14 @@ import { redirect } from "next/navigation";
 interface AuthUserProps {
   searchParams: Promise<{
     mode: "login" | "register" | "otp" | "password" | "reset-password" | "forgot-password" | "social";
-    resetToken?: string;
+    token?: string;
   }>;
 }
 export default async function AuthUser({ searchParams }: AuthUserProps) {
-  const { mode, resetToken } = await searchParams;
+  const { mode, token } = await searchParams;
   const validModes = ["login", "register", "otp", "password", "reset-password", "forgot-password", "social"];
   if (!validModes.includes(mode)) {
     redirect("/auth?mode=login");
   }
-  return <AuthPage mode={mode || "login"} resetToken={resetToken} />;
+  return <AuthPage mode={mode || "login"} resetToken={token} />;
 }

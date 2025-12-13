@@ -1,32 +1,31 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-// Routes that require authentication
-const protectedRoutes = ["/dashboard", "/profile", "/settings"];
-
-// Routes that should redirect to home if user is authenticated
-const authRoutes = ["/auth"];
-
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Get session from cookie or localStorage (simplified)
-  const hasSession = request.cookies.get("auth_session");
+  // Get token from cookies
+  const token = request.cookies.get("critix.auth-token")?.value;
+  const isAuthenticated = !!token;
 
-  // Check if route is protected
-  const isProtectedRoute = protectedRoutes.some((route) => pathname.startsWith(route));
-  const isAuthRoute = authRoutes.some((route) => pathname.startsWith(route));
-
-  // Redirect to login if trying to access protected route without session
-  if (isProtectedRoute && !hasSession) {
-    const url = new URL("/auth?mode=login", request.url);
-    url.searchParams.set("redirect", pathname);
-    return NextResponse.redirect(url);
+  // Root path handling
+  if (pathname === "/") {
+    if (!isAuthenticated) {
+      // Not authenticated -> redirect to lending page
+      return NextResponse.redirect(new URL("/lending", request.url));
+    }
+    // Authenticated -> allow access to main app
+    return NextResponse.next();
   }
 
-  // Redirect to home if trying to access auth pages while authenticated
-  if (isAuthRoute && hasSession) {
-    return NextResponse.redirect(new URL("/", request.url));
+  // Auth route handling
+  if (pathname.startsWith("/auth")) {
+    if (isAuthenticated) {
+      // Authenticated user trying to access auth -> redirect to main app
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+    // Not authenticated -> allow access to auth
+    return NextResponse.next();
   }
 
   return NextResponse.next();
@@ -40,8 +39,8 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
-     * - public files (images, fonts, etc.)
+     * - public assets
      */
-    "/((?!api|_next/static|_next/image|favicon.ico|.*\\..*|public).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|.*\\.png$|.*\\.jpg$|.*\\.svg$).*)",
   ],
 };
