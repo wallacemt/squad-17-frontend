@@ -151,7 +151,7 @@ const postForgotPassword = async (email: string) => {
 
 const postResetPassword = async (data: { token: string; password: string; confirmPassword: string }) => {
   try {
-    const response = await fetch(`${baseUrl}/auth/reset-password`, {
+    const response = await fetch(`${baseUrl}/auth/recover/reset-password`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -171,6 +171,28 @@ const postResetPassword = async (data: { token: string; password: string; confir
   }
 };
 
+const postOAuthLogin = async (provider: string, accessToken: string): Promise<LoginResponse> => {
+  try {
+    const response = await fetch(`${baseUrl}/auth/oauth`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ provider, accessToken }),
+      cache: "no-cache",
+    });
+    if (!response.ok) {
+      const { error } = (await response.json()) as { error: string };
+      throw new Error(error || "Erro ao fazer login via OAuth");
+    }
+    const dataRes = (await response.json()) as LoginResponse;
+
+    return dataRes;
+  } catch (error) {
+    throw new Error(`Erro ao realizar login OAuth: ${error}`);
+  }
+};
+
 export {
   getCheckInfo,
   postRegisterUser,
@@ -179,4 +201,5 @@ export {
   postVerifyCode,
   postForgotPassword,
   postResetPassword,
+  postOAuthLogin,
 };

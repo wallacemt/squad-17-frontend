@@ -114,7 +114,7 @@ export default function BackendStatusGate({ children }: BackendStatusGateProps) 
       abortRef.current.abort();
     }
 
-    window.location.reload();
+    location.reload();
   };
 
   if (ready) {
@@ -132,12 +132,12 @@ export default function BackendStatusGate({ children }: BackendStatusGateProps) 
               key={uniqueId}
               className="absolute w-2 h-2 bg-primary-crx/80 rounded-full"
               initial={{
-                x: Math.random() * window.innerWidth,
-                y: Math.random() * window.innerHeight,
+                x: Math.random() *  1200,
+                y: Math.random() * 2400,
                 scale: Math.random() * 0.5 + 0.5,
               }}
               animate={{
-                y: [null, Math.random() * window.innerHeight],
+                y: [null, Math.random() *Math.random() ],
                 opacity: [0.2, 0.5, 0.2],
               }}
               transition={{
@@ -304,7 +304,7 @@ export default function BackendStatusGate({ children }: BackendStatusGateProps) 
                     Tentar Novamente
                   </Button>
                   <Button
-                    onClick={() => window.location.reload()}
+                    onClick={() => location.reload()}
                     variant="outline"
                     className="border-primary-crx/30 text-primary-crx hover:bg-primary-crx/10"
                   >

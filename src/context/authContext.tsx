@@ -109,11 +109,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = useCallback(() => {
     setSession(null);
-    localStorage.removeItem("auth_session");
+    localStorage.clear();
 
     // Remove cookies
     Cookies.remove("critix.auth-token");
     Cookies.remove("critix.refresh-token");
+    Cookies.remove("critix.session_token");
 
     // Clear encryption salt to ensure new key on next login
     clearEncryptionSalt();

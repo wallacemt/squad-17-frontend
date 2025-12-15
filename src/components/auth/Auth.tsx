@@ -2,10 +2,10 @@ import Link from "next/link";
 import { ModeManager } from "./_components/mode-manager";
 import Image from "next/image";
 import { getTrendingRandomPosters } from "@/services/mediaService";
+import type { AuthMode } from "@/types/auth";
 
 export interface AuthPageProps {
-  mode: "login" | "register" | "otp" | "password" | "reset-password" | "forgot-password" | "social";
-
+  mode: AuthMode;
   resetToken?: string;
 }
 export default async function AuthPage({ mode, resetToken }: AuthPageProps) {

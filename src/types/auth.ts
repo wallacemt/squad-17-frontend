@@ -1,7 +1,7 @@
 
 import type { UserAccount, UserData } from "./user";
 
-export type AuthMode = "login" | "register" | "otp" | "social" | "forgot-password" | "reset-password";
+export type AuthMode = "login" | "register" | "otp" | "password" | "reset-password" | "forgot-password" | "social";
 
 export type OAuthProvider = "google" | "github" | "discord" | "figma" | "reddit" | "apple";
 

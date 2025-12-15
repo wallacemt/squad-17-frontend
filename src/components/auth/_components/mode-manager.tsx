@@ -13,9 +13,10 @@ import { SocialLoginView } from "./social-login-view";
 import { useAuthModeCache } from "@/hooks/useAuthCache";
 import type { TMDBTrendingPostersResponse } from "@/types/tmdb";
 import { ResetPasswordContent } from "./reset-password";
+import type { AuthMode } from "@/types/auth";
 
 interface ModeManagerProps {
-  mode: "login" | "register" | "otp" | "password" | "reset-password" | "forgot-password" | "social";
+  mode: AuthMode;
   posters: TMDBTrendingPostersResponse[];
   resetToken?: string;
 }
@@ -33,6 +34,7 @@ export function ModeManager({ posters, mode }: ModeManagerProps) {
     handleResendOTP,
     handleSocialLogin,
     pendingEmail,
+    setCurrentMode,
   } = useAuth();
 
   // Save visited mode to cache
@@ -41,14 +43,16 @@ export function ModeManager({ posters, mode }: ModeManagerProps) {
       modeCache.saveToCache({
         mode,
       });
+      setCurrentMode(mode);
     }
-  }, [mode, modeCache.isLoaded, modeCache.saveToCache]);
+  }, [mode, setCurrentMode, modeCache.isLoaded, modeCache.saveToCache]);
 
   useEffect(() => {
     if (isAuthenticated) {
       router.push("/");
     }
   }, [isAuthenticated, router]);
+
   return (
     <div className="relative z-10 flex  w-full">
       {/* Right side - Carousel */}

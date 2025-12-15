@@ -1,9 +1,10 @@
 import AuthPage from "@/components/auth/Auth";
+import type { AuthMode } from "@/types/auth";
 import { redirect } from "next/navigation";
 
 interface AuthUserProps {
   searchParams: Promise<{
-    mode: "login" | "register" | "otp" | "password" | "reset-password" | "forgot-password" | "social";
+    mode: AuthMode;
     token?: string;
   }>;
 }

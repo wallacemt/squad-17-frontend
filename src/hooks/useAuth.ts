@@ -1,5 +1,5 @@
 "use client";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useAuthContext } from "@/context/authContext";
 import type {
   AuthMode,
@@ -11,7 +11,15 @@ import type {
   User,
 } from "@/types/auth";
 import { useRouter } from "next/navigation";
-import { getCheckInfo, postRegisterUser, postUserLogin, postVerifyCode, postResendCode } from "@/services/authService";
+import {
+  getCheckInfo,
+  postRegisterUser,
+  postUserLogin,
+  postVerifyCode,
+  postResendCode,
+  postOAuthLogin,
+} from "@/services/authService";
+import { getOAuthAccessToken } from "@/services/betterAuthService";
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
 
@@ -20,18 +28,20 @@ export function useAuth() {
 
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [isOAuthProcessing, setIsOAuthProcessing] = useState(false);
   const [pendingEmail, setPendingEmail] = useState<string>("");
   const [passForAfterRegister, setPassForAfterRegister] = useState<string>("");
+  const [currentMode, setCurrentMode] = useState<AuthMode>("login");
   // Prevenir fechamento da aba durante loading
   const handleBeforeUnload = useCallback(
     (e: BeforeUnloadEvent) => {
-      if (isLoading) {
+      if (isLoading && currentMode !== "login") {
         e.preventDefault();
         e.returnValue = "Existem operações em andamento. Tem certeza que deseja sair?";
         return e.returnValue;
       }
     },
-    [isLoading]
+    [isLoading, currentMode]
   );
 
   // Adicionar listener de beforeunload
@@ -182,20 +192,84 @@ export function useAuth() {
   const handleSocialLogin = async (provider: OAuthProvider) => {
     if (provider === "google") {
       setIsLoading(true);
-      const data = await authClient.signIn.social({
+      await authClient.signIn.social({
         provider: "google",
         callbackURL: "/",
-        fetchOptions: { onSuccess: () => setIsLoading(false), onError: () => setIsLoading(false) },
+        fetchOptions: {
+          onSuccess: () => {
+            setIsLoading(false);
+            toast.info("Redirecionando...");
+          },
+          onError: () => setIsLoading(false),
+        },
       });
-      console.log(data);
     }
   };
+
+  // Verificar sessão do Better Auth e sincronizar com sua API
+  useEffect(() => {
+    const processOAuthLogin = async (provider: string, accessToken: string) => {
+      setIsOAuthProcessing(true);
+
+      try {
+        const response = await postOAuthLogin(provider, accessToken);
+
+        const hasValidResponse = Boolean(response.token && response.user);
+        if (!hasValidResponse) {
+          throw new Error("Resposta inválida do servidor");
+        }
+
+        const userData: User = {
+          id: response.user.id,
+          name: response.user.name,
+          email: response.user.email,
+          emailVerified: response.user.emailVerified,
+          profile: response.userProfile,
+          createdAt: response.user.createdAt,
+        };
+
+        login(response.token, response.refreshToken, userData);
+        toast.success("Login realizado com sucesso!");
+        router.push("/");
+      } catch (error) {
+        console.error("OAuth sync failed:", error);
+        const errorMessage = error instanceof Error ? error.message : "Erro ao sincronizar login";
+        toast.error(errorMessage.replace("Error: ", "").replace("Erro ao realizar login OAuth: ", ""));
+        await authClient.signOut();
+        router.push("/auth?mode=login");
+      } finally {
+        setIsOAuthProcessing(false);
+      }
+    };
+
+    const syncOAuthSession = async () => {
+      const hasSession = Boolean(session);
+      if (hasSession || contextLoading) {
+        return;
+      }
+
+      try {
+        // Buscar accessToken do Better Auth usando o cookie de sessão
+        const oauthData = await getOAuthAccessToken();
+
+        if (oauthData) {
+          await processOAuthLogin(oauthData.provider, oauthData.accessToken);
+        }
+      } catch (error) {
+        console.error("Failed to sync OAuth session:", error);
+        setIsOAuthProcessing(false);
+      }
+    };
+
+    syncOAuthSession();
+  }, [session, contextLoading, login, router]);
 
   return {
     handleCheckNickname,
     handleLogin,
     handleOTPVerification,
     isLoading: isLoading || contextLoading,
+    isOAuthProcessing,
     setIsLoading,
     handleSocialLogin,
     handleResendOTP,
@@ -207,5 +281,6 @@ export function useAuth() {
     session,
     logout,
     updateUser,
+    setCurrentMode,
   };
 }
