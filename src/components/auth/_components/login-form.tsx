@@ -167,6 +167,7 @@ export function LoginForm({
                   type="button"
                   variant={"ghost"}
                   onClick={onForgotPassword}
+                  disabled={isLoading}
                   className="text-sm text-primary-crx hover:underline cursor-pointer hover:text-primary-hover-crx transition-colors"
                 >
                   Esqueceu?

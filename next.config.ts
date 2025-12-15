@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  allowedDevOrigins: [process.env.NEXT_PUBLIC_URL || "localhost:300", "192.168.248.202"],
+  allowedDevOrigins: [process.env.NEXT_PUBLIC_URL || "localhost:3000", "192.168.248.200"],
 
   env: {
     DATABASE_URL: process.env.DATABASE_URL,
@@ -10,6 +10,8 @@ const nextConfig: NextConfig = {
     NEXT_PUBLIC_URL: process.env.NEXT_PUBLIC_URL,
     BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
     TMDB_API_TOKEN: process.env.TMDB_API_TOKEN,
+    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
   },
   images: {
     formats: ["image/webp", "image/avif"],

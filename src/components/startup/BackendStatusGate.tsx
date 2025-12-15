@@ -113,6 +113,7 @@ export default function BackendStatusGate({ children }: BackendStatusGateProps) 
     if (abortRef.current) {
       abortRef.current.abort();
     }
+
     window.location.reload();
   };
 

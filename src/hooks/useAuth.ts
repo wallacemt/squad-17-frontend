@@ -13,6 +13,7 @@ import type {
 import { useRouter } from "next/navigation";
 import { getCheckInfo, postRegisterUser, postUserLogin, postVerifyCode, postResendCode } from "@/services/authService";
 import { toast } from "sonner";
+import { authClient } from "@/lib/auth-client";
 
 export function useAuth() {
   const { login, isAuthenticated, isLoading: contextLoading, user, session, logout, updateUser } = useAuthContext();
@@ -178,14 +179,17 @@ export function useAuth() {
     }
   };
 
-  const handleSocialLogin = (provider: OAuthProvider) => {
-    // TODO: Implement Better Auth OAuth flow
-    const oauthUrl = `${process.env.NEXT_PUBLIC_API_URL}/auth/oauth/${provider}`;
-    window.location.href = oauthUrl;
+  const handleSocialLogin = async (provider: OAuthProvider) => {
+    if (provider === "google") {
+      setIsLoading(true);
+      const data = await authClient.signIn.social({
+        provider: "google",
+        callbackURL: "/",
+        fetchOptions: { onSuccess: () => setIsLoading(false), onError: () => setIsLoading(false) },
+      });
+      console.log(data);
+    }
   };
-
-  
-
 
   return {
     handleCheckNickname,
