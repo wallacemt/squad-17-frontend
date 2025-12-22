@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 import type { AuthSession, User } from "@/types/auth";
 import { clearEncryptionSalt } from "@/utils/clientHash";
 import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
 
 type AuthContextType = {
   session: AuthSession | null;
@@ -108,18 +109,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 
   const logout = useCallback(() => {
-    setSession(null);
     localStorage.clear();
-
+    authClient.signOut();
     // Remove cookies
+    Cookies.remove("critix.session_token");
     Cookies.remove("critix.auth-token");
     Cookies.remove("critix.refresh-token");
-    Cookies.remove("critix.session_token");
+    Cookies.remove("critix.state");
 
     // Clear encryption salt to ensure new key on next login
     clearEncryptionSalt();
-
-    route.push("/");
+    setSession(null);
+    route.push("/lending");
   }, []);
 
   const updateUser = useCallback(

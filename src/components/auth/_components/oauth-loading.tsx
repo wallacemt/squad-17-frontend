@@ -1,10 +1,28 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Film, Sparkles } from "lucide-react";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 export function OAuthLoadingScreen() {
+  const loadingMessages = [
+    "Você está a um passo de fazer uma nova crítica 🎬",
+    "Sua opinião no Critix tem relevância ⭐",
+    "Preparando o palco para sua próxima review...",
+    "A comunidade está pronta para ouvir você 👀",
+    "Transformando sua opinião em impacto 🎥",
+  ];
+  const [messageIndex, setMessageIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setMessageIndex((prev) => (prev + 1) % loadingMessages.length);
+    }, 3000); // troca a cada 3s
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-bg-body via-bg-surface to-bg-body overflow-x-hidden overflow-y-auto p-2">
       {/* Animated background particles */}
@@ -104,7 +122,20 @@ export function OAuthLoadingScreen() {
               >
                 <Sparkles className="w-5 h-5 text-primary-crx" />
               </motion.div>
-              <span className="text-lg font-medium">Autenticando via Oauth...</span>
+              <div className="h-full flex justify-center items-center overflow-hidden">
+                <AnimatePresence mode="wait">
+                  <motion.p
+                    key={messageIndex}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.4 }}
+                    className="text-white text-xs text-center"
+                  >
+                    {loadingMessages[messageIndex]}
+                  </motion.p>
+                </AnimatePresence>
+              </div>
             </div>
 
             {/* Progress dots */}

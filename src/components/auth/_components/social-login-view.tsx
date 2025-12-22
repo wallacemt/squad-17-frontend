@@ -14,7 +14,7 @@ interface SocialLoginViewProps {
 }
 
 export function SocialLoginView({ onProviderClick, onBack, isLoading = false }: SocialLoginViewProps) {
-  const allProviders: OAuthProvider[] = ["google", "github", "discord", "figma", "reddit", "apple"];
+  const allProviders: OAuthProvider[] = ["google", "discord", "twitch", "reddit", "apple"];
 
   return (
     <motion.div
@@ -44,7 +44,13 @@ export function SocialLoginView({ onProviderClick, onBack, isLoading = false }: 
           <SocialLoginButtons onProviderClick={onProviderClick} isLoading={isLoading} providers={allProviders} />
         </CardContent>
         {/* Back Button */}
-        <AuthButton variant="ghost" size="md" className="-mb-6" onClick={onBack} icon={<ArrowLeft className="h-5 w-5" />}>
+        <AuthButton
+          variant="ghost"
+          size="md"
+          className="-mb-6"
+          onClick={onBack}
+          icon={<ArrowLeft className="h-5 w-5" />}
+        >
           Voltar ao login
         </AuthButton>
       </Card>

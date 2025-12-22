@@ -1,6 +1,7 @@
 "use client";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useAuthContext } from "@/context/authContext";
+import Cookies from "js-cookie";
 import type {
   AuthMode,
   LoginCredentials,
@@ -32,27 +33,6 @@ export function useAuth() {
   const [pendingEmail, setPendingEmail] = useState<string>("");
   const [passForAfterRegister, setPassForAfterRegister] = useState<string>("");
   const [currentMode, setCurrentMode] = useState<AuthMode>("login");
-  // Prevenir fechamento da aba durante loading
-  const handleBeforeUnload = useCallback(
-    (e: BeforeUnloadEvent) => {
-      if (isLoading && currentMode !== "login") {
-        e.preventDefault();
-        e.returnValue = "Existem operações em andamento. Tem certeza que deseja sair?";
-        return e.returnValue;
-      }
-    },
-    [isLoading, currentMode]
-  );
-
-  // Adicionar listener de beforeunload
-  if (typeof window !== "undefined") {
-    if (isLoading) {
-      window.addEventListener("beforeunload", handleBeforeUnload);
-    } else {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    }
-  }
-
   const setMode = (newMode: AuthMode, email?: string) => {
     if (email) {
       setPendingEmail(email);
@@ -190,20 +170,19 @@ export function useAuth() {
   };
 
   const handleSocialLogin = async (provider: OAuthProvider) => {
-    if (provider === "google") {
-      setIsLoading(true);
-      await authClient.signIn.social({
-        provider: "google",
-        callbackURL: "/",
-        fetchOptions: {
-          onSuccess: () => {
-            setIsLoading(false);
-            toast.info("Redirecionando...");
-          },
-          onError: () => setIsLoading(false),
+    setIsLoading(true);
+    Cookies.set("critix.current.provider", provider);
+    await authClient.signIn.social({
+      provider,
+      callbackURL: "/",
+      fetchOptions: {
+        onSuccess: () => {
+          setIsLoading(false);
+          toast.info("Redirecionando...");
         },
-      });
-    }
+        onError: () => setIsLoading(false),
+      },
+    });
   };
 
   // Verificar sessão do Better Auth e sincronizar com sua API
@@ -227,7 +206,7 @@ export function useAuth() {
           profile: response.userProfile,
           createdAt: response.user.createdAt,
         };
-
+        
         login(response.token, response.refreshToken, userData);
         toast.success("Login realizado com sucesso!");
         router.push("/");
@@ -238,7 +217,7 @@ export function useAuth() {
         await authClient.signOut();
         router.push("/auth?mode=login");
       } finally {
-        setIsOAuthProcessing(false);
+        setIsOAuthProcessing(false);  
       }
     };
 
@@ -260,7 +239,6 @@ export function useAuth() {
         setIsOAuthProcessing(false);
       }
     };
-
     syncOAuthSession();
   }, [session, contextLoading, login, router]);
 
@@ -281,6 +259,7 @@ export function useAuth() {
     session,
     logout,
     updateUser,
+    currentMode,
     setCurrentMode,
   };
 }

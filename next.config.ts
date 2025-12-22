@@ -10,8 +10,13 @@ const nextConfig: NextConfig = {
     NEXT_PUBLIC_URL: process.env.NEXT_PUBLIC_URL,
     BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
     TMDB_API_TOKEN: process.env.TMDB_API_TOKEN,
+
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+
+    DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
+    DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
+
   },
   images: {
     formats: ["image/webp", "image/avif"],

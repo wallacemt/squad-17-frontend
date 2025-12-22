@@ -3,7 +3,7 @@ import type { UserAccount, UserData } from "./user";
 
 export type AuthMode = "login" | "register" | "otp" | "password" | "reset-password" | "forgot-password" | "social";
 
-export type OAuthProvider = "google" | "github" | "discord" | "figma" | "reddit" | "apple";
+export type OAuthProvider = "google" | "discord" |"twitch" | "reddit" | "apple";
 
 export interface LoginCredentials {
   emailOrUsername: string;

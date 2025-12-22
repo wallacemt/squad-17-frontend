@@ -13,6 +13,11 @@ export const auth = betterAuth({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     },
+    discord: {
+      clientId: process.env.DISCORD_CLIENT_ID as string,
+      clientSecret: process.env.DISCORD_CLIENT_SECRET as string,
+    },
+ 
   },
   database: drizzleAdapter(db, {
     provider: "pg",
@@ -23,8 +28,8 @@ export const auth = betterAuth({
     requireEmailVerification: false,
   },
   secret: env.BETTER_AUTH_SECRET,
-  baseURL: env.BETTER_AUTH_URL,
-  trustedOrigins: [env.NEXT_PUBLIC_URL || "", "http://localhost:3000"],
+  baseURL: "http://localhost:3000",
+  trustedOrigins: ["http://localhost:3000"],
   advanced: {
     useSecureCookies: env.NODE_ENV === "production",
     cookiePrefix: "critix",
