@@ -2,7 +2,7 @@
 import { AuthButton } from "./auth-button";
 import type { OAuthProvider } from "@/types/auth";
 import { FcGoogle } from "react-icons/fc";
-import { FaDiscord, FaReddit, FaApple, FaTwitch } from "react-icons/fa";
+import { FaDiscord, FaTwitch, FaTwitter } from "react-icons/fa";
 const providerConfig: Record<OAuthProvider, { name: string; icon: React.ReactNode; color: string }> = {
   google: {
     name: "Google",
@@ -20,14 +20,10 @@ const providerConfig: Record<OAuthProvider, { name: string; icon: React.ReactNod
     color: "hover:bg-[#5865F2]/10 hover:border-[#5865F2]",
   },
 
-  reddit: {
-    name: "Reddit",
-    icon: <FaReddit className="h-5 w-5" />,
-    color: "hover:bg-[#FF4500]/10 hover:border-[#FF4500]",
-  },
-  apple: {
-    name: "Apple",
-    icon: <FaApple className="h-5 w-5" />,
+ 
+  twitter: {
+    name: "Twitter",
+    icon: <FaTwitter className="h-5 w-5" />,
     color: "hover:bg-white/10 hover:border-white",
   },
 };
@@ -41,7 +37,7 @@ interface SocialLoginButtonsProps {
 export function SocialLoginButtons({
   onProviderClick,
   isLoading = false,
-  providers = ["google", "discord", "twitch"],
+  providers = ["google", "discord", "twitch", "twitter"],
 }: SocialLoginButtonsProps) {
   return (
     <div className="space-y-3">

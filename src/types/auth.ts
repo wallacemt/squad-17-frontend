@@ -1,9 +1,8 @@
-
 import type { UserAccount, UserData } from "./user";
 
 export type AuthMode = "login" | "register" | "otp" | "password" | "reset-password" | "forgot-password" | "social";
 
-export type OAuthProvider = "google" | "discord" |"twitch" | "reddit" | "apple";
+export type OAuthProvider = "google" | "discord" | "twitch" | "twitter";
 
 export interface LoginCredentials {
   emailOrUsername: string;
@@ -93,6 +92,7 @@ export interface LoginResponse {
   message: string;
   token: string;
   refreshToken: string;
+  sessionToken?: string;
   user: UserData;
   account: UserAccount;
   userProfile: UserProfile;

@@ -42,11 +42,11 @@ export function StepIndicator({ steps, currentStep, className }: StepIndicatorPr
               {/* Circle */}
               <div
                 className={cn(
-                  "relative z-20 flex h-12 w-12 items-center justify-center rounded-full border-2 transition-all duration-300",
+                  "relative  flex h-12 w-12 items-center justify-center rounded-full border-2 transition-all duration-300",
                   !!isCompleted &&
                     "border-primary bg-gradient-to-br from-primary-crx to-primary-hover-crx shadow-[0_0_20px_rgba(255,193,7,0.3)]",
                   !!isCurrent && "border-primary bg-surface-crx shadow-[0_0_20px_rgba(255,193,7,0.3)] scale-110",
-                  !!isPending && "border-border-color bg-bg-surface"
+                  !!isPending && "border-border bg-surface-crx "
                 )}
               >
                 {isCompleted ? (
@@ -56,7 +56,7 @@ export function StepIndicator({ steps, currentStep, className }: StepIndicatorPr
                     className={cn(
                       "text-sm font-bold transition-colors",
                       !!isCurrent && "text-primary-crx",
-                      !!isPending && "text-text-muted-crx"
+                      !!isPending && "text-text-muted-crx "
                     )}
                   >
                     {step.icon}

@@ -76,6 +76,9 @@ export function useAuth() {
         profile: response.userProfile,
         createdAt: response.user.createdAt,
       };
+      if (response.sessionToken) {
+        Cookies.set("critix.session_token", response.sessionToken);
+      }
       login(response.token, response.refreshToken, userData);
       toast.success(response.message);
       router.push("/");
@@ -206,7 +209,7 @@ export function useAuth() {
           profile: response.userProfile,
           createdAt: response.user.createdAt,
         };
-        
+
         login(response.token, response.refreshToken, userData);
         toast.success("Login realizado com sucesso!");
         router.push("/");
@@ -217,7 +220,7 @@ export function useAuth() {
         await authClient.signOut();
         router.push("/auth?mode=login");
       } finally {
-        setIsOAuthProcessing(false);  
+        setIsOAuthProcessing(false);
       }
     };
 

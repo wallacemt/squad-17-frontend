@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  allowedDevOrigins: [process.env.NEXT_PUBLIC_URL || "localhost:3000", "192.168.248.200"],
+  allowedDevOrigins: [process.env.NEXT_PUBLIC_URL || "localhost:3000", "192.168.248.204"],
 
   env: {
     DATABASE_URL: process.env.DATABASE_URL,
@@ -19,6 +19,9 @@ const nextConfig: NextConfig = {
 
     TWITCH_CLIENT_ID: process.env.TWITCH_CLIENT_ID,
     TWITCH_CLIENT_SECRET: process.env.TWITCH_CLIENT_SECRET,
+
+    TWITTER_CLIENT_ID: process.env.TWITTER_CLIENT_ID,
+    TWITTER_CLIENT_SECRET: process.env.TWITTER_CLIENT_SECRET,
   },
   images: {
     formats: ["image/webp", "image/avif"],
@@ -39,6 +42,21 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "lh3.googleusercontent.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "pbs.twimg.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "cdn.discordapp.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "static-cdn.jtvnw.net",
         pathname: "/**",
       },
     ],

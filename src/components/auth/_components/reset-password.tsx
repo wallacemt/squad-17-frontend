@@ -240,7 +240,7 @@ export function ResetPasswordContent() {
           <CardFooter className="flex-col space-y-4 pt-6">
             <Separator />
             <Link href="/auth?mode=login" className="w-full">
-              <AuthButton type="button" variant="ghost" size="md" fullWidth icon={<ArrowLeft className="h-5 w-5" />}>
+              <AuthButton type="button" variant="ghost" size="md" disabled={isLoading} fullWidth icon={<ArrowLeft className="h-5 w-5" />}>
                 Voltar ao Login
               </AuthButton>
             </Link>

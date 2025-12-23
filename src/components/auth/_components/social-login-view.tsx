@@ -14,7 +14,7 @@ interface SocialLoginViewProps {
 }
 
 export function SocialLoginView({ onProviderClick, onBack, isLoading = false }: SocialLoginViewProps) {
-  const allProviders: OAuthProvider[] = ["google", "discord", "twitch", "reddit", "apple"];
+  const allProviders: OAuthProvider[] = ["google", "discord", "twitch", "twitter"];
 
   return (
     <motion.div

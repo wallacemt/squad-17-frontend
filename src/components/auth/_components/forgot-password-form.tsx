@@ -22,30 +22,15 @@ export function ForgotPasswordForm({ onBack, isLoading: externalLoading = false 
   const [submitted, setSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const validateForm = (): boolean => {
-    if (!email.trim()) {
-      setError("Email é obrigatório");
-      return false;
-    }
-
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     if (!validateFormRegex.test(email)) {
       setError("Email inválido");
       return false;
     }
 
-    setError("");
-    return true;
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validateForm()) {
-      return;
-    }
-
     setIsLoading(true);
     setError("");
-
     try {
       const response = await postForgotPassword(email);
 
@@ -129,6 +114,10 @@ export function ForgotPasswordForm({ onBack, isLoading: externalLoading = false 
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
+                if (!validateFormRegex.test(e.target.value)) {
+                  setError("Email inválido");
+                  return;
+                }
                 setError("");
               }}
               error={error}
@@ -142,6 +131,7 @@ export function ForgotPasswordForm({ onBack, isLoading: externalLoading = false 
               variant="primary"
               size="lg"
               fullWidth
+              disabled={error.length > 0}
               isLoading={loading}
               icon={<ArrowRight className="h-5 w-5" />}
             >
