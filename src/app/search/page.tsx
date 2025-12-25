@@ -1,6 +1,4 @@
 "use client";
-
-import AppLayout from "@/components/app/AppLayout";
 import { motion } from "framer-motion";
 import { SearchIcon, TrendingUpIcon, ClockIcon } from "lucide-react";
 import { useState } from "react";
@@ -9,7 +7,7 @@ export default function SearchPage() {
   const [searchQuery, setSearchQuery] = useState("");
 
   return (
-    <AppLayout>
+
       <div className="container mx-auto px-6 py-8 max-w-7xl">
         <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <h1 className="font-display text-4xl font-bold text-primary mb-2">Buscar</h1>
@@ -106,6 +104,6 @@ export default function SearchPage() {
           </motion.div>
         )}
       </div>
-    </AppLayout>
+
   );
 }

@@ -10,7 +10,7 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 
 const navItems = [
-  { name: "Feed", path: "/feed", icon: GridIcon },
+  { name: "Feed", path: "/", icon: GridIcon },
   { name: "Watchlist", path: "/watchlist", icon: BookmarkIcon },
   { name: "Search", path: "/search", icon: SearchIcon },
   { name: "Tier Rank", path: "/tier-rank", icon: StarIcon },

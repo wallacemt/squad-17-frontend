@@ -4,8 +4,9 @@ import { createContext, useContext, useEffect, useState, useCallback, type React
 import Cookies from "js-cookie";
 import type { AuthSession, User } from "@/types/auth";
 import { clearEncryptionSalt } from "@/utils/clientHash";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
+import AppLayout from "@/components/app/AppLayout";
 
 type AuthContextType = {
   session: AuthSession | null;
@@ -24,7 +25,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<AuthSession | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const route = useRouter();
-
+  const pathName = usePathname();
   // Load session from localStorage on mount
   useEffect(() => {
     const loadSession = () => {
@@ -194,7 +195,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         refreshSession,
       }}
     >
-      {children}
+      {!!session && !pathName.endsWith("/lending") ? <AppLayout>{children}</AppLayout> : <>{children}</>}
     </AuthContext.Provider>
   );
 }
