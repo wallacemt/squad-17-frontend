@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { Play, Star, TrendingUp, Home } from "lucide-react";
 import type { TMDBMedia } from "@/types/tmdb";
-import {  useState } from "react";
+import { useState } from "react";
 import { getGenreNames, getImageUrl, getTitle } from "@/utils/tmdbUtils";
 import GradientBlinds from "../../ui/blocks/background/GradientBlinds/GradientBlinds";
 import { useRouter } from "next/navigation";
@@ -11,6 +11,9 @@ import { useAuthContext } from "@/context/authContext";
 import { OptimizedImage } from "@/components/ui/optimized-image";
 
 function getRandomMedia(medias: TMDBMedia[]) {
+  if (!medias || medias.length === 0) {
+    return [];
+  }
   const shuffledArray = [...medias].sort(() => Math.random() - 0.5);
   return shuffledArray.slice(0, 2);
 }

@@ -25,6 +25,12 @@ const gradients = [
 
 export default function MovieCarousel({ trending }: { trending: TMDBMedia[] }) {
   const route = useRouter();
+
+  // Se não houver dados, não renderizar o carrossel
+  if (!trending || trending.length === 0) {
+    return null;
+  }
+
   return (
     <section className="relative overflow-hidden bg-bg-surface py-24">
       {/* Fundo decorativo */}
