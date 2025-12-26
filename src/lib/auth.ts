@@ -36,7 +36,7 @@ export const auth = betterAuth({
   },
   secret: env.BETTER_AUTH_SECRET,
   baseURL: "http://localhost:3000",
-  trustedOrigins: ["http://localhost:3000"],
+  trustedOrigins: ["http://localhost:3000", env.NEXT_PUBLIC_URL || ""],
   advanced: {
     useSecureCookies: env.NODE_ENV === "production",
     cookiePrefix: "critix",
