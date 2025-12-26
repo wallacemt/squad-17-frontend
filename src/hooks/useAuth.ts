@@ -40,6 +40,7 @@ export function useAuth() {
     router.push(`/auth?mode=${newMode}`);
   };
 
+  // biome-ignore lint/complexity: Esta função precisa lidar com múltiplos cenários de login (OAuth, tradicional, verificação de email)
   const handleLogin = async (credentials: LoginCredentials, clearCache?: () => void) => {
     setIsLoading(true);
     try {
@@ -77,10 +78,14 @@ export function useAuth() {
         createdAt: response.user.createdAt,
       };
       if (response.sessionToken) {
-        Cookies.set("critix.session_token", response.sessionToken);
+        const cookieName = process.env.NODE_ENV === "production" ? "__Secure-critix.session_token" : "";
+        Cookies.set(cookieName, response.sessionToken, {
+          expires: 7,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "lax",
+        });
       }
       login(response.token, response.refreshToken, userData);
-      toast.success(response.message);
       router.push("/");
     } catch (error) {
       console.error("Login failed:", error);

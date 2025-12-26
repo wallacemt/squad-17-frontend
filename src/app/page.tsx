@@ -16,11 +16,16 @@ export default function Home() {
   const { isReady, shouldRedirectToLending, shouldProcessOAuth } = useOAuthRedirectGuard();
 
   useEffect(() => {
+    // Se está autenticado, não redirecionar para lending
+    if (isAuthenticated) {
+      return;
+    }
+
     // Se não está processando OAuth e deve redirecionar para lending
     if (isReady && shouldRedirectToLending && !isOAuthProcessing) {
       router.push("/lending");
     }
-  }, [isReady, shouldRedirectToLending, isOAuthProcessing, router]);
+  }, [isReady, shouldRedirectToLending, isOAuthProcessing, isAuthenticated, router]);
 
   // Redirect authenticated users to feed
   if (isAuthenticated) {
