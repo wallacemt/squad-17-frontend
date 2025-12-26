@@ -1,0 +1,15 @@
+The user feed design should be disruptive, completely different from modern social media feeds, with a unique and cinematic touch. The Critix platform aims to be the best place for reviewing movies and TV shows, allowing users to share their opinions via video, text, or audio.
+
+The user feed should convey warmth and immersion. Use fluid, organic elements with smooth animations and transitions that create a calm and engaging experience. The color palette should be predominantly dark to emphasize the cinematic atmosphere and cozy vibe. Look for a visual style that balances sophistication with the "home theater" feel, offering comfort and relaxation as users browse through reviews.
+
+Key Requirements:
+
+Predominantly dark theme with soft lighting on interactive elements.
+
+Fluid, subtle animations and transitions.
+
+A layout that showcases various content types (videos, audios, texts) in a balanced way.
+
+Cinematic and cozy visual style.
+
+Goal: Create a visually pleasing and unique interface that makes the user feel immersed and comfortable, away from the aesthetic of traditional social media.
