@@ -45,7 +45,7 @@ export function AuthCarousel({ images, autoPlayInterval = 5000 }: AuthCarouselPr
           {/* Overlay gradiente */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent" />
           {/* Conteúdo do slide */}
-          {(!!images[currentIndex].title || !!images[currentIndex].subtitle) && (
+          {(!!images[currentIndex]?.title || !!images[currentIndex]?.subtitle || "") && (
             <div className="absolute bottom-0 left-0 right-0 p-8 bg-black/60 rounded-b-2xl">
               <motion.div
                 initial={{ y: 20, opacity: 0 }}
@@ -53,11 +53,11 @@ export function AuthCarousel({ images, autoPlayInterval = 5000 }: AuthCarouselPr
                 transition={{ delay: 0.3, duration: 0.5 }}
               >
                 <div className="flex flex-col gap-2 items-start">
-                  {!!images[currentIndex].title && (
-                    <h3 className="mb-2 font-bold font-display text-3xl text-white">{images[currentIndex].title}</h3>
+                  {!!images[currentIndex]?.title && (
+                    <h3 className="mb-2 font-bold font-display text-3xl text-white">{images[currentIndex]?.title}</h3>
                   )}
-                  {!!images[currentIndex].subtitle && (
-                    <p className="text-lg text-white/80 ">{images[currentIndex].subtitle}</p>
+                  {!!images[currentIndex]?.subtitle && (
+                    <p className="text-lg text-white/80 ">{images[currentIndex]?.subtitle ?? ""}</p>
                   )}
                   <span className="w-full border-b-2" />
                 </div>
