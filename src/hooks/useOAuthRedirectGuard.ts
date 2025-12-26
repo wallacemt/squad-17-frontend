@@ -16,7 +16,7 @@ export function useOAuthRedirectGuard() {
     const maxAttempts = 10; // 10 tentativas = 5 segundos máximo
 
     const checkBetterAuthCookie = () => {
-      const betterAuthCookie = Cookies.get("critix.session_token");
+      const betterAuthCookie = Cookies.get(`${process.env.NODE_ENV === "production" ? "__Secure-" : ""}critix.session_token`);
 
       if (betterAuthCookie) {
         // Encontrou cookie do Better Auth

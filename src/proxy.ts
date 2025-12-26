@@ -6,7 +6,10 @@ export function proxy(request: NextRequest) {
 
   // Get token from cookies
   const token = request.cookies.get("critix.auth-token")?.value;
-  const betterAuthToken = request.cookies.get("critix.session_token")?.value;
+  // const sessionCookie = request.cookies.get(
+  //   `${process.env.NODE_ENV === "production" ? "__Secure-" : ""}vinmatrix.session_token`
+  // );
+  const betterAuthToken = request.cookies.get(`${process.env.NODE_ENV === "production" ? "__Secure-" : ""}critix.session_token`)?.value;
   const isAuthenticated = !!token || !!betterAuthToken;
 
   // Root path handling

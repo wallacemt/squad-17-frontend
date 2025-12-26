@@ -113,7 +113,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.clear();
     authClient.signOut();
     // Remove cookies
-    Cookies.remove("critix.session_token");
+    Cookies.remove(`${process.env.NODE_ENV === "production" ? "__Secure-" : ""}critix.session_token`);
     Cookies.remove("critix.auth-token");
     Cookies.remove("critix.refresh-token");
     Cookies.remove("critix.state");

@@ -7,7 +7,9 @@ import { and, eq } from "drizzle-orm";
 export async function GET() {
   try {
     const cookieStore = await cookies();
-    const sessionToken = cookieStore.get("critix.session_token")?.value;
+    const sessionToken = cookieStore.get(
+      `${process.env.NODE_ENV === "production" ? "__Secure-" : ""}critix.session_token`
+    )?.value;
     const currentProvider = cookieStore.get("critix.current.provider")?.value;
     if (!sessionToken) {
       return NextResponse.json({ error: "No session token found" }, { status: 401 });
