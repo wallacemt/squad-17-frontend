@@ -180,7 +180,7 @@ export default function Hero({ trending }: { trending: TMDBMedia[] }) {
 
                   <OptimizedImage
                     alt={sortMedia?.[1]?.title ?? "Media Trending"}
-                    src={getImageUrl(sortMedia?.[1].backdrop_path ?? "", "w780")}
+                    src={getImageUrl(sortMedia?.[1]?.backdrop_path ?? "", "w780")}
                     width={600}
                     height={600}
                     className="object-cover rounded-2xl w-full h-full"
@@ -220,7 +220,7 @@ export default function Hero({ trending }: { trending: TMDBMedia[] }) {
 
                   <OptimizedImage
                     alt={sortMedia?.[0]?.title ?? "Media Trending"}
-                    src={getImageUrl(sortMedia?.[0].backdrop_path ?? "", "w780")}
+                    src={getImageUrl(sortMedia?.[0]?.backdrop_path ?? "", "w780")}
                     width={600}
                     height={600}
                     className="object-cover rounded-2xl w-full h-full"
