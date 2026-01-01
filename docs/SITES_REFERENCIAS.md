@@ -1,0 +1,2 @@
+- Letterboxd → só texto
+- IMDb → texto + estrelas
