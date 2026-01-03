@@ -184,7 +184,7 @@ export default function Hero({ trending }: { trending: TMDBMedia[] }) {
                     width={600}
                     height={600}
                     className="object-cover rounded-2xl w-full h-full"
-                    fallbackSrc="/placeholder-movies.webp"
+                    fallbackSrc="/images/placeholder-movies.webp"
                   />
                 </div>
               </motion.div>
@@ -224,7 +224,7 @@ export default function Hero({ trending }: { trending: TMDBMedia[] }) {
                     width={600}
                     height={600}
                     className="object-cover rounded-2xl w-full h-full"
-                    fallbackSrc="/placeholder-old-movies.webp"
+                    fallbackSrc="/images/placeholder-old-movies.webp"
                   />
                 </div>
               </motion.div>

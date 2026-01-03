@@ -14,7 +14,7 @@ export function Logo({ variant = "default", className = "" }: LogoProps) {
         <div className="absolute inset-0 bg-gradient-to-br from-primary to-primary-hover-crx rounded-xl blur-md opacity-50 group-hover:opacity-75 transition-opacity" />
         <div className="relative flex items-center justify-center rounded-xl bg-gradient-to-br from-color-primary to-color-primary-hover">
           <Image
-            src={"/logo-full.png"}
+            src={"/images/logo-full.png"}
             width={140}
             height={30}
             alt="Critix Logo"

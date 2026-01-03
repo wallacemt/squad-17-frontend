@@ -93,7 +93,7 @@ export default function MovieCarousel({ trending }: { trending: TMDBMedia[] }) {
                         alt={getTitle(media)}
                         fill
                         className="object-cover w-full h-full"
-                        fallbackSrc="/placeholder-old-movies.webp"
+                        fallbackSrc="/images/placeholder-old-movies.webp"
                       />
                     ) : (
                       <div className={`absolute inset-0 bg-linear-to-br ${gradients[index % gradients.length]}`} />

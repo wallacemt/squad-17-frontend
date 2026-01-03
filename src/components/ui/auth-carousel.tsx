@@ -37,7 +37,7 @@ export function AuthCarousel({ images, autoPlayInterval = 5000 }: AuthCarouselPr
             src={getImageUrl(images[currentIndex]?.src ?? "", "original")}
             alt={images[currentIndex]?.alt ?? "Media Image"}
             fill
-            fallbackSrc="/placeholder-image-carrousel.webp"
+            fallbackSrc="/images/placeholder-image-carrousel.webp"
             className="object-cover"
             priority
           />

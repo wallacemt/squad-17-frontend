@@ -67,7 +67,7 @@ export const metadata: Metadata = {
     siteName: "Critix",
     images: [
       {
-        url: "/logo-full.png",
+        url: "/images/logo-full.png",
         width: 1200,
         height: 630,
         alt: "Critix",
@@ -77,24 +77,24 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "/logo-short.png",
+        url: "/images/logo-short.png",
         sizes: "16x16",
         type: "image/png",
       },
       {
-        url: "/logo-short.png",
+        url: "/images/logo-short.png",
         sizes: "32x32",
         type: "image/png",
       },
     ],
     apple: [
       {
-        url: "/logo-short.png",
+        url: "/images/logo-short.png",
         sizes: "180x180",
         type: "image/png",
       },
     ],
-    shortcut: "/logo-short.png",
+    shortcut: "/images/logo-short.png",
   },
   alternates: {
     canonical: new URL(process.env.NEXT_PUBLIC_URL || "https://critix.app"),

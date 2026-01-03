@@ -16,7 +16,7 @@ export default async function AuthPage({ mode, resetToken }: AuthPageProps) {
       <div className="absolute inset-0 bg-gradient-to-br from-body-crx via-surface-crx to-body-crx" />
       <Link href={"/"} className="p-2 absolute left-0 z-20">
         <Image
-          src={"/logo-short.png"}
+          src={"/images/logo-short.png"}
           alt="App logo"
           className="h-8 w-8 md:w-20 md:h-20  hover:scale-105 transition-transform ease-in-out duration-150"
           title="Critix"

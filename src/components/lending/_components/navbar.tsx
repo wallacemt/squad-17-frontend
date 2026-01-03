@@ -43,7 +43,7 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group cursor-pointer">
             <Image
-              src={"/logo-full.png"}
+              src={"/images/logo-full.png"}
               width={140}
               height={30}
               alt="Critix Logo"

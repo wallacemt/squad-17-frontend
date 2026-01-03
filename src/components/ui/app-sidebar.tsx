@@ -61,7 +61,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader>
         <div className="flex items-center justify-center p-4">
           <Link href="/">
-            <Image src="/logo-full.png" width={200} height={25} alt="Critix Logo" />
+            <Image src="/images/logo-full.png" width={200} height={25} alt="Critix Logo" />
           </Link>
         </div>
       </SidebarHeader>

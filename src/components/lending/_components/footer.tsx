@@ -42,7 +42,7 @@ export default function Footer() {
           {/* Logo e descrição */}
           <div className="lg:col-span-2">
             <Link href="/" className="mb-6 inline-block">
-              <Image src="/logo-full.png" alt="CRITIX" width={150} height={40} className="h-10 w-auto" />
+              <Image src="/images/logo-full.png" alt="CRITIX" width={150} height={40} className="h-10 w-auto" />
             </Link>
             <p className="mb-6 max-w-sm text-text-secondary">
               A plataforma definitiva para críticos de cinema. Avalie, descubra e compartilhe suas opiniões sobre filmes
