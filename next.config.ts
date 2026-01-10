@@ -1,9 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  allowedDevOrigins: [process.env.NEXT_PUBLIC_URL || "localhost:3000", "192.168.248.200"],
+  allowedDevOrigins: [process.env.NEXT_PUBLIC_URL || "localhost:3000", "192.168.248.204"],
 
   env: {
+
     DATABASE_URL: process.env.DATABASE_URL,
     BACKEND_URL: process.env.BACKEND_URL,
     BETTER_AUTH_URL: process.env.BETTER_AUTH_URL,

@@ -29,7 +29,6 @@ export default function NotFound() {
 
       {/* Conteúdo */}
       <div className="relative z-10 max-w-4xl w-full text-center">
-        {/* Número 404 gigante */}
         <motion.div
           initial={{ scale: 0.5, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -46,6 +45,7 @@ export default function NotFound() {
             <Image
               src="/images/404.svg"
               alt="404 Ilustração"
+              priority
               width={400}
               height={400}
               onError={(e) => {
@@ -77,7 +77,7 @@ export default function NotFound() {
         </motion.p>
 
         {/* URL tentada */}
-        {pathname && (
+        {!!pathname && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -110,7 +110,7 @@ export default function NotFound() {
           </Link>
         </motion.div>
 
-        {user && (
+        {!!user && (
           <>
             {/* Links rápidos */}
             <motion.div

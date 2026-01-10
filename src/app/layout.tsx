@@ -119,6 +119,8 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="//www.google-analytics.com" />
         <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
         <meta httpEquiv="X-XSS-Protection" content="1; mode=block" />
+        <link rel="preload" href="/images/404.svg" as="image" type="image/svg+xml"/>
+        <link rel="preload" href="/images/503.svg" as="image" type="image/svg+xml"/>
         <meta httpEquiv="Accept-CH" content="DPR, Viewport-Width, Width" />
         <meta httpEquiv="Accept-CH" content="DPR, Width, Viewport-Width" />
       </head>

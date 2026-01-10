@@ -195,7 +195,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         refreshSession,
       }}
     >
-      {!!session && !pathName.endsWith("/lending") ? <AppLayout>{children}</AppLayout> : <>{children}</>}
+      {!!session && !(pathName.endsWith("/lending") || pathName.endsWith("/auth")) ? <AppLayout>{children}</AppLayout> : <>{children}</>}
     </AuthContext.Provider>
   );
 }

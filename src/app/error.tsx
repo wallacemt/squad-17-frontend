@@ -4,6 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { AlertTriangle, RefreshCcw, Home, ServerCrash, WifiOff, Bug } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { env } from "node:process";
 
 interface ErrorInfo {
   title: string;
@@ -50,9 +51,9 @@ export default function ErrorPage({ error, reset }: { error: Error; reset?: () =
   const errorInfo = getErrorInfo(error);
 
   console.error("Error occurred:", error);
-
+console.log(env.NODE_ENV)
   return (
-    <div className="min-h-screen bg-on-primary-crx flex flex-col items-center justify-center px-4 text-center overflow-hidden relative">
+    <div className="min-h-screen p-2 bg-on-primary-crx flex flex-col items-center justify-center px-4 text-center overflow-hidden relative">
       {/* Background animado */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-bg-body via-bg-surface to-bg-body" />
@@ -107,18 +108,18 @@ export default function ErrorPage({ error, reset }: { error: Error; reset?: () =
         >
           <Image
             src="/images/503.svg"
-            width={300}
-            height={300}
+            width={200}
+            height={200}
             alt="Ilustração de erro"
             onError={(e) => {
               (e.target as HTMLImageElement).style.display = "none";
             }}
-            className="w-full max-w-xs mx-auto opacity-60 hover:opacity-80 transition-opacity"
+            className="w-full max-w-xs mx-auto opacity-60 hover:opacity-80 transition-opacity animate-pulse"
           />
         </motion.div>
 
         {/* Código de erro (se disponível) */}
-        {error.stack && (
+        {env.NODE_ENV !== "production" && !!error.stack && (
           <motion.details
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
