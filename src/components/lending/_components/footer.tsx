@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 const footerLinks = {
+  Apps: [{ name: "Critix Vault", href: "/critix-vault" }],
   Comunidade: [
     { name: "Blog", href: "/blog" },
     { name: "Fórum", href: "/forum" },
@@ -18,6 +19,7 @@ const footerLinks = {
     { name: "Sobre", href: "/about" },
     { name: "Contato", href: "/contact" },
     { name: "Imprensa", href: "/press" },
+    {name: "Design System", href: '/design-system'}
   ],
   Legal: [
     { name: "Privacidade", href: "/privacy" },
