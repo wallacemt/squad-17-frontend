@@ -62,7 +62,7 @@ export default function Hero({ trending }: { trending: TMDBMedia[] }) {
               <span className="text-sm text-text-secondary">A Plataforma #1 de Avaliação de Filmes e Séries</span>
             </motion.div>
 
-            <h1 className="mb-6 font-bold text-5xl leading-tight md:text-7xl">
+            <h1 className="mb-6 font-display font-bold text-5xl leading-tight md:text-8xl">
               <span className="text-text-primary">Sua opinião,</span>
               <br />
               <span className="bg-gradient-to-r from-primary-crx via-yellow-500 to-primary-hover-crx bg-clip-text text-transparent">
@@ -70,7 +70,7 @@ export default function Hero({ trending }: { trending: TMDBMedia[] }) {
               </span>
             </h1>
 
-            <p className="mb-8 max-w-2xl text-text-secondary text-xl">
+            <p className="mb-8  max-w-2xl text-text-secondary text-xl">
               A nova forma de descobrir, avaliar e discutir filmes e séries — com precisão, comunidade e tecnologia.
               Transforme sua opinião em influência.
             </p>

@@ -74,7 +74,7 @@ export default function Features() {
             <Code className="h-4 w-4 text-primary-crx" />
             <span className="font-mono text-primary-crx text-sm">{"<TECH_DRIVEN />"}</span>
           </motion.div>
-          <h2 className="mb-4 font-bold text-4xl md:text-5xl">
+          <h2 className="mb-4 font-bold text-4xl md:text-6xl font-display">
             <span className="text-text-primary">Críticas mais inteligentes,</span>
             <br />
             <span className="bg-gradient-to-r from-primary-crx via-yellow-500 to-primary-hover-crx bg-clip-text text-transparent">
@@ -120,7 +120,7 @@ export default function Features() {
                     <div className="absolute top-0 left-0 h-16 w-16 animate-pulse rounded-2xl bg-primary-crx/20 blur-xl" />
                   </div>
 
-                  <h3 className="mb-3 font-bold text-2xl text-text-primary transition-colors group-hover:text-primary-crx">
+                  <h3 className="mb-3 font-display font-bold text-3xl text-text-primary transition-colors group-hover:text-primary-crx">
                     {feature.title}
                   </h3>
 

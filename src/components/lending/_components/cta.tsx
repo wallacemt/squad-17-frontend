@@ -47,7 +47,7 @@ export default function CTA() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.3 }}
-                className="mb-6 font-bold text-4xl leading-tight md:text-6xl"
+                className="mb-6 font-display font-bold text-4xl leading-tight md:text-6xl"
               >
                 <span className="text-text-primary">Comece agora. </span>
                 <br />

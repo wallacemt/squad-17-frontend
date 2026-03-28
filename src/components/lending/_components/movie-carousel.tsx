@@ -44,7 +44,7 @@ export default function MovieCarousel({ trending }: { trending: TMDBMedia[] }) {
           transition={{ duration: 0.6 }}
           className="mb-16 text-center"
         >
-          <h2 className="mb-4 font-bold text-4xl md:text-5xl">
+          <h2 className="mb-4 font-display font-bold text-4xl md:text-6xl">
             <span className="text-text-primary">Em Alta na</span>
             <span className="bg-gradient-to-l from-primary-crx to-primary-hover-crx bg-clip-text text-transparent">
               {" "}
