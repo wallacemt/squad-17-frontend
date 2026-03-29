@@ -18,7 +18,7 @@ export default function CritixVaultLandingPage({ downloadData, msStoreUrl, isDev
   const fetchedAtLabel = formatDate(downloadData.fetchedAt);
 
   return (
-    <main className="relative min-h-screen overflow-x-hidden bg-on-primary-crx text-text-primary">
+    <main className="relative min-h-screen overflow-x-hidden bg-on-primary-crx  text-text-primary" style={{ userSelect: "none" }}>
       <VaultPageBackground />
       <VaultNavbar repositoryUrl={downloadData.repositoryUrl} />
 
