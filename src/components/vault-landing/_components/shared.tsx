@@ -9,7 +9,7 @@ interface BorderGradientPanelProps {
 
 export function BorderGradientPanel({ className, innerClassName, children }: BorderGradientPanelProps) {
   return (
-    <div className={cn("rounded-3xl bg-linear-to-br from-white/30 p-[1px] via-white/10 to-white/0", className)}>
+    <div className={cn("rounded-3xl bg-gradient-to-br from-white/30 p-[1px] via-white/10 to-white/0", className)}>
       <div className={cn("rounded-[calc(1.5rem-1px)] bg-bg-surface/85 backdrop-blur-xl", innerClassName)}>
         {children}
       </div>
