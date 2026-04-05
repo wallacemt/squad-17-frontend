@@ -1,5 +1,6 @@
 import type { VaultDownloadData } from "@/types/vault-downloads";
 import { VaultDownloadSection } from "./_components/vault-download-section";
+import { VaultEcosystemSection } from "./_components/vault-ecosystem-section";
 import { VaultFaqSection } from "./_components/vault-faq-section";
 import { VaultFeaturesSection } from "./_components/vault-features-section";
 import { VaultHeroSection } from "./_components/vault-hero-section";
@@ -18,7 +19,10 @@ export default function CritixVaultLandingPage({ downloadData, msStoreUrl, isDev
   const fetchedAtLabel = formatDate(downloadData.fetchedAt);
 
   return (
-    <main className="relative min-h-screen overflow-x-hidden bg-on-primary-crx  text-text-primary" style={{ userSelect: "none" }}>
+    <main
+      className="relative min-h-screen overflow-x-hidden bg-on-primary-crx  text-text-primary"
+      style={{ userSelect: "none" }}
+    >
       <VaultPageBackground />
       <VaultNavbar repositoryUrl={downloadData.repositoryUrl} />
 
@@ -33,6 +37,7 @@ export default function CritixVaultLandingPage({ downloadData, msStoreUrl, isDev
       <VaultScreenshotsSection />
 
       <VaultDownloadSection downloadData={downloadData} msStoreUrl={msStoreUrl} isDevMode={isDevMode} />
+      <VaultEcosystemSection />
 
       <VaultFaqSection msStoreUrl={msStoreUrl} repositoryUrl={downloadData.repositoryUrl} />
     </main>

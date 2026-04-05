@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Download, Github, Star } from "lucide-react";
+import Link from "next/link";
 import { BorderGradientPanel } from "./shared";
 
 interface VaultFaqSectionProps {
@@ -70,6 +71,13 @@ export function VaultFaqSection({ msStoreUrl, repositoryUrl }: VaultFaqSectionPr
                   Baixar app
                   <Download className="h-4 w-4" />
                 </a>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                className="rounded-full border-primary-crx/40 bg-primary-crx/10 hover:bg-primary-crx/20"
+              >
+                <Link href="/critix-vault/polices-terms">Polices & Terms</Link>
               </Button>
               <Button asChild variant="outline" className="rounded-full border-white/20 bg-black/20 hover:bg-black/35">
                 <a href={repositoryUrl} target="_blank" rel="noreferrer">
