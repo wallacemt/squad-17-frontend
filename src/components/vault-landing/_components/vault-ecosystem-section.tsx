@@ -24,7 +24,7 @@ export function VaultEcosystemSection() {
               <div>
                 <p className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-primary-crx">
                   <Sparkles className="h-3.5 w-3.5" />
-                  Plataforma mae
+                  Plataforma 
                 </p>
 
                 <h3 className="mt-2 font-display text-3xl leading-tight md:text-4xl">

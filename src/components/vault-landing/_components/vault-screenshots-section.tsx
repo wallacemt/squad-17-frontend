@@ -21,10 +21,6 @@ export function VaultScreenshotsSection() {
         transition={{ duration: 0.45 }}
         className="mb-12 space-y-4"
       >
-        <Badge variant="outline" className="border-primary-crx/40 bg-primary-crx/10 text-primary-crx">
-          <Sparkles className="h-3.5 w-3.5" />
-          Capturas com dinamica e dobras
-        </Badge>
         <h2 className="font-display text-4xl md:text-6xl">Visual de produto com movimento real</h2>
         <p className="max-w-3xl text-lg text-text-secondary">
           Duas galerias diferentes reforcam a proposta da landing: cards em camadas com efeito lift e uma linha de dobra
