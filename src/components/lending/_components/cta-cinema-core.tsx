@@ -35,8 +35,10 @@ function OscarTrophyModel() {
   useFrame((state, delta) => {
     if (rigRef.current) {
       rigRef.current.rotation.y += delta * 0.36;
-      rigRef.current.rotation.x = 0.08 + Math.sin(state.clock.elapsedTime * 0.5) * 0.02;
-      rigRef.current.position.y = -0.45 + Math.sin(state.clock.elapsedTime * 1.1) * 0.05;
+      rigRef.current.rotation.x =
+        0.08 + Math.sin(state.clock.elapsedTime * 0.5) * 0.02;
+      rigRef.current.position.y =
+        -0.45 + Math.sin(state.clock.elapsedTime * 1.1) * 0.05;
     }
   });
 
@@ -73,8 +75,16 @@ export function CinemaCore3D() {
           color="#7cb7ff"
         />
 
-        <pointLight position={[0, 1.4, -3.2]} intensity={1.05} color="#ff9b42" />
-        <pointLight position={[0, -2.2, 2.2]} intensity={0.45} color="#ffffff" />
+        <pointLight
+          position={[0, 1.4, -3.2]}
+          intensity={1.05}
+          color="#ff9b42"
+        />
+        <pointLight
+          position={[0, -2.2, 2.2]}
+          intensity={0.45}
+          color="#ffffff"
+        />
 
         <Suspense fallback={null}>
           <OscarTrophyModel />

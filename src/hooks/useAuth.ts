@@ -25,7 +25,15 @@ import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
 
 export function useAuth() {
-  const { login, isAuthenticated, isLoading: contextLoading, user, session, logout, updateUser } = useAuthContext();
+  const {
+    login,
+    isAuthenticated,
+    isLoading: contextLoading,
+    user,
+    session,
+    logout,
+    updateUser,
+  } = useAuthContext();
 
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -41,7 +49,10 @@ export function useAuth() {
   };
 
   // biome-ignore lint/complexity: Esta função precisa lidar com múltiplos cenários de login (OAuth, tradicional, verificação de email)
-  const handleLogin = async (credentials: LoginCredentials, clearCache?: () => void) => {
+  const handleLogin = async (
+    credentials: LoginCredentials,
+    clearCache?: () => void
+  ) => {
     setIsLoading(true);
     try {
       const { email, password } = {
@@ -78,7 +89,10 @@ export function useAuth() {
         createdAt: response.user.createdAt,
       };
       if (response.sessionToken) {
-        const cookieName = process.env.NODE_ENV === "production" ? "__Secure-critix.session_token" : "";
+        const cookieName =
+          process.env.NODE_ENV === "production"
+            ? "__Secure-critix.session_token"
+            : "";
         Cookies.set(cookieName, response.sessionToken, {
           expires: 7,
           secure: process.env.NODE_ENV === "production",
@@ -89,15 +103,23 @@ export function useAuth() {
       router.push("/");
     } catch (error) {
       console.error("Login failed:", error);
-      const errorMessage = error instanceof Error ? error.message : "Erro ao fazer login";
-      toast.error(errorMessage.replace("Error: ", "").replace("Erro ao realizar login: ", ""));
+      const errorMessage =
+        error instanceof Error ? error.message : "Erro ao fazer login";
+      toast.error(
+        errorMessage
+          .replace("Error: ", "")
+          .replace("Erro ao realizar login: ", "")
+      );
       throw error;
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleRegister = async (data: RegisterStep1Data & RegisterStep2Data, clearCache?: () => void) => {
+  const handleRegister = async (
+    data: RegisterStep1Data & RegisterStep2Data,
+    clearCache?: () => void
+  ) => {
     setIsLoading(true);
     try {
       const res = await postRegisterUser(data);
@@ -128,14 +150,22 @@ export function useAuth() {
       if (response.success) {
         // Redirecionar para login após verificação
         toast.success("Email verificado com sucesso!");
-        await handleLogin({ emailOrUsername: data.email, password: passForAfterRegister });
+        await handleLogin({
+          emailOrUsername: data.email,
+          password: passForAfterRegister,
+        });
       } else {
         throw new Error(response.message || "Falha na verificação");
       }
     } catch (error) {
       console.error("OTP verification failed:", error);
-      const errorMessage = error instanceof Error ? error.message : "Código inválido";
-      toast.error(errorMessage.replace("Error: ", "").replace("Erro ao verificar codigo usuario: ", ""));
+      const errorMessage =
+        error instanceof Error ? error.message : "Código inválido";
+      toast.error(
+        errorMessage
+          .replace("Error: ", "")
+          .replace("Erro ao verificar codigo usuario: ", "")
+      );
       throw error;
     } finally {
       setIsLoading(false);
@@ -159,8 +189,13 @@ export function useAuth() {
       }
     } catch (error) {
       console.error("Resend OTP failed:", error);
-      const errorMessage = error instanceof Error ? error.message : "Erro ao reenviar código";
-      toast.error(errorMessage.replace("Error: ", "").replace("Erro ao verificar codigo usuario: ", ""));
+      const errorMessage =
+        error instanceof Error ? error.message : "Erro ao reenviar código";
+      toast.error(
+        errorMessage
+          .replace("Error: ", "")
+          .replace("Erro ao verificar codigo usuario: ", "")
+      );
       throw error;
     } finally {
       setIsLoading(false);
@@ -220,8 +255,13 @@ export function useAuth() {
         router.push("/");
       } catch (error) {
         console.error("OAuth sync failed:", error);
-        const errorMessage = error instanceof Error ? error.message : "Erro ao sincronizar login";
-        toast.error(errorMessage.replace("Error: ", "").replace("Erro ao realizar login OAuth: ", ""));
+        const errorMessage =
+          error instanceof Error ? error.message : "Erro ao sincronizar login";
+        toast.error(
+          errorMessage
+            .replace("Error: ", "")
+            .replace("Erro ao realizar login OAuth: ", "")
+        );
         await authClient.signOut();
         router.push("/auth?mode=login");
       } finally {

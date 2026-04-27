@@ -59,11 +59,15 @@ export function VaultHeroSection({
               className="mb-6 inline-flex items-center gap-2 rounded-full border border-border-color bg-bg-surface-light px-4 py-2"
             >
               <WandSparkles className="h-4 w-4 text-primary-crx" />
-              <span className="text-sm text-text-secondary">Sua biblioteca local com visual de streaming</span>
+              <span className="text-sm text-text-secondary">
+                Sua biblioteca local com visual de streaming
+              </span>
             </motion.div>
 
             <h1 className="mb-6 font-display font-bold text-4xl leading-tight md:text-6xl">
-              <span className="text-text-primary">Organize, explore e assista</span>
+              <span className="text-text-primary">
+                Organize, explore e assista
+              </span>
               <br />
               <span className="bg-gradient-to-r from-primary-crx via-yellow-300 to-[#ff8a00] bg-clip-text text-transparent">
                 sem renomear seus arquivos
@@ -71,8 +75,9 @@ export function VaultHeroSection({
             </h1>
 
             <p className="mb-8 max-w-2xl text-text-secondary text-sm">
-              O Critix Vault transforma suas pastas em uma biblioteca elegante, rapida e pratica. Filmes, series,
-              temporadas e episodios em uma experiencia desktop com cara de plataforma premium.
+              O Critix Vault transforma suas pastas em uma biblioteca elegante,
+              rapida e pratica. Filmes, series, temporadas e episodios em uma
+              experiencia desktop com cara de plataforma premium.
             </p>
 
             <div className="flex flex-wrap justify-center gap-4 lg:justify-start">
@@ -106,29 +111,51 @@ export function VaultHeroSection({
               transition={{ delay: 0.6 }}
               className="mt-12 grid gap-3 sm:grid-cols-3"
             >
-              <SpotlightCard className="rounded-3xl" spotlightColor="rgba(255, 193, 7, 0.2)">
+              <SpotlightCard
+                className="rounded-3xl"
+                spotlightColor="rgba(255, 193, 7, 0.2)"
+              >
                 <BorderGradientPanel>
                   <div className="px-4 py-4">
-                    <p className="text-text-muted text-xs uppercase tracking-[0.2em]">Ultima versao</p>
-                    <p className="mt-1 text-lg font-semibold">{latestVersion ?? "Em definicao"}</p>
+                    <p className="text-text-muted text-xs uppercase tracking-[0.2em]">
+                      Ultima versao
+                    </p>
+                    <p className="mt-1 text-lg font-semibold">
+                      {latestVersion ?? "Em definicao"}
+                    </p>
                   </div>
                 </BorderGradientPanel>
               </SpotlightCard>
 
-              <SpotlightCard className="rounded-3xl" spotlightColor="rgba(0, 200, 180, 0.2)">
+              <SpotlightCard
+                className="rounded-3xl"
+                spotlightColor="rgba(0, 200, 180, 0.2)"
+              >
                 <BorderGradientPanel>
                   <div className="px-4 py-4">
-                    <p className="text-text-muted text-xs uppercase tracking-[0.2em]">Assets diretos</p>
-                    <p className="mt-1 text-lg font-semibold">{hasInstallableAssets ? "Disponiveis" : "Em breve"}</p>
+                    <p className="text-text-muted text-xs uppercase tracking-[0.2em]">
+                      Assets diretos
+                    </p>
+                    <p className="mt-1 text-lg font-semibold">
+                      {hasInstallableAssets ? "Disponiveis" : "Em breve"}
+                    </p>
                   </div>
                 </BorderGradientPanel>
               </SpotlightCard>
 
-              <SpotlightCard className="rounded-3xl" spotlightColor="rgba(255, 141, 0, 0.2)">
+              <SpotlightCard
+                className="rounded-3xl"
+                spotlightColor="rgba(255, 141, 0, 0.2)"
+              >
                 <BorderGradientPanel>
                   <div className="px-4 py-4">
-                    <p className="text-text-muted text-xs uppercase tracking-[0.2em]">API GitHub att</p>
-                    <p className="mt-1 text-lg font-semibold"> {fetchedAtLabel}</p>
+                    <p className="text-text-muted text-xs uppercase tracking-[0.2em]">
+                      API GitHub att
+                    </p>
+                    <p className="mt-1 text-lg font-semibold">
+                      {" "}
+                      {fetchedAtLabel}
+                    </p>
                   </div>
                 </BorderGradientPanel>
               </SpotlightCard>

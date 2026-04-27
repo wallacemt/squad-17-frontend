@@ -15,7 +15,11 @@ interface CritixVaultLandingPageProps {
   isDevMode: boolean;
 }
 
-export default function CritixVaultLandingPage({ downloadData, msStoreUrl, isDevMode }: CritixVaultLandingPageProps) {
+export default function CritixVaultLandingPage({
+  downloadData,
+  msStoreUrl,
+  isDevMode,
+}: CritixVaultLandingPageProps) {
   const fetchedAtLabel = formatDate(downloadData.fetchedAt);
 
   return (
@@ -36,10 +40,17 @@ export default function CritixVaultLandingPage({ downloadData, msStoreUrl, isDev
       <VaultFeaturesSection />
       <VaultScreenshotsSection />
 
-      <VaultDownloadSection downloadData={downloadData} msStoreUrl={msStoreUrl} isDevMode={isDevMode} />
+      <VaultDownloadSection
+        downloadData={downloadData}
+        msStoreUrl={msStoreUrl}
+        isDevMode={isDevMode}
+      />
       <VaultEcosystemSection />
 
-      <VaultFaqSection msStoreUrl={msStoreUrl} repositoryUrl={downloadData.repositoryUrl} />
+      <VaultFaqSection
+        msStoreUrl={msStoreUrl}
+        repositoryUrl={downloadData.repositoryUrl}
+      />
     </main>
   );
 }

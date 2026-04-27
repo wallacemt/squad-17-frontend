@@ -6,14 +6,17 @@ import { ArrowRight, Sparkles } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 
-const CinemaCore3D = dynamic(() => import("./cta-cinema-core").then((mod) => mod.CinemaCore3D), {
-  ssr: false,
-  loading: () => (
-    <div className="absolute inset-0 flex items-center justify-center">
-      <div className="h-24 w-24 rounded-full bg-gradient-to-br from-yellow-100 via-amber-400 to-orange-500 shadow-[0_0_55px_rgba(255,193,7,0.55)]" />
-    </div>
-  ),
-});
+const CinemaCore3D = dynamic(
+  () => import("./cta-cinema-core").then((mod) => mod.CinemaCore3D),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="h-24 w-24 rounded-full bg-gradient-to-br from-yellow-100 via-amber-400 to-orange-500 shadow-[0_0_55px_rgba(255,193,7,0.55)]" />
+      </div>
+    ),
+  }
+);
 
 export default function CTA() {
   const router = useRouter();
@@ -60,7 +63,9 @@ export default function CTA() {
                   transition={{ delay: 0.2 }}
                   className="font-display text-4xl font-semibold leading-tight md:text-6xl"
                 >
-                  <span className="text-text-primary">Assista, analise, influencie.</span>
+                  <span className="text-text-primary">
+                    Assista, analise, influencie.
+                  </span>
                   <br />
                   <span className="bg-gradient-to-r from-primary-crx via-yellow-300 to-primary-hover-crx bg-clip-text text-transparent">
                     O proximo review memoravel pode ser o seu.
@@ -74,8 +79,9 @@ export default function CTA() {
                   transition={{ delay: 0.3 }}
                   className="mt-5 max-w-2xl text-md text-text-secondary"
                 >
-                  No Critix, voce transforma gosto em repertorio: publica criticas com estilo, descobre novas obras e
-                  participa de uma comunidade ativa de filmes e series.
+                  No Critix, voce transforma gosto em repertorio: publica
+                  criticas com estilo, descobre novas obras e participa de uma
+                  comunidade ativa de filmes e series.
                 </motion.p>
 
                 <motion.div
@@ -112,7 +118,8 @@ export default function CTA() {
                   transition={{ delay: 0.5 }}
                   className="mt-5 text-sm text-text-muted"
                 >
-                  Comece em minutos. Perfil gratuito, comunidade viva e experiencias conectadas com o Critix Vault.
+                  Comece em minutos. Perfil gratuito, comunidade viva e
+                  experiencias conectadas com o Critix Vault.
                 </motion.p>
               </div>
 

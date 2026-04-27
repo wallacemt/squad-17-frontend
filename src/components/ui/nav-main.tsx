@@ -2,7 +2,11 @@
 
 import { LucideProps } from "lucide-react";
 import { motion } from "framer-motion";
-import { SidebarGroup, SidebarGroupLabel, SidebarMenu } from "@/components/ui/sidebar";
+import {
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarMenu,
+} from "@/components/ui/sidebar";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
@@ -13,7 +17,9 @@ export function NavMain({
   items: {
     title: string;
     url: string;
-    icon: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>;
+    icon: ForwardRefExoticComponent<
+      Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
+    >;
 
     isActive?: boolean;
     items?: {
@@ -46,7 +52,10 @@ export function NavMain({
                 <Icon size={24} />
                 <span className="font-medium">{item.title}</span>
                 {!!isActive && (
-                  <motion.div layoutId="activeTab" className="ml-auto w-1 h-6 bg-primary-crx rounded-full" />
+                  <motion.div
+                    layoutId="activeTab"
+                    className="ml-auto w-1 h-6 bg-primary-crx rounded-full"
+                  />
                 )}
               </Link>
             );

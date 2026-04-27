@@ -1,4 +1,8 @@
-import { GithubAssetApiResponse, GithubReleaseApiResponse, GithubTagApiResponse } from "@/types/github";
+import {
+  GithubAssetApiResponse,
+  GithubReleaseApiResponse,
+  GithubTagApiResponse,
+} from "@/types/github";
 import type {
   VaultDownloadData,
   VaultDownloadPlatform,
@@ -14,8 +18,6 @@ const GITHUB_REPO_URL = `https://github.com/${OWNER}/${REPO}`;
 const GITHUB_API_BASE = `https://api.github.com/repos/${OWNER}/${REPO}`;
 const FETCH_TIMEOUT_MS = 12_000;
 const REVALIDATE_SECONDS = 3600;
-
-
 
 function formatFileSize(sizeBytes: number): string {
   if (sizeBytes < 1024) {
@@ -111,7 +113,9 @@ async function fetchGithubJson<T>(endpoint: string): Promise<T> {
     });
 
     if (!response.ok) {
-      throw new Error(`GitHub API error: ${response.status} ${response.statusText}`);
+      throw new Error(
+        `GitHub API error: ${response.status} ${response.statusText}`
+      );
     }
 
     return (await response.json()) as T;
@@ -159,7 +163,9 @@ function mapTag(tag: GithubTagApiResponse): VaultGithubTag {
   };
 }
 
-function collectInstallableAssets(releases: VaultGithubRelease[]): VaultInstallableAsset[] {
+function collectInstallableAssets(
+  releases: VaultGithubRelease[]
+): VaultInstallableAsset[] {
   const installables: VaultInstallableAsset[] = [];
 
   for (const release of releases) {
@@ -188,14 +194,18 @@ function collectInstallableAssets(releases: VaultGithubRelease[]): VaultInstalla
 
 export async function getCritixVaultDownloadData(): Promise<VaultDownloadData> {
   const [releaseResponse, tagResponse] = await Promise.all([
-    fetchGithubJson<GithubReleaseApiResponse[]>("releases?per_page=10").catch((error) => {
-      console.error("Falha ao buscar releases do Critix Vault:", error);
-      return [];
-    }),
-    fetchGithubJson<GithubTagApiResponse[]>("tags?per_page=10").catch((error) => {
-      console.error("Falha ao buscar tags do Critix Vault:", error);
-      return [];
-    }),
+    fetchGithubJson<GithubReleaseApiResponse[]>("releases?per_page=10").catch(
+      (error) => {
+        console.error("Falha ao buscar releases do Critix Vault:", error);
+        return [];
+      }
+    ),
+    fetchGithubJson<GithubTagApiResponse[]>("tags?per_page=10").catch(
+      (error) => {
+        console.error("Falha ao buscar tags do Critix Vault:", error);
+        return [];
+      }
+    ),
   ]);
 
   const releases = releaseResponse.map(mapRelease).sort((a, b) => {

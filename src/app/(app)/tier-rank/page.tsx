@@ -40,20 +40,43 @@ const tierRanks = [
 export default function TierRankPage() {
   return (
     <div className="container mx-auto px-6 py-8 max-w-7xl">
-      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="mb-8"
+      >
         <div className="flex items-center gap-3 mb-2">
           <StarIcon size={32} className="text-amber-500" fill="currentColor" />
-          <h1 className="font-display text-4xl font-bold text-primary">Tier Rank</h1>
+          <h1 className="font-display text-4xl font-bold text-primary">
+            Tier Rank
+          </h1>
         </div>
-        <p className="text-secondary text-lg">Organize seus filmes e séries por classificação</p>
+        <p className="text-secondary text-lg">
+          Organize seus filmes e séries por classificação
+        </p>
       </motion.div>
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
         {[
-          { icon: TrophyIcon, label: "Total Ranqueado", value: "15", color: "text-amber-500" },
-          { icon: StarIcon, label: "Média Geral", value: "8.5", color: "text-yellow-500" },
-          { icon: AwardIcon, label: "Tier S", value: "3", color: "text-purple-500" },
+          {
+            icon: TrophyIcon,
+            label: "Total Ranqueado",
+            value: "15",
+            color: "text-amber-500",
+          },
+          {
+            icon: StarIcon,
+            label: "Média Geral",
+            value: "8.5",
+            color: "text-yellow-500",
+          },
+          {
+            icon: AwardIcon,
+            label: "Tier S",
+            value: "3",
+            color: "text-purple-500",
+          },
         ].map((stat, idx) => (
           <motion.div
             key={stat.label}
@@ -63,12 +86,16 @@ export default function TierRankPage() {
             className="bg-surface-crx border border-color rounded-xl p-6"
           >
             <div className="flex items-center gap-4">
-              <div className={`p-3 rounded-lg bg-bg-surface-light ${stat.color}`}>
+              <div
+                className={`p-3 rounded-lg bg-bg-surface-light ${stat.color}`}
+              >
                 <stat.icon size={24} />
               </div>
               <div>
                 <p className="text-secondary text-sm">{stat.label}</p>
-                <p className="text-primary-crx text-3xl font-bold">{stat.value}</p>
+                <p className="text-primary-crx text-3xl font-bold">
+                  {stat.value}
+                </p>
               </div>
             </div>
           </motion.div>
@@ -87,8 +114,12 @@ export default function TierRankPage() {
           >
             <div className="flex flex-col md:flex-row">
               {/* Tier Label */}
-              <div className={`flex items-center justify-center md:w-32 p-6 bg-gradient-to-br ${tier.color}`}>
-                <span className="text-6xl font-black text-white">{tier.tier}</span>
+              <div
+                className={`flex items-center justify-center md:w-32 p-6 bg-gradient-to-br ${tier.color}`}
+              >
+                <span className="text-6xl font-black text-white">
+                  {tier.tier}
+                </span>
               </div>
 
               {/* Movies */}
@@ -104,10 +135,18 @@ export default function TierRankPage() {
                     >
                       <div className="w-12 h-16 rounded-md bg-bg-body" />
                       <div className="flex-1 min-w-0">
-                        <p className="text-primary font-semibold truncate">{movie}</p>
+                        <p className="text-primary font-semibold truncate">
+                          {movie}
+                        </p>
                         <div className="flex items-center gap-1 mt-1">
-                          <StarIcon size={14} fill="currentColor" className="text-amber-500" />
-                          <span className="text-secondary text-sm">{(Math.random() * 2 + 8).toFixed(1)}</span>
+                          <StarIcon
+                            size={14}
+                            fill="currentColor"
+                            className="text-amber-500"
+                          />
+                          <span className="text-secondary text-sm">
+                            {(Math.random() * 2 + 8).toFixed(1)}
+                          </span>
                         </div>
                       </div>
                     </motion.div>

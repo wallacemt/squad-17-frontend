@@ -3,9 +3,20 @@
 import { motion } from "framer-motion";
 import { Mail, ArrowRight } from "lucide-react";
 import { AuthButton } from "@/components/ui/auth-button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
-import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/components/ui/input-otp";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
 
 import type { OTPVerification } from "@/types/auth";
 import { useEffect, useState } from "react";
@@ -21,7 +32,13 @@ interface OTPFormProps {
   isLoading?: boolean;
 }
 
-export function OTPForm({ email, type, onSubmit, onResend, isLoading = false }: OTPFormProps) {
+export function OTPForm({
+  email,
+  type,
+  onSubmit,
+  onResend,
+  isLoading = false,
+}: OTPFormProps) {
   const [code, setCode] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [resendTimer, setResendTimer] = useState(60);
@@ -89,7 +106,9 @@ export function OTPForm({ email, type, onSubmit, onResend, isLoading = false }: 
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary-crx/20">
               <Mail className="h-8 w-8 text-color-primary" />
             </div>
-            <CardTitle className="font-bold font-display text-3xl text-text-primary">Verificar código</CardTitle>
+            <CardTitle className="font-bold font-display text-3xl text-text-primary">
+              Verificar código
+            </CardTitle>
             <CardDescription className="text-text-secondary">
               {type === "email-verification"
                 ? "Enviamos um código de 6 dígitos para"
@@ -125,7 +144,9 @@ export function OTPForm({ email, type, onSubmit, onResend, isLoading = false }: 
               </InputOTP>
             </div>
 
-            {!!error && <p className="text-center text-sm text-danger-crx">{error}</p>}
+            {!!error && (
+              <p className="text-center text-sm text-danger-crx">{error}</p>
+            )}
 
             <AuthButton
               type="submit"
@@ -144,7 +165,9 @@ export function OTPForm({ email, type, onSubmit, onResend, isLoading = false }: 
               <p className="text-sm text-text-secondary-crx">
                 Não recebeu o código?{" "}
                 {resendTimer > 0 ? (
-                  <span className="font-semibold text-text-muted">Reenviar em {resendTimer}s</span>
+                  <span className="font-semibold text-text-muted">
+                    Reenviar em {resendTimer}s
+                  </span>
                 ) : (
                   <Button
                     type="button"

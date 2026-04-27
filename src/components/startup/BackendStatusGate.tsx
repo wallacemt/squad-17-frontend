@@ -11,14 +11,18 @@ interface BackendStatusGateProps {
   children: React.ReactNode;
 }
 
-export default function BackendStatusGate({ children }: BackendStatusGateProps) {
+export default function BackendStatusGate({
+  children,
+}: BackendStatusGateProps) {
   const [ready, setReady] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const abortRef = useRef<AbortController | null>(null);
   const [loading, setLoading] = useState(true);
   const [attempt, setAttempt] = useState(0);
 
-  const statusUrl = baseUrl ? `${baseUrl}/status` : "https://api.critix.com.br/status/";
+  const statusUrl = baseUrl
+    ? `${baseUrl}/status`
+    : "https://api.critix.com.br/status/";
 
   useEffect(() => {
     let mounted = true;
@@ -80,7 +84,10 @@ export default function BackendStatusGate({ children }: BackendStatusGateProps) 
 
       try {
         setLoading(true);
-        const res = await fetch(statusUrl, { signal: ctrl.signal, cache: "no-store" });
+        const res = await fetch(statusUrl, {
+          signal: ctrl.signal,
+          cache: "no-store",
+        });
         if (!mounted) {
           return;
         }
@@ -132,12 +139,12 @@ export default function BackendStatusGate({ children }: BackendStatusGateProps) 
               key={uniqueId}
               className="absolute w-2 h-2 bg-primary-crx/80 rounded-full"
               initial={{
-                x: Math.random() *  1200,
+                x: Math.random() * 1200,
                 y: Math.random() * 2400,
                 scale: Math.random() * 0.5 + 0.5,
               }}
               animate={{
-                y: [null, Math.random() *Math.random() ],
+                y: [null, Math.random() * Math.random()],
                 opacity: [0.2, 0.5, 0.2],
               }}
               transition={{
@@ -166,7 +173,13 @@ export default function BackendStatusGate({ children }: BackendStatusGateProps) 
           >
             <div className="relative">
               <div className="relative  p-4 rounded-xl">
-                <Image src="/images/logo-full.png" alt="Critix Logo" width={200} height={300} className="w-full" />
+                <Image
+                  src="/images/logo-full.png"
+                  alt="Critix Logo"
+                  width={200}
+                  height={300}
+                  className="w-full"
+                />
                 <motion.p
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -207,11 +220,16 @@ export default function BackendStatusGate({ children }: BackendStatusGateProps) 
                 <div className="flex items-center justify-center gap-2 text-text-primary">
                   <motion.div
                     animate={{ scale: [1, 1.2, 1] }}
-                    transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }}
+                    transition={{
+                      duration: 1.5,
+                      repeat: Number.POSITIVE_INFINITY,
+                    }}
                   >
                     <Wifi className="w-5 h-5 text-primary-crx" />
                   </motion.div>
-                  <span className="text-lg font-medium">Conectando ao servidor...</span>
+                  <span className="text-lg font-medium">
+                    Conectando ao servidor...
+                  </span>
                 </div>
 
                 {/* Progress dots */}
@@ -244,7 +262,9 @@ export default function BackendStatusGate({ children }: BackendStatusGateProps) 
                   </motion.div>
                 ) : null}
 
-                <p className="text-text-muted text-sm">Preparando a experiência cinematográfica perfeita</p>
+                <p className="text-text-muted text-sm">
+                  Preparando a experiência cinematográfica perfeita
+                </p>
               </motion.div>
             ) : null}
 
@@ -266,7 +286,10 @@ export default function BackendStatusGate({ children }: BackendStatusGateProps) 
                   <div className="relative">
                     <motion.div
                       animate={{ scale: [1, 1.1, 1] }}
-                      transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
+                      transition={{
+                        duration: 2,
+                        repeat: Number.POSITIVE_INFINITY,
+                      }}
                       className="absolute inset-0 bg-color-danger/20 rounded-full blur-xl"
                     />
                     <div className="relative bg-color-danger/10 p-4 rounded-full">
@@ -276,8 +299,12 @@ export default function BackendStatusGate({ children }: BackendStatusGateProps) 
                 </motion.div>
 
                 <div className="space-y-2">
-                  <h3 className="text-xl font-semibold text-text-primary">Conexão Interrompida</h3>
-                  <p className="text-text-secondary text-sm leading-relaxed">{error}</p>
+                  <h3 className="text-xl font-semibold text-text-primary">
+                    Conexão Interrompida
+                  </h3>
+                  <p className="text-text-secondary text-sm leading-relaxed">
+                    {error}
+                  </p>
                 </div>
 
                 {/* Helpful tips */}
@@ -285,7 +312,8 @@ export default function BackendStatusGate({ children }: BackendStatusGateProps) 
                   <div className="flex items-start gap-2 mb-2">
                     <Sparkles className="w-4 h-4 text-primary-crx mt-0.5 flex-shrink-0" />
                     <p className="text-text-secondary text-sm">
-                      <strong className="text-text-primary">Dica:</strong> Verifique se:
+                      <strong className="text-text-primary">Dica:</strong>{" "}
+                      Verifique se:
                     </p>
                   </div>
                   <ul className="text-text-secondary text-sm space-y-1 ml-6 list-disc">

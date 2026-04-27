@@ -73,7 +73,8 @@ export default function NotFound() {
           transition={{ delay: 0.3 }}
           className="text-text-secondary text-lg md:text-xl mb-8 max-w-2xl mx-auto"
         >
-          A página que você está procurando não existe ou foi movida para outro lugar.
+          A página que você está procurando não existe ou foi movida para outro
+          lugar.
         </motion.p>
 
         {/* URL tentada */}
@@ -119,7 +120,9 @@ export default function NotFound() {
               transition={{ delay: 0.7 }}
               className="max-w-2xl mx-auto"
             >
-              <p className="text-text-secondary mb-6">Ou explore estas páginas:</p>
+              <p className="text-text-secondary mb-6">
+                Ou explore estas páginas:
+              </p>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {quickLinks.map((link, index) => (
                   <motion.div
@@ -154,7 +157,10 @@ export default function NotFound() {
           className="mt-12 text-text-muted text-sm"
         >
           Precisa de ajuda?{" "}
-          <a href="mailto:support@critix.com" className="text-primary-crx hover:text-primary-hover-crx underline">
+          <a
+            href="mailto:support@critix.com"
+            className="text-primary-crx hover:text-primary-hover-crx underline"
+          >
             Entre em contato conosco
           </a>
         </motion.p>

@@ -31,7 +31,10 @@ const getCheckInfo = async ({
       throw new Error(error || "Erro ao consultar user");
     }
 
-    const data = (await response.json()) as { emailExists: boolean; userNameExists: boolean };
+    const data = (await response.json()) as {
+      emailExists: boolean;
+      userNameExists: boolean;
+    };
     return data;
   } catch (error) {
     throw new Error(`Erro ao consultar informação do usuário: ${error}`);
@@ -95,7 +98,10 @@ const postVerifyCode = async (code: string, email: string) => {
       const { error } = (await response.json()) as { error: string };
       throw new Error(error || "Erro ao verificar codigo");
     }
-    const dataRes = (await response.json()) as { message: string; success: boolean };
+    const dataRes = (await response.json()) as {
+      message: string;
+      success: boolean;
+    };
 
     return dataRes;
   } catch (error) {
@@ -117,7 +123,10 @@ const postResendCode = async (email: string) => {
       const { error } = (await response.json()) as { error: string };
       throw new Error(error || "Erro ao verificar codigo");
     }
-    const dataRes = (await response.json()) as { message: string; success: boolean };
+    const dataRes = (await response.json()) as {
+      message: string;
+      success: boolean;
+    };
 
     return dataRes;
   } catch (error) {
@@ -141,7 +150,10 @@ const postForgotPassword = async (email: string) => {
       const { error } = (await response.json()) as { error: string };
       throw new Error(error || "Erro ao solicitar recuperação de senha");
     }
-    const dataRes = (await response.json()) as { message: string; success: boolean };
+    const dataRes = (await response.json()) as {
+      message: string;
+      success: boolean;
+    };
 
     return dataRes;
   } catch (error) {
@@ -149,7 +161,11 @@ const postForgotPassword = async (email: string) => {
   }
 };
 
-const postResetPassword = async (data: { token: string; password: string; confirmPassword: string }) => {
+const postResetPassword = async (data: {
+  token: string;
+  password: string;
+  confirmPassword: string;
+}) => {
   try {
     const response = await fetch(`${baseUrl}/auth/recover/reset-password`, {
       method: "POST",
@@ -163,7 +179,10 @@ const postResetPassword = async (data: { token: string; password: string; confir
       const { error } = (await response.json()) as { error: string };
       throw new Error(error || "Erro ao redefinir senha");
     }
-    const dataRes = (await response.json()) as { message: string; success: boolean };
+    const dataRes = (await response.json()) as {
+      message: string;
+      success: boolean;
+    };
 
     return dataRes;
   } catch (error) {
@@ -171,7 +190,10 @@ const postResetPassword = async (data: { token: string; password: string; confir
   }
 };
 
-const postOAuthLogin = async (provider: string, accessToken: string): Promise<LoginResponse> => {
+const postOAuthLogin = async (
+  provider: string,
+  accessToken: string
+): Promise<LoginResponse> => {
   try {
     const response = await fetch(`${baseUrl}/auth/oauth`, {
       method: "POST",

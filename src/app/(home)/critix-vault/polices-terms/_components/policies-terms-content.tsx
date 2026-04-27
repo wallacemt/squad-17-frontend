@@ -2,7 +2,15 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, BadgeCheck, Database, FileText, Lock, Server, ShieldCheck } from "lucide-react";
+import {
+  ArrowLeft,
+  BadgeCheck,
+  Database,
+  FileText,
+  Lock,
+  Server,
+  ShieldCheck,
+} from "lucide-react";
 import type { ReactNode } from "react";
 
 type Language = "pt" | "en";
@@ -255,11 +263,21 @@ const copyByLanguage: Record<Language, Copy> = {
   },
 };
 
-function SectionCard({ title, icon, children }: { title: string; icon: ReactNode; children: ReactNode }) {
+function SectionCard({
+  title,
+  icon,
+  children,
+}: {
+  title: string;
+  icon: ReactNode;
+  children: ReactNode;
+}) {
   return (
     <section className="rounded-3xl border border-white/10 bg-black/25 p-6 backdrop-blur-sm md:p-8">
       <header className="mb-5 flex items-center gap-3">
-        <span className="rounded-xl border border-primary-crx/40 bg-primary-crx/15 p-2 text-primary-crx">{icon}</span>
+        <span className="rounded-xl border border-primary-crx/40 bg-primary-crx/15 p-2 text-primary-crx">
+          {icon}
+        </span>
         <h2 className="font-display text-2xl md:text-3xl">{title}</h2>
       </header>
       <div className="space-y-4 text-text-secondary">{children}</div>
@@ -267,7 +285,11 @@ function SectionCard({ title, icon, children }: { title: string; icon: ReactNode
   );
 }
 
-export function PoliciesTermsContent({ msStoreUrl, repoUrl, lastUpdated }: PoliciesTermsContentProps) {
+export function PoliciesTermsContent({
+  msStoreUrl,
+  repoUrl,
+  lastUpdated,
+}: PoliciesTermsContentProps) {
   const [language, setLanguage] = useState<Language>("pt");
 
   useEffect(() => {
@@ -278,7 +300,9 @@ export function PoliciesTermsContent({ msStoreUrl, repoUrl, lastUpdated }: Polic
         return;
       }
 
-      const browserLanguage = navigator.language.toLowerCase().startsWith("pt") ? "pt" : "en";
+      const browserLanguage = navigator.language.toLowerCase().startsWith("pt")
+        ? "pt"
+        : "en";
       setLanguage(browserLanguage);
     } catch {
       setLanguage("pt");
@@ -312,7 +336,9 @@ export function PoliciesTermsContent({ msStoreUrl, repoUrl, lastUpdated }: Polic
               type="button"
               onClick={() => setLanguage("pt")}
               className={`rounded-full px-3 py-1 text-sm transition-all ${
-                language === "pt" ? "bg-primary-crx text-on-primary-crx" : "text-text-secondary hover:text-text-primary"
+                language === "pt"
+                  ? "bg-primary-crx text-on-primary-crx"
+                  : "text-text-secondary hover:text-text-primary"
               }`}
             >
               PT
@@ -321,7 +347,9 @@ export function PoliciesTermsContent({ msStoreUrl, repoUrl, lastUpdated }: Polic
               type="button"
               onClick={() => setLanguage("en")}
               className={`rounded-full px-3 py-1 text-sm transition-all ${
-                language === "en" ? "bg-primary-crx text-on-primary-crx" : "text-text-secondary hover:text-text-primary"
+                language === "en"
+                  ? "bg-primary-crx text-on-primary-crx"
+                  : "text-text-secondary hover:text-text-primary"
               }`}
             >
               EN
@@ -334,38 +362,63 @@ export function PoliciesTermsContent({ msStoreUrl, repoUrl, lastUpdated }: Polic
             <BadgeCheck className="h-4 w-4" />
             {copy.badge}
           </p>
-          <h1 className="font-display text-4xl leading-tight md:text-6xl">{copy.title}</h1>
-          <p className="mt-4 max-w-3xl text-text-secondary">{copy.description}</p>
+          <h1 className="font-display text-4xl leading-tight md:text-6xl">
+            {copy.title}
+          </h1>
+          <p className="mt-4 max-w-3xl text-text-secondary">
+            {copy.description}
+          </p>
           <p className="mt-3 text-sm text-text-muted">
             {copy.updated}: {lastUpdated}
           </p>
         </div>
 
         <div className="space-y-6">
-          <SectionCard title={copy.microsoftSection} icon={<FileText className="h-5 w-5" />}>
+          <SectionCard
+            title={copy.microsoftSection}
+            icon={<FileText className="h-5 w-5" />}
+          >
             <p>{copy.overview}</p>
 
             <div className="grid gap-3 md:grid-cols-2">
               <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                <p className="text-xs uppercase tracking-[0.18em] text-text-muted">{copy.cards.appName}</p>
-                <p className="mt-1 font-semibold text-text-primary">{APP_INFO.name}</p>
+                <p className="text-xs uppercase tracking-[0.18em] text-text-muted">
+                  {copy.cards.appName}
+                </p>
+                <p className="mt-1 font-semibold text-text-primary">
+                  {APP_INFO.name}
+                </p>
               </div>
               <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                <p className="text-xs uppercase tracking-[0.18em] text-text-muted">{copy.cards.identifier}</p>
-                <p className="mt-1 font-semibold text-text-primary">{APP_INFO.identifier}</p>
+                <p className="text-xs uppercase tracking-[0.18em] text-text-muted">
+                  {copy.cards.identifier}
+                </p>
+                <p className="mt-1 font-semibold text-text-primary">
+                  {APP_INFO.identifier}
+                </p>
               </div>
               <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                <p className="text-xs uppercase tracking-[0.18em] text-text-muted">{copy.cards.platform}</p>
-                <p className="mt-1 font-semibold text-text-primary">{APP_INFO.platform}</p>
+                <p className="text-xs uppercase tracking-[0.18em] text-text-muted">
+                  {copy.cards.platform}
+                </p>
+                <p className="mt-1 font-semibold text-text-primary">
+                  {APP_INFO.platform}
+                </p>
               </div>
               <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                <p className="text-xs uppercase tracking-[0.18em] text-text-muted">{copy.cards.packageType}</p>
-                <p className="mt-1 font-semibold text-text-primary">{APP_INFO.bundleTarget}</p>
+                <p className="text-xs uppercase tracking-[0.18em] text-text-muted">
+                  {copy.cards.packageType}
+                </p>
+                <p className="mt-1 font-semibold text-text-primary">
+                  {APP_INFO.bundleTarget}
+                </p>
               </div>
             </div>
 
             <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-              <p className="mb-2 text-sm font-semibold text-text-primary">{copy.capabilitiesTitle}</p>
+              <p className="mb-2 text-sm font-semibold text-text-primary">
+                {copy.capabilitiesTitle}
+              </p>
               <ul className="list-disc space-y-2 pl-5">
                 {copy.capabilities.map((item) => (
                   <li key={item}>{item}</li>
@@ -375,21 +428,39 @@ export function PoliciesTermsContent({ msStoreUrl, repoUrl, lastUpdated }: Polic
 
             <p>
               {copy.officialLinks}{" "}
-              <a href={msStoreUrl} target="_blank" rel="noreferrer" className="text-primary-crx hover:underline">
+              <a
+                href={msStoreUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="text-primary-crx hover:underline"
+              >
                 {copy.storeText}
               </a>{" "}
               {copy.andConnector}{" "}
-              <a href={repoUrl} target="_blank" rel="noreferrer" className="text-primary-crx hover:underline">
+              <a
+                href={repoUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="text-primary-crx hover:underline"
+              >
                 {copy.repoText}
               </a>
               .
             </p>
           </SectionCard>
 
-          <SectionCard title={copy.privacySection} icon={<ShieldCheck className="h-5 w-5" />}>
+          <SectionCard
+            title={copy.privacySection}
+            icon={<ShieldCheck className="h-5 w-5" />}
+          >
             {copy.privacyBlocks.map((block) => (
-              <div key={block.title} className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                <p className="mb-2 font-semibold text-text-primary">{block.title}</p>
+              <div
+                key={block.title}
+                className="rounded-2xl border border-white/10 bg-black/20 p-4"
+              >
+                <p className="mb-2 font-semibold text-text-primary">
+                  {block.title}
+                </p>
                 <ul className="list-disc space-y-2 pl-5">
                   {block.items.map((item) => (
                     <li key={item}>{item}</li>
@@ -399,10 +470,18 @@ export function PoliciesTermsContent({ msStoreUrl, repoUrl, lastUpdated }: Polic
             ))}
           </SectionCard>
 
-          <SectionCard title={copy.termsSection} icon={<Lock className="h-5 w-5" />}>
+          <SectionCard
+            title={copy.termsSection}
+            icon={<Lock className="h-5 w-5" />}
+          >
             {copy.termsBlocks.map((block) => (
-              <div key={block.title} className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                <p className="mb-2 font-semibold text-text-primary">{block.title}</p>
+              <div
+                key={block.title}
+                className="rounded-2xl border border-white/10 bg-black/20 p-4"
+              >
+                <p className="mb-2 font-semibold text-text-primary">
+                  {block.title}
+                </p>
                 <ul className="list-disc space-y-2 pl-5">
                   {block.items.map((item) => (
                     <li key={item}>{item}</li>
@@ -412,7 +491,10 @@ export function PoliciesTermsContent({ msStoreUrl, repoUrl, lastUpdated }: Polic
             ))}
           </SectionCard>
 
-          <SectionCard title={copy.transparencySection} icon={<Server className="h-5 w-5" />}>
+          <SectionCard
+            title={copy.transparencySection}
+            icon={<Server className="h-5 w-5" />}
+          >
             <div className="grid gap-3 md:grid-cols-3">
               <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
                 <p className="mb-2 flex items-center gap-2 font-semibold text-text-primary">
@@ -440,7 +522,10 @@ export function PoliciesTermsContent({ msStoreUrl, repoUrl, lastUpdated }: Polic
             </div>
 
             <p className="rounded-2xl border border-white/10 bg-black/20 p-4 text-sm">
-              Metadata sources: <span className="font-semibold text-text-primary">{copy.metadataSources}</span>
+              Metadata sources:{" "}
+              <span className="font-semibold text-text-primary">
+                {copy.metadataSources}
+              </span>
             </p>
           </SectionCard>
         </div>

@@ -4,7 +4,10 @@
  * Busca o accessToken do OAuth usando o cookie de sessão do Better Auth
  * @returns O accessToken e provider ou null se não encontrado
  */
-export async function getOAuthAccessToken(): Promise<{ accessToken: string; provider: string } | null> {
+export async function getOAuthAccessToken(): Promise<{
+  accessToken: string;
+  provider: string;
+} | null> {
   try {
     const response = await fetch("/api/auth/oauth-token", {
       method: "GET",

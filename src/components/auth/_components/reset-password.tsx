@@ -4,7 +4,14 @@ import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { Lock, CheckCircle, AlertCircle, ArrowLeft } from "lucide-react";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { PasswordInput } from "@/components/ui/auth-input";
 import { AuthButton } from "@/components/ui/auth-button";
 import { PasswordStrengthBar } from "@/components/ui/password-strength-bar";
@@ -97,8 +104,15 @@ export function ResetPasswordContent() {
       }
     } catch (error: unknown) {
       console.error("Reset password error:", error);
-      const errorMessage = error instanceof Error ? error.message : "Erro ao redefinir senha. Tente novamente.";
-      toast.error(errorMessage.replace("Error: ", "").replace("Erro ao redefinir senha: ", ""));
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Erro ao redefinir senha. Tente novamente.";
+      toast.error(
+        errorMessage
+          .replace("Error: ", "")
+          .replace("Erro ao redefinir senha: ", "")
+      );
     } finally {
       setIsLoading(false);
     }
@@ -120,9 +134,12 @@ export function ResetPasswordContent() {
                 <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-red-500/20">
                   <AlertCircle className="h-8 w-8 text-red-500" />
                 </div>
-                <CardTitle className="font-bold font-display text-3xl text-text-primary">Link Inválido</CardTitle>
+                <CardTitle className="font-bold font-display text-3xl text-text-primary">
+                  Link Inválido
+                </CardTitle>
                 <CardDescription className="text-text-secondary">
-                  O link de recuperação de senha é inválido ou expirou. Solicite um novo link de recuperação.
+                  O link de recuperação de senha é inválido ou expirou. Solicite
+                  um novo link de recuperação.
                 </CardDescription>
               </div>
             </CardHeader>
@@ -155,9 +172,12 @@ export function ResetPasswordContent() {
                 <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-500/20">
                   <CheckCircle className="h-8 w-8 text-green-500" />
                 </div>
-                <CardTitle className="font-bold font-display text-3xl text-text-primary">Senha Redefinida!</CardTitle>
+                <CardTitle className="font-bold font-display text-3xl text-text-primary">
+                  Senha Redefinida!
+                </CardTitle>
                 <CardDescription className="text-text-secondary">
-                  Sua senha foi redefinida com sucesso. Redirecionando para o login...
+                  Sua senha foi redefinida com sucesso. Redirecionando para o
+                  login...
                 </CardDescription>
               </div>
             </CardHeader>
@@ -182,7 +202,9 @@ export function ResetPasswordContent() {
               <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary-crx/20">
                 <Lock className="h-8 w-8 text-color-primary" />
               </div>
-              <CardTitle className="font-bold font-display text-3xl text-text-primary">Redefinir Senha</CardTitle>
+              <CardTitle className="font-bold font-display text-3xl text-text-primary">
+                Redefinir Senha
+              </CardTitle>
               <CardDescription className="text-text-secondary">
                 Crie uma nova senha segura para sua conta
               </CardDescription>
@@ -193,7 +215,10 @@ export function ResetPasswordContent() {
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* New Password */}
               <div className="space-y-2">
-                <label htmlFor="password" className="text-sm font-medium text-text-primary">
+                <label
+                  htmlFor="password"
+                  className="text-sm font-medium text-text-primary"
+                >
                   Nova Senha
                 </label>
                 <PasswordInput
@@ -208,12 +233,17 @@ export function ResetPasswordContent() {
                   error={errors.password}
                   disabled={isLoading}
                 />
-                {formData.password.length > 0 && <PasswordStrengthBar password={formData.password} />}
+                {formData.password.length > 0 && (
+                  <PasswordStrengthBar password={formData.password} />
+                )}
               </div>
 
               {/* Confirm Password */}
               <div className="space-y-2">
-                <label htmlFor="confirmPassword" className="text-sm font-medium text-text-primary">
+                <label
+                  htmlFor="confirmPassword"
+                  className="text-sm font-medium text-text-primary"
+                >
                   Confirmar Nova Senha
                 </label>
                 <PasswordInput
@@ -222,7 +252,10 @@ export function ResetPasswordContent() {
                   placeholder="Confirme sua nova senha"
                   value={formData.confirmPassword}
                   onChange={(e) => {
-                    setFormData({ ...formData, confirmPassword: e.target.value });
+                    setFormData({
+                      ...formData,
+                      confirmPassword: e.target.value,
+                    });
                     setErrors({ ...errors, confirmPassword: undefined });
                   }}
                   error={errors.confirmPassword}
@@ -231,7 +264,13 @@ export function ResetPasswordContent() {
               </div>
 
               {/* Submit Button */}
-              <AuthButton type="submit" variant="primary" size="lg" fullWidth isLoading={isLoading}>
+              <AuthButton
+                type="submit"
+                variant="primary"
+                size="lg"
+                fullWidth
+                isLoading={isLoading}
+              >
                 Redefinir Senha
               </AuthButton>
             </form>
@@ -240,7 +279,14 @@ export function ResetPasswordContent() {
           <CardFooter className="flex-col space-y-4 pt-6">
             <Separator />
             <Link href="/auth?mode=login" className="w-full">
-              <AuthButton type="button" variant="ghost" size="md" disabled={isLoading} fullWidth icon={<ArrowLeft className="h-5 w-5" />}>
+              <AuthButton
+                type="button"
+                variant="ghost"
+                size="md"
+                disabled={isLoading}
+                fullWidth
+                icon={<ArrowLeft className="h-5 w-5" />}
+              >
                 Voltar ao Login
               </AuthButton>
             </Link>

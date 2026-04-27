@@ -1,5 +1,9 @@
 import { useFormCache } from "./useFormCache";
-import type { LoginCredentials, RegisterStep1Data, RegisterStep2Data } from "@/types/auth";
+import type {
+  LoginCredentials,
+  RegisterStep1Data,
+  RegisterStep2Data,
+} from "@/types/auth";
 
 // Simple Base64 encoding for passwords (not for production security, just cache obfuscation)
 const encode = (value: string): string => {
@@ -82,7 +86,9 @@ export function useRegisterFormCache() {
       updates.password = data.password ? encode(data.password) : "";
     }
     if (data.confirmPassword !== undefined) {
-      updates.confirmPassword = data.confirmPassword ? encode(data.confirmPassword) : "";
+      updates.confirmPassword = data.confirmPassword
+        ? encode(data.confirmPassword)
+        : "";
     }
 
     baseCache.updateFields({
@@ -106,7 +112,9 @@ export function useRegisterFormCache() {
     return {
       ...step1,
       password: step1.password ? decode(step1.password) : "",
-      confirmPassword: step1.confirmPassword ? decode(step1.confirmPassword) : "",
+      confirmPassword: step1.confirmPassword
+        ? decode(step1.confirmPassword)
+        : "",
     };
   };
 
@@ -159,7 +167,7 @@ export function useLoginFormCache() {
     updateLoginData,
     clearCache: baseCache.clearCache,
     isLoaded: baseCache.isLoaded,
-    hasCachedData:baseCache.hasCachedData
+    hasCachedData: baseCache.hasCachedData,
   };
 }
 

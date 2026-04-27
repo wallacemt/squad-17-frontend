@@ -7,42 +7,48 @@ const features = [
   {
     icon: Brain,
     title: "IA de Recomendação",
-    description: "Algoritmos inteligentes que aprendem seu gosto e sugerem o próximo filme perfeito para você.",
+    description:
+      "Algoritmos inteligentes que aprendem seu gosto e sugerem o próximo filme perfeito para você.",
     gradient: "from-purple-500 to-pink-500",
     tech: true,
   },
   {
     icon: Zap,
     title: "Tempo Real",
-    description: "Atualizações instantâneas de tendências, reviews e discussões. Tudo acontecendo agora.",
+    description:
+      "Atualizações instantâneas de tendências, reviews e discussões. Tudo acontecendo agora.",
     gradient: "from-yellow-500 to-orange-500",
     tech: true,
   },
   {
     icon: Database,
     title: "Big Data Analytics",
-    description: "Insights poderosos baseados em milhões de avaliações. Dados que contam histórias.",
+    description:
+      "Insights poderosos baseados em milhões de avaliações. Dados que contam histórias.",
     gradient: "from-blue-500 to-cyan-500",
     tech: true,
   },
   {
     icon: Shield,
     title: "Autenticidade Verificada",
-    description: "Sistema de validação que garante reviews reais de pessoas reais. Zero fake reviews.",
+    description:
+      "Sistema de validação que garante reviews reais de pessoas reais. Zero fake reviews.",
     gradient: "from-green-500 to-emerald-500",
     tech: true,
   },
   {
     icon: Sparkles,
     title: "Score Inteligente",
-    description: "Não é só uma nota. É uma análise completa que considera múltiplos fatores e contextos.",
+    description:
+      "Não é só uma nota. É uma análise completa que considera múltiplos fatores e contextos.",
     gradient: "from-indigo-500 to-violet-500",
     tech: true,
   },
   {
     icon: Code,
     title: "API Aberta",
-    description: "Integre nossos dados em suas aplicações. Tecnologia aberta para a comunidade dev.",
+    description:
+      "Integre nossos dados em suas aplicações. Tecnologia aberta para a comunidade dev.",
     gradient: "from-red-500 to-rose-500",
     tech: true,
   },
@@ -72,17 +78,22 @@ export default function Features() {
             className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary-crx/30 bg-primary-crx/10 px-4 py-2"
           >
             <Code className="h-4 w-4 text-primary-crx" />
-            <span className="font-mono text-primary-crx text-sm">{"<TECH_DRIVEN />"}</span>
+            <span className="font-mono text-primary-crx text-sm">
+              {"<TECH_DRIVEN />"}
+            </span>
           </motion.div>
           <h2 className="mb-4 font-bold text-4xl md:text-6xl font-display">
-            <span className="text-text-primary">Críticas mais inteligentes,</span>
+            <span className="text-text-primary">
+              Críticas mais inteligentes,
+            </span>
             <br />
             <span className="bg-gradient-to-r from-primary-crx via-yellow-500 to-primary-hover-crx bg-clip-text text-transparent">
               não apenas mais uma nota
             </span>
           </h2>
           <p className="mx-auto max-w-2xl font-mono text-text-secondary/80 text-lg">
-            Tecnologia de ponta encontra paixão por cinema. Cada feature foi construída para elevar sua experiência.
+            Tecnologia de ponta encontra paixão por cinema. Cada feature foi
+            construída para elevar sua experiência.
           </p>
         </motion.div>
 
@@ -124,7 +135,9 @@ export default function Features() {
                     {feature.title}
                   </h3>
 
-                  <p className="text-text-secondary/90 leading-relaxed">{feature.description}</p>
+                  <p className="text-text-secondary/90 leading-relaxed">
+                    {feature.description}
+                  </p>
 
                   {/* Tech decoration */}
                   <div className="mt-6 flex items-center gap-2">

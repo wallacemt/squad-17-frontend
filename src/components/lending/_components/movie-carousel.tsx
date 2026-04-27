@@ -8,7 +8,13 @@ import { Autoplay, EffectCoverflow } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import type { TMDBMedia } from "@/types/tmdb";
-import { formatRating, getGenreNames, getImageUrl, getTitle, getYear } from "@/utils/tmdbUtils";
+import {
+  formatRating,
+  getGenreNames,
+  getImageUrl,
+  getTitle,
+  getYear,
+} from "@/utils/tmdbUtils";
 import { useRouter } from "next/navigation";
 import { OptimizedImage } from "@/components/ui/optimized-image";
 
@@ -51,7 +57,9 @@ export default function MovieCarousel({ trending }: { trending: TMDBMedia[] }) {
               Semana
             </span>
           </h2>
-          <p className="mx-auto max-w-2xl text-text-secondary text-xl">Os filmes e séries mais populares do momento</p>
+          <p className="mx-auto max-w-2xl text-text-secondary text-xl">
+            Os filmes e séries mais populares do momento
+          </p>
         </motion.div>
 
         {/* Carrossel com Swiper */}
@@ -96,7 +104,9 @@ export default function MovieCarousel({ trending }: { trending: TMDBMedia[] }) {
                         fallbackSrc="/images/placeholder-old-movies.webp"
                       />
                     ) : (
-                      <div className={`absolute inset-0 bg-linear-to-br ${gradients[index % gradients.length]}`} />
+                      <div
+                        className={`absolute inset-0 bg-linear-to-br ${gradients[index % gradients.length]}`}
+                      />
                     )}
 
                     {/* Overlay escuro */}
@@ -117,18 +127,29 @@ export default function MovieCarousel({ trending }: { trending: TMDBMedia[] }) {
 
                         {/* Rating */}
                         <div className="flex items-center gap-2 rounded-full bg-black/50 px-3 py-1 backdrop-blur-sm">
-                          <Star className="h-4 w-4 text-yellow-400" fill="currentColor" />
-                          <span className="font-bold text-white">{formatRating(media.vote_average)}</span>
+                          <Star
+                            className="h-4 w-4 text-yellow-400"
+                            fill="currentColor"
+                          />
+                          <span className="font-bold text-white">
+                            {formatRating(media.vote_average)}
+                          </span>
                         </div>
                       </div>
 
                       {/* Info do filme */}
                       <div>
-                        <p className="mb-2 font-medium text-sm text-white/80">{getGenreNames(media.genre_ids)}</p>
-                        <h3 className="mb-3 line-clamp-2 font-bold text-2xl text-white">{getTitle(media)}</h3>
+                        <p className="mb-2 font-medium text-sm text-white/80">
+                          {getGenreNames(media.genre_ids)}
+                        </p>
+                        <h3 className="mb-3 line-clamp-2 font-bold text-2xl text-white">
+                          {getTitle(media)}
+                        </h3>
 
                         {media.overview ? (
-                          <p className="mb-4 line-clamp-3 text-sm text-white/70">{media.overview}</p>
+                          <p className="mb-4 line-clamp-3 text-sm text-white/70">
+                            {media.overview}
+                          </p>
                         ) : (
                           ""
                         )}
@@ -138,7 +159,9 @@ export default function MovieCarousel({ trending }: { trending: TMDBMedia[] }) {
                           <div className="h-1 overflow-hidden rounded-full bg-white/20">
                             <motion.div
                               initial={{ width: 0 }}
-                              whileInView={{ width: `${(Number(media.vote_average) / 10) * 100}%` }}
+                              whileInView={{
+                                width: `${(Number(media.vote_average) / 10) * 100}%`,
+                              }}
                               transition={{ duration: 1, delay: 0.3 }}
                               className="h-full rounded-full bg-primary-crx"
                             />

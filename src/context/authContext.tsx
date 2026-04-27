@@ -1,6 +1,13 @@
 //biome-ignore-all lint: "necessary"
 "use client";
-import { createContext, useContext, useEffect, useState, useCallback, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+  type ReactNode,
+} from "react";
 import Cookies from "js-cookie";
 import type { AuthSession, User } from "@/types/auth";
 import { clearEncryptionSalt } from "@/utils/clientHash";
@@ -40,7 +47,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
             // Set cookies if they don't exist
             if (!Cookies.get("critix.auth-token")) {
-              const expiresInDays = (parsedSession.expiresAt - Date.now()) / (1000 * 60 * 60 * 24);
+              const expiresInDays =
+                (parsedSession.expiresAt - Date.now()) / (1000 * 60 * 60 * 24);
 
               Cookies.set("critix.auth-token", parsedSession.accessToken, {
                 expires: expiresInDays,
@@ -49,11 +57,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
               });
 
               if (parsedSession.refreshToken) {
-                Cookies.set("critix.refresh-token", parsedSession.refreshToken, {
-                  expires: expiresInDays,
-                  secure: process.env.NODE_ENV === "production",
-                  sameSite: "lax",
-                });
+                Cookies.set(
+                  "critix.refresh-token",
+                  parsedSession.refreshToken,
+                  {
+                    expires: expiresInDays,
+                    secure: process.env.NODE_ENV === "production",
+                    sameSite: "lax",
+                  }
+                );
               }
             }
           } else {
@@ -113,7 +125,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.clear();
     authClient.signOut();
     // Remove cookies
-    Cookies.remove(`${process.env.NODE_ENV === "production" ? "__Secure-" : ""}critix.session_token`);
+    Cookies.remove(
+      `${process.env.NODE_ENV === "production" ? "__Secure-" : ""}critix.session_token`
+    );
     Cookies.remove("critix.auth-token");
     Cookies.remove("critix.refresh-token");
     Cookies.remove("critix.state");
@@ -147,11 +161,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     try {
       // TODO: Implement refresh token API call
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ refreshToken: session.refreshToken }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ refreshToken: session.refreshToken }),
+        }
+      );
 
       if (!response.ok) throw new Error("Failed to refresh session");
 
@@ -195,7 +212,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         refreshSession,
       }}
     >
-      {!!session && !(pathName.endsWith("/lending") || pathName.endsWith("/auth")) ? <AppLayout>{children}</AppLayout> : <>{children}</>}
+      {!!session &&
+      !(pathName.endsWith("/lending") || pathName.endsWith("/auth")) ? (
+        <AppLayout>{children}</AppLayout>
+      ) : (
+        <>{children}</>
+      )}
     </AuthContext.Provider>
   );
 }

@@ -4,7 +4,11 @@ import { ChevronDownIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Label } from "@/components/ui/label";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
 
@@ -12,12 +16,12 @@ export function CalendarPicker({
   date,
   setDate,
   text,
-  isLoading
+  isLoading,
 }: {
   date: Date;
   setDate: Dispatch<SetStateAction<Date | string | undefined>>;
   text: string;
-  isLoading:boolean
+  isLoading: boolean;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -27,8 +31,12 @@ export function CalendarPicker({
         {text}
       </Label>
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild  disabled={isLoading}>
-          <Button variant="outline" id="date" className="w-full justify-between font-normal">
+        <PopoverTrigger asChild disabled={isLoading}>
+          <Button
+            variant="outline"
+            id="date"
+            className="w-full justify-between font-normal"
+          >
             {date ? date.toLocaleDateString() : "Selecione a data"}
             <ChevronDownIcon />
           </Button>

@@ -11,27 +11,33 @@ export const vaultSectionLinks = [
 export const vaultHighlights = [
   {
     title: "Biblioteca visual",
-    description: "Transforme suas pastas locais em uma experiencia estilo streaming sem reorganizar tudo manualmente.",
+    description:
+      "Transforme suas pastas locais em uma experiencia estilo streaming sem reorganizar tudo manualmente.",
   },
   {
     title: "Escaneamento inteligente",
-    description: "Detecta filmes, series, temporadas e episodios automaticamente para reduzir trabalho manual.",
+    description:
+      "Detecta filmes, series, temporadas e episodios automaticamente para reduzir trabalho manual.",
   },
   {
     title: "Controle total",
-    description: "Corrija metadados, caminhos e episodios com edicao individual ou em lote quando necessario.",
+    description:
+      "Corrija metadados, caminhos e episodios com edicao individual ou em lote quando necessario.",
   },
   {
     title: "Historico assistido",
-    description: "Acompanhe episodios e temporadas ja vistos para manter seu progresso organizado.",
+    description:
+      "Acompanhe episodios e temporadas ja vistos para manter seu progresso organizado.",
   },
   {
     title: "Backup e restauracao",
-    description: "Proteja sua biblioteca com backup local e restaure em poucos cliques.",
+    description:
+      "Proteja sua biblioteca com backup local e restaure em poucos cliques.",
   },
   {
     title: "Modo demonstracao",
-    description: "Explore a interface e fluxos do app antes de configurar sua biblioteca real.",
+    description:
+      "Explore a interface e fluxos do app antes de configurar sua biblioteca real.",
   },
 ];
 
@@ -54,7 +60,8 @@ export const vaultSteps = [
 export const vaultFaq = [
   {
     question: "O Critix Vault altera minhas pastas originais?",
-    answer: "Nao. O app organiza a visualizacao e metadados sem exigir renomeacao manual da sua estrutura original.",
+    answer:
+      "Nao. O app organiza a visualizacao e metadados sem exigir renomeacao manual da sua estrutura original.",
   },
   {
     question: "Preciso estar online para usar?",
@@ -73,7 +80,8 @@ export const vaultScreenshots = [
     src: "/images/vault/home.png",
     alt: "Tela inicial do Critix Vault",
     title: "Home com destaque para biblioteca",
-    caption: "Entrada principal com atalho para exploracao e ultimo conteudo visto.",
+    caption:
+      "Entrada principal com atalho para exploracao e ultimo conteudo visto.",
   },
   {
     src: "/images/vault/library-movies.png",
@@ -85,7 +93,8 @@ export const vaultScreenshots = [
     src: "/images/vault/library-series.png",
     alt: "Biblioteca de series no Critix Vault",
     title: "Biblioteca de series",
-    caption: "Colecoes por serie com navegacao pronta para temporadas e episodios.",
+    caption:
+      "Colecoes por serie com navegacao pronta para temporadas e episodios.",
   },
   {
     src: "/images/vault/movie-screen.png",
@@ -115,7 +124,8 @@ export const vaultScreenshots = [
     src: "/images/vault/library-movie-2.png",
     alt: "Variacao da biblioteca de filmes",
     title: "Visual alternativo de catalogo",
-    caption: "Outra leitura do acervo para reforcar dinamica visual da interface.",
+    caption:
+      "Outra leitura do acervo para reforcar dinamica visual da interface.",
   },
 ];
 

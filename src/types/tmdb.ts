@@ -1,4 +1,4 @@
-export interface TMDBMedia  {
+export interface TMDBMedia {
   adult: boolean;
   backdrop_path: string;
   id: number;
@@ -18,17 +18,17 @@ export interface TMDBMedia  {
   original_name?: string;
   first_air_date?: string;
   origin_country?: string[];
-};
-export interface TMDBTrendingResponse  {
+}
+export interface TMDBTrendingResponse {
   page: number;
   results: TMDBMedia[];
   total_pages: number;
   total_results: number;
-};
+}
 
-export interface TMDBTrendingPostersResponse  {
+export interface TMDBTrendingPostersResponse {
   src: string;
   alt: string;
   title: string;
   subtitle: string;
-};
+}

@@ -44,7 +44,13 @@ function calculateStrength(password: string): {
   const strength = Math.min(Math.floor((score / 6) * 4), 4);
 
   const labels = ["Muito fraca", "Fraca", "Razoável", "Forte", "Muito forte"];
-  const colors = ["bg-danger-crx", "bg-yellow-400", "bg-blue-700", "bg-success-crx", "bg-success-crx"];
+  const colors = [
+    "bg-danger-crx",
+    "bg-yellow-400",
+    "bg-blue-700",
+    "bg-success-crx",
+    "bg-success-crx",
+  ];
 
   return {
     score: strength,
@@ -53,7 +59,10 @@ function calculateStrength(password: string): {
   };
 }
 
-export function PasswordStrengthBar({ password, className }: PasswordStrengthBarProps) {
+export function PasswordStrengthBar({
+  password,
+  className,
+}: PasswordStrengthBarProps) {
   const { score, label, color } = calculateStrength(password);
 
   if (!password) {
@@ -73,7 +82,16 @@ export function PasswordStrengthBar({ password, className }: PasswordStrengthBar
           />
         ))}
       </div>
-      {!!label && <p className={cn("text-xs font-medium", `text-${color.replace("bg-", "")}`)}>{label}</p>}
+      {!!label && (
+        <p
+          className={cn(
+            "text-xs font-medium",
+            `text-${color.replace("bg-", "")}`
+          )}
+        >
+          {label}
+        </p>
+      )}
     </div>
   );
 }

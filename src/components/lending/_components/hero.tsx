@@ -19,7 +19,9 @@ function getRandomMedia(medias: TMDBMedia[]) {
 }
 
 export default function Hero({ trending }: { trending: TMDBMedia[] }) {
-  const [sortMedia, _setSortMedia] = useState<TMDBMedia[]>(getRandomMedia(trending));
+  const [sortMedia, _setSortMedia] = useState<TMDBMedia[]>(
+    getRandomMedia(trending)
+  );
   const { user } = useAuthContext();
 
   const router = useRouter();
@@ -59,7 +61,9 @@ export default function Hero({ trending }: { trending: TMDBMedia[] }) {
               className="mb-6 inline-flex items-center gap-2 rounded-full border border-border-color bg-bg-surface-light px-4 py-2"
             >
               <TrendingUp className="h-4 w-4 text-primary-crx" />
-              <span className="text-sm text-text-secondary">A Plataforma #1 de Avaliação de Filmes e Séries</span>
+              <span className="text-sm text-text-secondary">
+                A Plataforma #1 de Avaliação de Filmes e Séries
+              </span>
             </motion.div>
 
             <h1 className="mb-6 font-display font-bold text-5xl leading-tight md:text-8xl">
@@ -71,8 +75,9 @@ export default function Hero({ trending }: { trending: TMDBMedia[] }) {
             </h1>
 
             <p className="mb-8  max-w-2xl text-text-secondary text-xl">
-              A nova forma de descobrir, avaliar e discutir filmes e séries — com precisão, comunidade e tecnologia.
-              Transforme sua opinião em influência.
+              A nova forma de descobrir, avaliar e discutir filmes e séries —
+              com precisão, comunidade e tecnologia. Transforme sua opinião em
+              influência.
             </p>
 
             <div className="flex flex-wrap justify-center gap-4 lg:justify-start">
@@ -120,16 +125,24 @@ export default function Hero({ trending }: { trending: TMDBMedia[] }) {
               className="mt-12 flex flex-wrap justify-center gap-8 lg:justify-start"
             >
               <div className="text-center lg:text-left">
-                <div className="font-bold text-3xl text-color-primary">50K+</div>
+                <div className="font-bold text-3xl text-color-primary">
+                  50K+
+                </div>
                 <div className="text-sm text-text-secondary">Avaliações</div>
               </div>
               <div className="text-center lg:text-left">
-                <div className="font-bold text-3xl text-color-primary">15K+</div>
-                <div className="text-sm text-text-secondary">Usuários Ativos</div>
+                <div className="font-bold text-3xl text-color-primary">
+                  15K+
+                </div>
+                <div className="text-sm text-text-secondary">
+                  Usuários Ativos
+                </div>
               </div>
               <div className="text-center lg:text-left">
                 <div className="font-bold text-3xl text-color-primary">8K+</div>
-                <div className="text-sm text-text-secondary">Filmes & Séries</div>
+                <div className="text-sm text-text-secondary">
+                  Filmes & Séries
+                </div>
               </div>
             </motion.div>
           </motion.div>
@@ -160,10 +173,15 @@ export default function Hero({ trending }: { trending: TMDBMedia[] }) {
               >
                 <div className="mb-4 flex items-center gap-3">
                   <div className="flex h-12 w-12 items-center justify-center rounded-full bg-color-primary/20">
-                    <Star className="h-6 w-6 text-color-primary" fill="currentColor" />
+                    <Star
+                      className="h-6 w-6 text-color-primary"
+                      fill="currentColor"
+                    />
                   </div>
                   <div>
-                    <div className="font-bold text-2xl text-color-primary">9.5</div>
+                    <div className="font-bold text-2xl text-color-primary">
+                      9.5
+                    </div>
                     <div className="text-text-secondary text-xs">Épico!</div>
                   </div>
                 </div>
@@ -174,13 +192,20 @@ export default function Hero({ trending }: { trending: TMDBMedia[] }) {
                 </div>
                 <div className="w-full h-[70%] mt-2 relative">
                   <div className="absolute w-full rounded-2xl bottom-0 p-2 bg-black/60">
-                    <p className="mb-2 font-medium text-xs text-white/80">{getGenreNames(sortMedia?.[1]?.genre_ids)}</p>
-                    <h3 className="mb-3 line-clamp-2 font-bold text-sm text-white">{getTitle(sortMedia?.[1])}</h3>
+                    <p className="mb-2 font-medium text-xs text-white/80">
+                      {getGenreNames(sortMedia?.[1]?.genre_ids)}
+                    </p>
+                    <h3 className="mb-3 line-clamp-2 font-bold text-sm text-white">
+                      {getTitle(sortMedia?.[1])}
+                    </h3>
                   </div>
 
                   <OptimizedImage
                     alt={sortMedia?.[1]?.title ?? "Media Trending"}
-                    src={getImageUrl(sortMedia?.[1]?.backdrop_path ?? "", "w780")}
+                    src={getImageUrl(
+                      sortMedia?.[1]?.backdrop_path ?? "",
+                      "w780"
+                    )}
                     width={600}
                     height={600}
                     className="object-cover rounded-2xl w-full h-full"
@@ -205,22 +230,36 @@ export default function Hero({ trending }: { trending: TMDBMedia[] }) {
               >
                 <div className="mb-4 flex items-center gap-3">
                   <div className="flex h-12 w-12 items-center justify-center rounded-full bg-color-like/20">
-                    <Play className="h-6 w-6 text-color-like" fill="currentColor" />
+                    <Play
+                      className="h-6 w-6 text-color-like"
+                      fill="currentColor"
+                    />
                   </div>
                   <div>
-                    <div className="font-bold text-lg text-text-primary">Em Alta</div>
-                    <div className="text-text-secondary text-xs">Tendências</div>
+                    <div className="font-bold text-lg text-text-primary">
+                      Em Alta
+                    </div>
+                    <div className="text-text-secondary text-xs">
+                      Tendências
+                    </div>
                   </div>
                 </div>
                 <div className="w-full h-[80%] relative ">
                   <div className="absolute rounded-2xl bottom-0 p-2 w-full bg-black/60">
-                    <p className="mb-2 font-medium text-xs text-white/80">{getGenreNames(sortMedia?.[0]?.genre_ids)}</p>
-                    <h3 className="mb-3 line-clamp-2 font-bold text-sm text-white">{getTitle(sortMedia?.[0])}</h3>
+                    <p className="mb-2 font-medium text-xs text-white/80">
+                      {getGenreNames(sortMedia?.[0]?.genre_ids)}
+                    </p>
+                    <h3 className="mb-3 line-clamp-2 font-bold text-sm text-white">
+                      {getTitle(sortMedia?.[0])}
+                    </h3>
                   </div>
 
                   <OptimizedImage
                     alt={sortMedia?.[0]?.title ?? "Media Trending"}
-                    src={getImageUrl(sortMedia?.[0]?.backdrop_path ?? "", "w780")}
+                    src={getImageUrl(
+                      sortMedia?.[0]?.backdrop_path ?? "",
+                      "w780"
+                    )}
                     width={600}
                     height={600}
                     className="object-cover rounded-2xl w-full h-full"

@@ -29,7 +29,9 @@ export default function SpotlightCard({
   spotlightSize = 280,
 }: SpotlightCardProps) {
   const elementRef = useRef<HTMLDivElement | null>(null);
-  const [spotlight, setSpotlight] = useState<SpotlightState>(defaultSpotlightState);
+  const [spotlight, setSpotlight] = useState<SpotlightState>(
+    defaultSpotlightState
+  );
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
@@ -72,11 +74,14 @@ export default function SpotlightCard({
       background: `radial-gradient(${spotlightSize}px circle at ${spotlight.x}px ${spotlight.y}px, ${spotlightColor}, transparent 60%)`,
       opacity: spotlight.opacity,
     }),
-    [spotlight, spotlightColor, spotlightSize],
+    [spotlight, spotlightColor, spotlightSize]
   );
 
   return (
-    <div ref={elementRef} className={cn("group relative overflow-hidden", className)}>
+    <div
+      ref={elementRef}
+      className={cn("group relative overflow-hidden", className)}
+    >
       <div
         className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-300"
         style={spotlightStyle}

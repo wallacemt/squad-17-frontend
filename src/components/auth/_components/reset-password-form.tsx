@@ -4,25 +4,38 @@ import { Lock, CheckCircle } from "lucide-react";
 import { PasswordInput } from "@/components/ui/auth-input";
 import { AuthButton } from "@/components/ui/auth-button";
 import { PasswordStrengthBar } from "@/components/ui/password-strength-bar";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Logo } from "@/components/ui/logo";
 import type { ResetPasswordData } from "@/types/auth";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-interface ResetPasswordFormProps  {
+interface ResetPasswordFormProps {
   token: string;
   onSubmit: (data: ResetPasswordData) => Promise<void>;
   isLoading?: boolean;
-};
+}
 
-export function ResetPasswordForm({ token, onSubmit, isLoading = false }: ResetPasswordFormProps) {
+export function ResetPasswordForm({
+  token,
+  onSubmit,
+  isLoading = false,
+}: ResetPasswordFormProps) {
   const router = useRouter();
   const [formData, setFormData] = useState({
     password: "",
     confirmPassword: "",
   });
-  const [errors, setErrors] = useState<{ password?: string; confirmPassword?: string }>({});
+  const [errors, setErrors] = useState<{
+    password?: string;
+    confirmPassword?: string;
+  }>({});
   const [success, setSuccess] = useState(false);
 
   const validateForm = (): boolean => {
@@ -52,14 +65,20 @@ export function ResetPasswordForm({ token, onSubmit, isLoading = false }: ResetP
       await onSubmit({ token, ...formData });
       setSuccess(true);
     } catch (error) {
-      setErrors({ password: "Erro ao redefinir senha. Token pode ter expirado." });
+      setErrors({
+        password: "Erro ao redefinir senha. Token pode ter expirado.",
+      });
       console.error("Reset password error:", error);
     }
   };
 
   if (success) {
     return (
-      <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="w-full">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="w-full"
+      >
         <Card className="border-border-color bg-bg-surface-light/50 backdrop-blur-sm">
           <CardHeader className="space-y-4 pb-6">
             <div className="flex justify-center">
@@ -69,9 +88,12 @@ export function ResetPasswordForm({ token, onSubmit, isLoading = false }: ResetP
               <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-color-success/20">
                 <CheckCircle className="h-8 w-8 text-color-success" />
               </div>
-              <CardTitle className="font-bold font-display text-3xl text-text-primary">Senha redefinida!</CardTitle>
+              <CardTitle className="font-bold font-display text-3xl text-text-primary">
+                Senha redefinida!
+              </CardTitle>
               <CardDescription className="text-text-secondary">
-                Sua senha foi alterada com sucesso. Agora você pode fazer login com a nova senha.
+                Sua senha foi alterada com sucesso. Agora você pode fazer login
+                com a nova senha.
               </CardDescription>
             </div>
           </CardHeader>
@@ -104,8 +126,12 @@ export function ResetPasswordForm({ token, onSubmit, isLoading = false }: ResetP
             <Logo variant="default" />
           </div>
           <div className="space-y-2 text-center">
-            <CardTitle className="font-bold font-display text-3xl text-text-primary">Nova senha</CardTitle>
-            <CardDescription className="text-text-secondary">Digite sua nova senha abaixo</CardDescription>
+            <CardTitle className="font-bold font-display text-3xl text-text-primary">
+              Nova senha
+            </CardTitle>
+            <CardDescription className="text-text-secondary">
+              Digite sua nova senha abaixo
+            </CardDescription>
           </div>
         </CardHeader>
 
@@ -116,7 +142,9 @@ export function ResetPasswordForm({ token, onSubmit, isLoading = false }: ResetP
               <PasswordInput
                 placeholder="Nova senha"
                 value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, password: e.target.value })
+                }
                 error={errors.password}
                 icon={<Lock className="h-5 w-5" />}
                 disabled={isLoading}
@@ -128,13 +156,21 @@ export function ResetPasswordForm({ token, onSubmit, isLoading = false }: ResetP
             <PasswordInput
               placeholder="Confirmar nova senha"
               value={formData.confirmPassword}
-              onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, confirmPassword: e.target.value })
+              }
               error={errors.confirmPassword}
               icon={<Lock className="h-5 w-5" />}
               disabled={isLoading}
             />
 
-            <AuthButton type="submit" variant="primary" size="lg" fullWidth isLoading={isLoading}>
+            <AuthButton
+              type="submit"
+              variant="primary"
+              size="lg"
+              fullWidth
+              isLoading={isLoading}
+            >
               Redefinir senha
             </AuthButton>
           </form>

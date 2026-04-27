@@ -7,7 +7,11 @@ interface AppLayoutProps {
 export default function AppLayout({ children }: AppLayoutProps) {
   return (
     <SidebarProvider>
-      <AppSidebar variant="floating" collapsible="icon" style={{userSelect:"none"}} />
+      <AppSidebar
+        variant="floating"
+        collapsible="icon"
+        style={{ userSelect: "none" }}
+      />
       <main className="flex-1 overflow-y-auto lg:mt-0 mt-16">{children}</main>
     </SidebarProvider>
   );

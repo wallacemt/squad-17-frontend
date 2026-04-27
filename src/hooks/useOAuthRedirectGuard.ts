@@ -26,7 +26,8 @@ export function useOAuthRedirectGuard() {
       const traditionalAuthCookie = Cookies.get("critix.auth-token");
 
       // Verificar localStorage
-      const hasLocalStorage = typeof window !== "undefined" && localStorage.getItem("auth_session");
+      const hasLocalStorage =
+        typeof window !== "undefined" && localStorage.getItem("auth_session");
 
       if (betterAuthCookie || traditionalAuthCookie || hasLocalStorage) {
         // Encontrou algum tipo de autenticação

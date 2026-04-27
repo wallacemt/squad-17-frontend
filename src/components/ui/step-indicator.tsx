@@ -16,7 +16,11 @@ interface StepIndicatorProps {
   className?: string;
 }
 
-export function StepIndicator({ steps, currentStep, className }: StepIndicatorProps) {
+export function StepIndicator({
+  steps,
+  currentStep,
+  className,
+}: StepIndicatorProps) {
   return (
     <div className={cn("w-full", className)}>
       <div className="relative flex justify-between">
@@ -38,14 +42,18 @@ export function StepIndicator({ steps, currentStep, className }: StepIndicatorPr
           const isPending = currentStep < stepNumber;
 
           return (
-            <div key={step.id} className="relative flex flex-col items-center flex-1">
+            <div
+              key={step.id}
+              className="relative flex flex-col items-center flex-1"
+            >
               {/* Circle */}
               <div
                 className={cn(
                   "relative  flex h-12 w-12 items-center justify-center rounded-full border-2 transition-all duration-300",
                   !!isCompleted &&
                     "border-primary bg-gradient-to-br from-primary-crx to-primary-hover-crx shadow-[0_0_20px_rgba(255,193,7,0.3)]",
-                  !!isCurrent && "border-primary bg-surface-crx shadow-[0_0_20px_rgba(255,193,7,0.3)] scale-110",
+                  !!isCurrent &&
+                    "border-primary bg-surface-crx shadow-[0_0_20px_rgba(255,193,7,0.3)] scale-110",
                   !!isPending && "border-border bg-surface-crx "
                 )}
               >
@@ -75,7 +83,9 @@ export function StepIndicator({ steps, currentStep, className }: StepIndicatorPr
                 >
                   {step.title}
                 </div>
-                <div className="text-xs text-white mt-1 max-w-[120px]">{step.description}</div>
+                <div className="text-xs text-white mt-1 max-w-[120px]">
+                  {step.description}
+                </div>
               </div>
 
               {/* Status Badge */}

@@ -4,10 +4,25 @@ export function VaultPageBackground() {
       <div className="pointer-events-none fixed inset-0 z-30 bg-bg-body" />
 
       <div className="pointer-events-none fixed inset-0 -z-20 bg-accent/5 opacity-55">
-        <svg aria-hidden="true" focusable="false" className="h-full w-full" xmlns="http://www.w3.org/2000/svg">
+        <svg
+          aria-hidden="true"
+          focusable="false"
+          className="h-full w-full"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <defs>
-            <pattern id="vault-grid" width="48" height="48" patternUnits="userSpaceOnUse">
-              <path d="M48 0H0v48" fill="none" stroke="white" strokeWidth="0.6" />
+            <pattern
+              id="vault-grid"
+              width="48"
+              height="48"
+              patternUnits="userSpaceOnUse"
+            >
+              <path
+                d="M48 0H0v48"
+                fill="none"
+                stroke="white"
+                strokeWidth="0.6"
+              />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#vault-grid)" />

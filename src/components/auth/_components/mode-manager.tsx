@@ -67,7 +67,10 @@ export function ModeManager({ posters, mode }: ModeManagerProps) {
 
       {/*  Left side - Auth Forms */}
       <div className="flex w-full relative items-center justify-center lg:w-1/2 overflow-y-auto ">
-        <Logo variant="compact" className="absolute left-1/2 top-1/2  -translate-x-1/2 -translate-y-1/2 opacity-60" />
+        <Logo
+          variant="compact"
+          className="absolute left-1/2 top-1/2  -translate-x-1/2 -translate-y-1/2 opacity-60"
+        />
         <div className="w-full max-w-lg flex flex-col items-center max-h-full mt-4 md:p-3">
           {mode === "login" && (
             <LoginForm
@@ -80,7 +83,12 @@ export function ModeManager({ posters, mode }: ModeManagerProps) {
             />
           )}
 
-          {mode === "social" && <SocialLoginView onProviderClick={handleSocialLogin} onBack={() => setMode("login")} />}
+          {mode === "social" && (
+            <SocialLoginView
+              onProviderClick={handleSocialLogin}
+              onBack={() => setMode("login")}
+            />
+          )}
 
           {mode === "register" && (
             <RegisterForm
@@ -102,7 +110,12 @@ export function ModeManager({ posters, mode }: ModeManagerProps) {
             />
           )}
 
-          {mode === "forgot-password" && <ForgotPasswordForm onBack={() => setMode("login")} isLoading={isLoading} />}
+          {mode === "forgot-password" && (
+            <ForgotPasswordForm
+              onBack={() => setMode("login")}
+              isLoading={isLoading}
+            />
+          )}
           {mode === "reset-password" && <ResetPasswordContent />}
         </div>
       </div>

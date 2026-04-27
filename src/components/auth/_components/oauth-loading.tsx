@@ -68,7 +68,13 @@ export function OAuthLoadingScreen() {
           >
             <div className="relative">
               <div className="relative  p-4 rounded-xl">
-                <Image src="/images/logo-full.png" alt="Critix Logo" width={200} height={300} className="w-full" />
+                <Image
+                  src="/images/logo-full.png"
+                  alt="Critix Logo"
+                  width={200}
+                  height={300}
+                  className="w-full"
+                />
                 <motion.p
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -157,7 +163,9 @@ export function OAuthLoadingScreen() {
               ))}
             </div>
 
-            <p className="text-text-muted text-sm">Configurando sua experiência cinematográfica...</p>
+            <p className="text-text-muted text-sm">
+              Configurando sua experiência cinematográfica...
+            </p>
           </motion.div>
         </div>
       </motion.div>

@@ -1,14 +1,42 @@
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
-import { User, Mail, Lock, UserCircle, ArrowRight, ArrowLeft, Check, Shuffle, HelpCircle } from "lucide-react";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  User,
+  Mail,
+  Lock,
+  UserCircle,
+  ArrowRight,
+  ArrowLeft,
+  Check,
+  Shuffle,
+  HelpCircle,
+} from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input, PasswordInput } from "@/components/ui/auth-input";
 import { AuthButton } from "@/components/ui/auth-button";
 import { PasswordStrengthBar } from "@/components/ui/password-strength-bar";
 import { StepIndicator } from "@/components/ui/step-indicator";
 import { Separator } from "@/components/ui/separator";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { countries, genderOptions, generateNickname, nicknameTips } from "@/utils/countries";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  countries,
+  genderOptions,
+  generateNickname,
+  nicknameTips,
+} from "@/utils/countries";
 import type { RegisterStep1Data, RegisterStep2Data } from "@/types/auth";
 import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -18,7 +46,10 @@ import { getCheckInfo } from "@/services/authService";
 import { useRegisterFormCache } from "@/hooks/useAuthCache";
 
 interface RegisterFormProps {
-  onSubmit: (data: RegisterStep1Data & RegisterStep2Data, clearCache?: () => void) => Promise<void>;
+  onSubmit: (
+    data: RegisterStep1Data & RegisterStep2Data,
+    clearCache?: () => void
+  ) => Promise<void>;
   onLogin: () => void;
   onCheckNickname: (nickname: string) => Promise<boolean>;
   isLoading?: boolean;
@@ -26,12 +57,23 @@ interface RegisterFormProps {
 const validadeStep1Regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const validadeStep2Regex = /^[a-zA-Z0-9_]+$/;
 const handleSubmitRegex = /^[a-zA-Z0-9_]+$/;
-export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = false }: RegisterFormProps) {
+export function RegisterForm({
+  onSubmit,
+  onLogin,
+  onCheckNickname,
+  isLoading = false,
+}: RegisterFormProps) {
   const formCache = useRegisterFormCache();
   const [currentStep, setCurrentStep] = useState<1 | 2>(formCache.currentStep);
-  const [step1Data, setStep1Data] = useState<RegisterStep1Data>(formCache.step1Data);
-  const [step2Data, setStep2Data] = useState<RegisterStep2Data>(formCache.step2Data);
-  const [errors, setErrors] = useState<Partial<RegisterStep1Data & RegisterStep2Data>>({});
+  const [step1Data, setStep1Data] = useState<RegisterStep1Data>(
+    formCache.step1Data
+  );
+  const [step2Data, setStep2Data] = useState<RegisterStep2Data>(
+    formCache.step2Data
+  );
+  const [errors, setErrors] = useState<
+    Partial<RegisterStep1Data & RegisterStep2Data>
+  >({});
   const [nicknameChecking, setNicknameChecking] = useState(false);
   const [nicknameExistis, setNicknameExistis] = useState<boolean | null>(null);
   const [showNicknameTips, setShowNicknameTips] = useState(false);
@@ -75,7 +117,8 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
     } else if (step2Data.nickname.length < 3) {
       newErrors.nickname = "Nome de usuário deve ter no mínimo 3 caracteres";
     } else if (!validadeStep2Regex.test(step2Data.nickname)) {
-      newErrors.nickname = "Nome de usuário deve conter apenas letras, números e _";
+      newErrors.nickname =
+        "Nome de usuário deve conter apenas letras, números e _";
     } else if (nicknameExistis === true) {
       newErrors.nickname = "Nome de usuário já está em uso";
     }
@@ -178,7 +221,10 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
   }, [step2Data.nickname, checkNickname]);
 
   const getNotValid = () => {
-    if (step1Data.confirmPassword.length === 0 && step1Data.password.length === 0) {
+    if (
+      step1Data.confirmPassword.length === 0 &&
+      step1Data.password.length === 0
+    ) {
       return true;
     }
     if (step1Data.confirmPassword !== step1Data.password) {
@@ -204,7 +250,9 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
         <CardHeader className="space-y-4 pb-6">
           {/* Header */}
           <div className="space-y-2 text-center">
-            <CardTitle className="font-bold font-display text-3xl text-primary">Criar conta</CardTitle>
+            <CardTitle className="font-bold font-display text-3xl text-primary">
+              Criar conta
+            </CardTitle>
             <CardDescription className="text-text-secondary-crx">
               Junte-se à comunidade de críticos de cinema
             </CardDescription>
@@ -246,7 +294,9 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
                   type="text"
                   placeholder="Nome completo"
                   value={step1Data.name}
-                  onChange={(e) => setStep1Data({ ...step1Data, name: e.target.value })}
+                  onChange={(e) =>
+                    setStep1Data({ ...step1Data, name: e.target.value })
+                  }
                   error={errors.name}
                   icon={<User className="h-5 w-5 text-primary-crx" />}
                   disabled={isLoading}
@@ -257,7 +307,9 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
                     type="email"
                     placeholder="Email"
                     value={step1Data.email}
-                    onChange={(e) => setStep1Data({ ...step1Data, email: e.target.value })}
+                    onChange={(e) =>
+                      setStep1Data({ ...step1Data, email: e.target.value })
+                    }
                     error={errors.email}
                     icon={<Mail className="h-5 w-5 text-primary-crx" />}
                     disabled={isLoading}
@@ -277,7 +329,9 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
                 <PasswordInput
                   placeholder="Senha"
                   value={step1Data.password}
-                  onChange={(e) => setStep1Data({ ...step1Data, password: e.target.value })}
+                  onChange={(e) =>
+                    setStep1Data({ ...step1Data, password: e.target.value })
+                  }
                   error={errors.password}
                   icon={<Lock className="h-5 w-5 text-primary-crx" />}
                   disabled={isLoading}
@@ -287,7 +341,12 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
                   <PasswordInput
                     placeholder="Confirmar senha"
                     value={step1Data.confirmPassword}
-                    onChange={(e) => setStep1Data({ ...step1Data, confirmPassword: e.target.value })}
+                    onChange={(e) =>
+                      setStep1Data({
+                        ...step1Data,
+                        confirmPassword: e.target.value,
+                      })
+                    }
                     error={errors.confirmPassword}
                     icon={<Lock className="h-5 w-5 text-primary-crx" />}
                     disabled={isLoading}
@@ -340,7 +399,10 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
                       className="rounded-lg bg-surface-crx p-3 space-y-1"
                     >
                       {nicknameTips.map((tip, _idx) => (
-                        <p key={tip} className="text-xs text-text-muted flex items-start gap-2">
+                        <p
+                          key={tip}
+                          className="text-xs text-text-muted flex items-start gap-2"
+                        >
                           <span className="text-color-primary">•</span>
                           <span>{tip}</span>
                         </p>
@@ -354,7 +416,12 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
                         type="text"
                         placeholder="exemplo_usuario123"
                         value={step2Data.nickname}
-                        onChange={(e) => setStep2Data({ ...step2Data, nickname: e.target.value })}
+                        onChange={(e) =>
+                          setStep2Data({
+                            ...step2Data,
+                            nickname: e.target.value,
+                          })
+                        }
                         error={errors.nickname}
                         icon={<UserCircle className="h-5 w-5" />}
                         disabled={isLoading}
@@ -387,17 +454,27 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
 
                 <CalendarPicker
                   date={new Date(step2Data.birthDate)}
-                  setDate={(e) => setStep2Data({ ...step2Data, birthDate: String(e) })}
+                  setDate={(e) =>
+                    setStep2Data({ ...step2Data, birthDate: String(e) })
+                  }
                   text="Nascimento"
                   isLoading={isLoading}
                 />
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-text-secondary" htmlFor="gender">
+                  <label
+                    className="text-sm font-medium text-text-secondary"
+                    htmlFor="gender"
+                  >
                     Gênero
                   </label>
                   <Select
                     value={step2Data.gender}
-                    onValueChange={(value) => setStep2Data({ ...step2Data, gender: value as typeof step2Data.gender })}
+                    onValueChange={(value) =>
+                      setStep2Data({
+                        ...step2Data,
+                        gender: value as typeof step2Data.gender,
+                      })
+                    }
                     disabled={isLoading}
                   >
                     <SelectTrigger
@@ -421,12 +498,17 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-text-secondary" htmlFor="country">
+                  <label
+                    className="text-sm font-medium text-text-secondary"
+                    htmlFor="country"
+                  >
                     País
                   </label>
                   <Select
                     value={step2Data.country}
-                    onValueChange={(value) => setStep2Data({ ...step2Data, country: value })}
+                    onValueChange={(value) =>
+                      setStep2Data({ ...step2Data, country: value })
+                    }
                     disabled={isLoading}
                   >
                     <SelectTrigger
@@ -436,8 +518,20 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
                       <SelectValue placeholder="Selecione seu país">
                         {!!step2Data.country && (
                           <span className="flex items-center gap-2">
-                            <span>{countries.find((c) => c.code === step2Data.country)?.flag}</span>
-                            <span>{countries.find((c) => c.code === step2Data.country)?.name}</span>
+                            <span>
+                              {
+                                countries.find(
+                                  (c) => c.code === step2Data.country
+                                )?.flag
+                              }
+                            </span>
+                            <span>
+                              {
+                                countries.find(
+                                  (c) => c.code === step2Data.country
+                                )?.name
+                              }
+                            </span>
                           </span>
                         )}
                       </SelectValue>
@@ -457,7 +551,9 @@ export function RegisterForm({ onSubmit, onLogin, onCheckNickname, isLoading = f
                       ))}
                     </SelectContent>
                   </Select>
-                  {!!errors.country && <p className="text-xs text-danger-crx">{errors.country}</p>}
+                  {!!errors.country && (
+                    <p className="text-xs text-danger-crx">{errors.country}</p>
+                  )}
                 </div>
 
                 <div className="flex gap-3">

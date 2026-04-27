@@ -13,7 +13,10 @@ export function VaultScreenshotsSection() {
   const foldedScreenshots = vaultScreenshots.slice(4);
 
   return (
-    <section id="capturas" className="mx-auto max-w-7xl scroll-mt-24 px-4 py-20 sm:px-6 lg:px-8">
+    <section
+      id="capturas"
+      className="mx-auto max-w-7xl scroll-mt-24 px-4 py-20 sm:px-6 lg:px-8"
+    >
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -21,10 +24,13 @@ export function VaultScreenshotsSection() {
         transition={{ duration: 0.45 }}
         className="mb-12 space-y-4"
       >
-        <h2 className="font-display text-4xl md:text-6xl">Visual de produto com movimento real</h2>
+        <h2 className="font-display text-4xl md:text-6xl">
+          Visual de produto com movimento real
+        </h2>
         <p className="max-w-3xl text-lg text-text-secondary">
-          Duas galerias diferentes reforcam a proposta da landing: cards em camadas com efeito lift e uma linha de dobra
-          alternada para storytelling do produto.
+          Duas galerias diferentes reforcam a proposta da landing: cards em
+          camadas com efeito lift e uma linha de dobra alternada para
+          storytelling do produto.
         </p>
       </motion.div>
 
@@ -74,7 +80,10 @@ export function VaultScreenshotsSection() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.55 }}
-              className={cn("grid gap-5 lg:grid-cols-2", isOdd && "lg:[&>*:first-child]:order-2")}
+              className={cn(
+                "grid gap-5 lg:grid-cols-2",
+                isOdd && "lg:[&>*:first-child]:order-2"
+              )}
             >
               <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-black/25 p-4">
                 <div
@@ -82,14 +91,14 @@ export function VaultScreenshotsSection() {
                     "pointer-events-none absolute inset-0 -z-10",
                     isOdd
                       ? "bg-[linear-gradient(135deg,rgba(255,193,7,0.22),transparent_60%)]"
-                      : "bg-[linear-gradient(315deg,rgba(32,197,177,0.22),transparent_60%)]",
+                      : "bg-[linear-gradient(315deg,rgba(32,197,177,0.22),transparent_60%)]"
                   )}
                 />
 
                 <div
                   className={cn(
                     "absolute top-3 text-xs uppercase tracking-[0.24em] text-white/45",
-                    isOdd ? "left-4" : "right-4",
+                    isOdd ? "left-4" : "right-4"
                   )}
                 >
                   Fold
@@ -98,7 +107,7 @@ export function VaultScreenshotsSection() {
                 <div
                   className={cn(
                     "-mx-2 mt-8 rounded-2xl border border-white/10 bg-black/50 p-2",
-                    isOdd ? "rotate-[1.2deg]" : "-rotate-[1.2deg]",
+                    isOdd ? "rotate-[1.2deg]" : "-rotate-[1.2deg]"
                   )}
                 >
                   <OptimizedImage
@@ -115,7 +124,10 @@ export function VaultScreenshotsSection() {
               <div className="flex items-center">
                 <BorderGradientPanel className="w-full">
                   <div className="space-y-4 px-6 py-8">
-                    <Badge variant="outline" className="border-white/20 bg-black/20 text-text-secondary">
+                    <Badge
+                      variant="outline"
+                      className="border-white/20 bg-black/20 text-text-secondary"
+                    >
                       Bloco {index + 1}
                     </Badge>
                     <h3 className="font-display text-3xl">{shot.title}</h3>

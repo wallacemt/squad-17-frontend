@@ -1,7 +1,14 @@
 "use client";
 import { motion } from "framer-motion";
 import { Mail, Lock, ArrowRight, ExternalLink } from "lucide-react";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input, PasswordInput } from "@/components/ui/auth-input";
 import { AuthButton } from "@/components/ui/auth-button";
 import { Separator } from "@/components/ui/separator";
@@ -29,7 +36,9 @@ export function LoginForm({
   isLoading = false,
 }: LoginFormProps) {
   const formCache = useLoginFormCache();
-  const [formData, setFormData] = useState<LoginCredentials>(formCache.loginData);
+  const [formData, setFormData] = useState<LoginCredentials>(
+    formCache.loginData
+  );
 
   const [errors, setErrors] = useState<Partial<LoginCredentials>>({});
   const saveTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
@@ -101,7 +110,9 @@ export function LoginForm({
       {/* Main Card */}
       <Card className="border-border-color itnc bg-surface-crx/50 backdrop-blur py-2">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-display text-center text-primary">Bem-vindo de volta</CardTitle>
+          <CardTitle className="text-2xl font-display text-center text-primary">
+            Bem-vindo de volta
+          </CardTitle>
           <CardDescription className="text-center text-primary-crx">
             Entre com suas credenciais para continuar
           </CardDescription>
@@ -136,14 +147,19 @@ export function LoginForm({
 
           <div className="flex items-center my-2 xl:text-lg text-gray-400">
             <div className="flex-grow border-t border-gray-400" />
-            <span className="mx-2 text-sm text-primary-hover-crx">ou continue com email</span>
+            <span className="mx-2 text-sm text-primary-hover-crx">
+              ou continue com email
+            </span>
             <div className="flex-grow border-t border-gray-400" />
           </div>
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <label htmlFor="email" className="text-sm font-medium text-primary-crx">
+              <label
+                htmlFor="email"
+                className="text-sm font-medium text-primary-crx"
+              >
                 Email ou usuário
               </label>
               <Input
@@ -151,7 +167,9 @@ export function LoginForm({
                 type="text"
                 placeholder="seu@email.com ou @usuario"
                 value={formData.emailOrUsername}
-                onChange={(e) => setFormData({ ...formData, emailOrUsername: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, emailOrUsername: e.target.value })
+                }
                 error={errors.emailOrUsername}
                 icon={<Mail className="h-5 w-5" />}
                 disabled={isLoading}
@@ -160,7 +178,10 @@ export function LoginForm({
 
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <label htmlFor="password" className="text-sm font-medium text-primary-crx">
+                <label
+                  htmlFor="password"
+                  className="text-sm font-medium text-primary-crx"
+                >
                   Senha
                 </label>
                 <Button
@@ -177,7 +198,9 @@ export function LoginForm({
                 id="password"
                 placeholder="••••••••"
                 value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, password: e.target.value })
+                }
                 error={errors.password}
                 icon={<Lock className="h-5 w-5" />}
                 disabled={isLoading}
@@ -185,14 +208,19 @@ export function LoginForm({
             </div>
 
             <div className="flex items-center justify-between w-full">
-              <Label htmlFor="remember" className=" text-sm text-text-secondary-crx w-full  cursor-pointer">
+              <Label
+                htmlFor="remember"
+                className=" text-sm text-text-secondary-crx w-full  cursor-pointer"
+              >
                 Manter-me conectado
               </Label>
               <Input
                 id="remember"
                 type="checkbox"
                 checked={formData.rememberMe}
-                onChange={(e) => setFormData({ ...formData, rememberMe: e.target.checked })}
+                onChange={(e) =>
+                  setFormData({ ...formData, rememberMe: e.target.checked })
+                }
                 className="h-4 w-4 rounded border-primary   border-2 bg-surface-light-crx self-end text-primary-crx focus:ring-2 focus:ring-color-primary/20 focus:ring-offset-0"
                 disabled={isLoading}
               />

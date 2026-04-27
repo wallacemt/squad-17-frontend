@@ -15,7 +15,13 @@ import {
   StarIcon,
 } from "lucide-react";
 
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from "@/components/ui/sidebar";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarRail,
+} from "@/components/ui/sidebar";
 import Link from "next/link";
 import Image from "next/image";
 import { NavMain } from "./nav-main";
@@ -61,7 +67,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader>
         <div className="flex items-center justify-center p-4">
           <Link href="/">
-            <Image src="/images/logo-full.png" width={200} height={25} alt="Critix Logo" />
+            <Image
+              src="/images/logo-full.png"
+              width={200}
+              height={25}
+              alt="Critix Logo"
+            />
           </Link>
         </div>
       </SidebarHeader>

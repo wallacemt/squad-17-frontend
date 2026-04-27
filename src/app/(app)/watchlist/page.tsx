@@ -8,9 +8,17 @@ import { BookmarkIcon, PlayIcon } from "lucide-react";
 export default function WatchlistPage() {
   return (
     <div className="container mx-auto px-6 py-8 max-w-7xl">
-      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-        <h1 className="font-display text-4xl font-bold text-text-primary mb-2">Watchlist</h1>
-        <p className="text-text-secondary text-lg">Seus filmes e séries salvos para assistir depois</p>
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="mb-8"
+      >
+        <h1 className="font-display text-4xl font-bold text-text-primary mb-2">
+          Watchlist
+        </h1>
+        <p className="text-text-secondary text-lg">
+          Seus filmes e séries salvos para assistir depois
+        </p>
       </motion.div>
 
       {/* Filter Tabs */}
@@ -20,7 +28,9 @@ export default function WatchlistPage() {
             variant={"ghost"}
             key={tab}
             className={`px-6 py-2 rounded-full font-medium whitespace-nowrap transition-all ${
-              idx === 0 ? "bg-primary-crx text-white" : "bg-surface-crx text-secondary hover:bg-surface-light-crx"
+              idx === 0
+                ? "bg-primary-crx text-white"
+                : "bg-surface-crx text-secondary hover:bg-surface-light-crx"
             }`}
           >
             {tab}
@@ -40,7 +50,9 @@ export default function WatchlistPage() {
           >
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
             <OptimizedImage
-              src={"https://image.tmdb.org/t/p/original//twfKp60THrcOIep9sjHODOOfO8d.jpg"}
+              src={
+                "https://image.tmdb.org/t/p/original//twfKp60THrcOIep9sjHODOOfO8d.jpg"
+              }
               alt="test"
               className="object-fill"
               fill

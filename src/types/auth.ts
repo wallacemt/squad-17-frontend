@@ -1,6 +1,13 @@
 import type { UserAccount, UserData } from "./user";
 
-export type AuthMode = "login" | "register" | "otp" | "password" | "reset-password" | "forgot-password" | "social";
+export type AuthMode =
+  | "login"
+  | "register"
+  | "otp"
+  | "password"
+  | "reset-password"
+  | "forgot-password"
+  | "social";
 
 export type OAuthProvider = "google" | "discord" | "twitch" | "twitter";
 

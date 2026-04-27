@@ -2,7 +2,14 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { AlertTriangle, RefreshCcw, Home, ServerCrash, WifiOff, Bug } from "lucide-react";
+import {
+  AlertTriangle,
+  RefreshCcw,
+  Home,
+  ServerCrash,
+  WifiOff,
+  Bug,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import { env } from "node:process";
 
@@ -17,17 +24,26 @@ interface ErrorInfo {
 function getErrorInfo(error: Error): ErrorInfo {
   const message = error.message?.toLowerCase() || "";
 
-  if (message.includes("api") || message.includes("servidor") || message === "api_error") {
+  if (
+    message.includes("api") ||
+    message.includes("servidor") ||
+    message === "api_error"
+  ) {
     return {
       title: "Erro no Servidor",
-      description: "Não foi possível conectar ao servidor. Verifique sua conexão ou tente novamente mais tarde.",
+      description:
+        "Não foi possível conectar ao servidor. Verifique sua conexão ou tente novamente mais tarde.",
       icon: <ServerCrash className="w-16 h-16" />,
       iconColor: "text-red-500",
       bgGradient: "from-red-500/20 to-orange-500/20",
     };
   }
 
-  if (message.includes("network") || message.includes("fetch") || message.includes("rede")) {
+  if (
+    message.includes("network") ||
+    message.includes("fetch") ||
+    message.includes("rede")
+  ) {
     return {
       title: "Erro de Conexão",
       description: "Verifique sua conexão com a internet e tente novamente.",
@@ -39,25 +55,35 @@ function getErrorInfo(error: Error): ErrorInfo {
 
   return {
     title: "Algo Deu Errado",
-    description: error.message || "Ocorreu um erro inesperado. Por favor, tente novamente.",
+    description:
+      error.message ||
+      "Ocorreu um erro inesperado. Por favor, tente novamente.",
     icon: <Bug className="w-16 h-16" />,
     iconColor: "text-amber-500",
     bgGradient: "from-amber-500/20 to-yellow-500/20",
   };
 }
 
-export default function ErrorPage({ error, reset }: { error: Error; reset?: () => void }) {
+export default function ErrorPage({
+  error,
+  reset,
+}: {
+  error: Error;
+  reset?: () => void;
+}) {
   const router = useRouter();
   const errorInfo = getErrorInfo(error);
 
   console.error("Error occurred:", error);
-console.log(env.NODE_ENV)
+  console.log(env.NODE_ENV);
   return (
     <div className="min-h-screen p-2 bg-on-primary-crx flex flex-col items-center justify-center px-4 text-center overflow-hidden relative">
       {/* Background animado */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-bg-body via-bg-surface to-bg-body" />
-        <div className={`absolute inset-0 bg-gradient-to-br ${errorInfo.bgGradient} opacity-30 animate-pulse`} />
+        <div
+          className={`absolute inset-0 bg-gradient-to-br ${errorInfo.bgGradient} opacity-30 animate-pulse`}
+        />
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary-crx/10 rounded-full blur-3xl animate-blob" />
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-red-500/10 rounded-full blur-3xl animate-blob animation-delay-2000" />
       </div>
@@ -72,8 +98,12 @@ console.log(env.NODE_ENV)
           className="mb-8 flex justify-center"
         >
           <div className="relative">
-            <div className={`absolute inset-0 ${errorInfo.iconColor} opacity-20 blur-xl animate-pulse`} />
-            <div className={`relative ${errorInfo.iconColor} bg-bg-surface p-6 rounded-full border-2 border-current`}>
+            <div
+              className={`absolute inset-0 ${errorInfo.iconColor} opacity-20 blur-xl animate-pulse`}
+            />
+            <div
+              className={`relative ${errorInfo.iconColor} bg-bg-surface p-6 rounded-full border-2 border-current`}
+            >
               {errorInfo.icon}
             </div>
           </div>
@@ -172,7 +202,10 @@ console.log(env.NODE_ENV)
           className="mt-8 text-text-muted text-sm"
         >
           Se o problema persistir, entre em contato com o{" "}
-          <a href="mailto:support@critix.com" className="text-primary-crx hover:text-primary-hover-crx underline">
+          <a
+            href="mailto:support@critix.com"
+            className="text-primary-crx hover:text-primary-hover-crx underline"
+          >
             suporte
           </a>
         </motion.p>

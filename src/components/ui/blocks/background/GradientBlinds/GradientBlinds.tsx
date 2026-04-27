@@ -1,9 +1,9 @@
 //biome-ignore-all lint: This arquive correct
-import { useEffect, useRef } from 'react';
-import { Renderer, Program, Mesh, Triangle } from 'ogl';
-import './GradientBlinds.css';
+import { useEffect, useRef } from "react";
+import { Renderer, Program, Mesh, Triangle } from "ogl";
+import "./GradientBlinds.css";
 
-export type  GradientBlindsProps=   {
+export type GradientBlindsProps = {
   className?: string;
   dpr?: number;
   paused?: boolean;
@@ -18,20 +18,23 @@ export type  GradientBlindsProps=   {
   spotlightSoftness?: number;
   spotlightOpacity?: number;
   distortAmount?: number;
-  shineDirection?: 'left' | 'right';
+  shineDirection?: "left" | "right";
   mixBlendMode?: string;
-}
+};
 
 const MAX_COLORS = 8;
 const hexToRGB = (hex: string): [number, number, number] => {
-  const c = hex.replace('#', '').padEnd(6, '0');
+  const c = hex.replace("#", "").padEnd(6, "0");
   const r = parseInt(c.slice(0, 2), 16) / 255;
   const g = parseInt(c.slice(2, 4), 16) / 255;
   const b = parseInt(c.slice(4, 6), 16) / 255;
   return [r, g, b];
 };
 const prepStops = (stops?: string[]) => {
-  const base = (stops && stops.length ? stops : ['#FF9FFC', '#5227FF']).slice(0, MAX_COLORS);
+  const base = (stops && stops.length ? stops : ["#FF9FFC", "#5227FF"]).slice(
+    0,
+    MAX_COLORS
+  );
   if (base.length === 1) base.push(base[0]);
   while (base.length < MAX_COLORS) base.push(base[base.length - 1]);
   const arr: [number, number, number][] = [];
@@ -55,8 +58,8 @@ const GradientBlinds: React.FC<GradientBlindsProps> = ({
   spotlightSoftness = 1,
   spotlightOpacity = 1,
   distortAmount = 0,
-  shineDirection = 'left',
-  mixBlendMode = 'lighten'
+  shineDirection = "left",
+  mixBlendMode = "lighten",
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const rafRef = useRef<number | null>(null);
@@ -73,17 +76,19 @@ const GradientBlinds: React.FC<GradientBlindsProps> = ({
     if (!container) return;
 
     const renderer = new Renderer({
-      dpr: dpr ?? (typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1),
+      dpr:
+        dpr ??
+        (typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1),
       alpha: true,
-      antialias: true
+      antialias: true,
     });
     rendererRef.current = renderer;
     const gl = renderer.gl;
     const canvas = gl.canvas as HTMLCanvasElement;
 
-    canvas.style.width = '100%';
-    canvas.style.height = '100%';
-    canvas.style.display = 'block';
+    canvas.style.width = "100%";
+    canvas.style.height = "100%";
+    canvas.style.display = "block";
     container.appendChild(canvas);
 
     const vertex = `
@@ -234,7 +239,7 @@ void main() {
       uColorCount: { value: number };
     } = {
       iResolution: {
-        value: [gl.drawingBufferWidth, gl.drawingBufferHeight, 1]
+        value: [gl.drawingBufferWidth, gl.drawingBufferHeight, 1],
       },
       iMouse: { value: [0, 0] },
       iTime: { value: 0 },
@@ -246,7 +251,7 @@ void main() {
       uSpotlightOpacity: { value: spotlightOpacity },
       uMirror: { value: mirrorGradient ? 1 : 0 },
       uDistort: { value: distortAmount },
-      uShineFlip: { value: shineDirection === 'right' ? 1 : 0 },
+      uShineFlip: { value: shineDirection === "right" ? 1 : 0 },
       uColor0: { value: colorArr[0] },
       uColor1: { value: colorArr[1] },
       uColor2: { value: colorArr[2] },
@@ -255,13 +260,13 @@ void main() {
       uColor5: { value: colorArr[5] },
       uColor6: { value: colorArr[6] },
       uColor7: { value: colorArr[7] },
-      uColorCount: { value: colorCount }
+      uColorCount: { value: colorCount },
     };
 
     const program = new Program(gl, {
       vertex,
       fragment,
-      uniforms
+      uniforms,
     });
     programRef.current = program;
 
@@ -273,12 +278,21 @@ void main() {
     const resize = () => {
       const rect = container.getBoundingClientRect();
       renderer.setSize(rect.width, rect.height);
-      uniforms.iResolution.value = [gl.drawingBufferWidth, gl.drawingBufferHeight, 1];
+      uniforms.iResolution.value = [
+        gl.drawingBufferWidth,
+        gl.drawingBufferHeight,
+        1,
+      ];
 
       if (blindMinWidth && blindMinWidth > 0) {
-        const maxByMinWidth = Math.max(1, Math.floor(rect.width / blindMinWidth));
+        const maxByMinWidth = Math.max(
+          1,
+          Math.floor(rect.width / blindMinWidth)
+        );
 
-        const effective = blindCount ? Math.min(blindCount, maxByMinWidth) : maxByMinWidth;
+        const effective = blindCount
+          ? Math.min(blindCount, maxByMinWidth)
+          : maxByMinWidth;
         uniforms.uBlindCount.value = Math.max(1, effective);
       } else {
         uniforms.uBlindCount.value = Math.max(1, blindCount);
@@ -307,7 +321,7 @@ void main() {
         uniforms.iMouse.value = [x, y];
       }
     };
-    canvas.addEventListener('pointermove', onPointerMove);
+    canvas.addEventListener("pointermove", onPointerMove);
 
     const loop = (t: number) => {
       rafRef.current = requestAnimationFrame(loop);
@@ -338,20 +352,26 @@ void main() {
 
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
-      canvas.removeEventListener('pointermove', onPointerMove);
+      canvas.removeEventListener("pointermove", onPointerMove);
       ro.disconnect();
       if (canvas.parentElement === container) {
         container.removeChild(canvas);
       }
-      const callIfFn = <T extends object, K extends keyof T>(obj: T | null, key: K) => {
-        if (obj && typeof obj[key] === 'function') {
+      const callIfFn = <T extends object, K extends keyof T>(
+        obj: T | null,
+        key: K
+      ) => {
+        if (obj && typeof obj[key] === "function") {
           (obj[key] as unknown as () => void).call(obj);
         }
       };
-      callIfFn(programRef.current, 'remove');
-      callIfFn(geometryRef.current, 'remove');
-      callIfFn(meshRef.current as unknown as { remove?: () => void }, 'remove');
-      callIfFn(rendererRef.current as unknown as { destroy?: () => void }, 'destroy');
+      callIfFn(programRef.current, "remove");
+      callIfFn(geometryRef.current, "remove");
+      callIfFn(meshRef.current as unknown as { remove?: () => void }, "remove");
+      callIfFn(
+        rendererRef.current as unknown as { destroy?: () => void },
+        "destroy"
+      );
       programRef.current = null;
       geometryRef.current = null;
       meshRef.current = null;
@@ -371,7 +391,7 @@ void main() {
     spotlightSoftness,
     spotlightOpacity,
     distortAmount,
-    shineDirection
+    shineDirection,
   ]);
 
   return (
@@ -380,8 +400,8 @@ void main() {
       className={`gradient-blinds-container ${className}`}
       style={{
         ...(mixBlendMode && {
-          mixBlendMode: mixBlendMode as React.CSSProperties['mixBlendMode']
-        })
+          mixBlendMode: mixBlendMode as React.CSSProperties["mixBlendMode"],
+        }),
       }}
     />
   );

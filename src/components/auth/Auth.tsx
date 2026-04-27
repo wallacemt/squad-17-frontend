@@ -11,7 +11,10 @@ export interface AuthPageProps {
 export default async function AuthPage({ mode, resetToken }: AuthPageProps) {
   const posters = await getTrendingRandomPosters();
   return (
-    <div className="relative flex bg-body-crx h-svh" style={{userSelect:"none"}}>
+    <div
+      className="relative flex bg-body-crx h-svh"
+      style={{ userSelect: "none" }}
+    >
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-body-crx via-surface-crx to-body-crx" />
       <Link href={"/"} className="p-2 absolute left-0 z-20">

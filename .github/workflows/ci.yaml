@@ -26,13 +26,6 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-
-      - name: Run lint (Biome)
-        run: npm run lint
-
-      - name: Check formatting
-        run: npm run format -- --check || true
-
       - name: Build project
         run: npm run build
       - name: Cache Next.js

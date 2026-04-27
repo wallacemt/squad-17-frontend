@@ -19,7 +19,7 @@ const footerLinks = {
     { name: "Sobre", href: "/about" },
     { name: "Contato", href: "/contact" },
     { name: "Imprensa", href: "/press" },
-    {name: "Design System", href: '/design-system'}
+    { name: "Design System", href: "/design-system" },
   ],
   Legal: [
     { name: "Privacidade", href: "/privacy" },
@@ -44,11 +44,17 @@ export default function Footer() {
           {/* Logo e descrição */}
           <div className="lg:col-span-2">
             <Link href="/" className="mb-6 inline-block">
-              <Image src="/images/logo-full.png" alt="CRITIX" width={150} height={40} className="h-10 w-auto" />
+              <Image
+                src="/images/logo-full.png"
+                alt="CRITIX"
+                width={150}
+                height={40}
+                className="h-10 w-auto"
+              />
             </Link>
             <p className="mb-6 max-w-sm text-text-secondary">
-              A plataforma definitiva para críticos de cinema. Avalie, descubra e compartilhe suas opiniões sobre filmes
-              e séries.
+              A plataforma definitiva para críticos de cinema. Avalie, descubra
+              e compartilhe suas opiniões sobre filmes e séries.
             </p>
 
             {/* Social Links */}
@@ -79,7 +85,10 @@ export default function Footer() {
                 <ul className="space-y-3">
                   {links.map((link) => (
                     <li key={link.name}>
-                      <Link href={link.href} className="text-text-secondary transition-colors hover:text-color-primary">
+                      <Link
+                        href={link.href}
+                        className="text-text-secondary transition-colors hover:text-color-primary"
+                      >
                         {link.name}
                       </Link>
                     </li>
@@ -101,12 +110,16 @@ export default function Footer() {
                 className="mb-3 inline-flex items-center gap-2 rounded-full border border-primary-crx/20 bg-primary-crx/5 px-3 py-1"
               >
                 <span className="text-lg">📬</span>
-                <span className="text-primary-crx text-sm font-medium">Newsletter Semanal</span>
+                <span className="text-primary-crx text-sm font-medium">
+                  Newsletter Semanal
+                </span>
               </motion.div>
-              <h3 className="mb-3 font-bold text-text-primary text-xl">Não perca nenhuma estreia</h3>
+              <h3 className="mb-3 font-bold text-text-primary text-xl">
+                Não perca nenhuma estreia
+              </h3>
               <p className="mb-4 text-text-secondary/80">
-                Receba recomendações personalizadas, reviews em destaque e lançamentos toda semana. Direto na sua caixa
-                de entrada. 💌
+                Receba recomendações personalizadas, reviews em destaque e
+                lançamentos toda semana. Direto na sua caixa de entrada. 💌
               </p>
               <div className="flex flex-col md:flex-row w-full gap-3">
                 <Input
@@ -124,7 +137,9 @@ export default function Footer() {
             </div>
           </div>
           <Image
-            src={"https://res.cloudinary.com/dg9hqvlas/image/upload/v1764635802/pUeXcg80cO8I8_x3uqy7.webp"}
+            src={
+              "https://res.cloudinary.com/dg9hqvlas/image/upload/v1764635802/pUeXcg80cO8I8_x3uqy7.webp"
+            }
             width={300}
             height={200}
             alt="popcon"
@@ -133,9 +148,12 @@ export default function Footer() {
         </div>
         {/* Copyright */}
         <div className="flex flex-col items-center justify-between gap-4 border-border-color border-t pt-8 text-sm text-text-secondary md:flex-row">
-          <p>© {new Date().getFullYear()} CRITIX. Todos os direitos reservados.</p>
           <p>
-            Feito com <span className="text-color-like">❤️</span> para os amantes de cinema
+            © {new Date().getFullYear()} CRITIX. Todos os direitos reservados.
+          </p>
+          <p>
+            Feito com <span className="text-color-like">❤️</span> para os amantes
+            de cinema
           </p>
         </div>
       </div>

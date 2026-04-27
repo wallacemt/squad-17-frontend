@@ -21,7 +21,14 @@ import {
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { OptimizedImage } from "@/components/ui/optimized-image";
@@ -61,55 +68,99 @@ const typographyRows = [
   {
     name: "Heading 3",
     spec: "30px / 36px",
-    preview: <h3 className="font-display font-bold text-3xl text-text-primary">Heading three display style</h3>,
+    preview: (
+      <h3 className="font-display font-bold text-3xl text-text-primary">
+        Heading three display style
+      </h3>
+    ),
   },
   {
     name: "Heading 4",
     spec: "24px / 30px",
-    preview: <h4 className="font-semibold text-2xl text-text-primary">Heading four section title</h4>,
+    preview: (
+      <h4 className="font-semibold text-2xl text-text-primary">
+        Heading four section title
+      </h4>
+    ),
   },
   {
     name: "Bold L",
     spec: "20px / 30px",
-    preview: <p className="font-bold text-xl text-text-primary">Bold large body emphasis</p>,
+    preview: (
+      <p className="font-bold text-xl text-text-primary">
+        Bold large body emphasis
+      </p>
+    ),
   },
   {
     name: "Bold M",
     spec: "18px / 28px",
-    preview: <p className="font-bold text-lg text-text-primary">Bold medium body emphasis</p>,
+    preview: (
+      <p className="font-bold text-lg text-text-primary">
+        Bold medium body emphasis
+      </p>
+    ),
   },
   {
     name: "Bold S",
     spec: "14px / 20px",
-    preview: <p className="font-bold text-sm text-text-primary">Bold small label</p>,
+    preview: (
+      <p className="font-bold text-sm text-text-primary">Bold small label</p>
+    ),
   },
   {
     name: "Paragraph",
     spec: "20px / 30px",
     preview: (
       <p className="max-w-3xl text-text-secondary text-xl">
-        Large paragraph used in hero and marketing sections to communicate product value with strong rhythm.
+        Large paragraph used in hero and marketing sections to communicate
+        product value with strong rhythm.
       </p>
     ),
   },
   {
     name: "Regular L",
     spec: "18px / 28px",
-    preview: <p className="text-text-secondary text-lg">Regular large supporting text for descriptions.</p>,
+    preview: (
+      <p className="text-text-secondary text-lg">
+        Regular large supporting text for descriptions.
+      </p>
+    ),
   },
   {
     name: "Regular M",
     spec: "16px / 24px",
-    preview: <p className="text-base text-text-secondary">Regular medium text for cards and content blocks.</p>,
+    preview: (
+      <p className="text-base text-text-secondary">
+        Regular medium text for cards and content blocks.
+      </p>
+    ),
   },
   {
     name: "Regular S",
     spec: "14px / 20px",
-    preview: <p className="text-sm text-text-secondary">Regular small text for labels and metadata.</p>,
+    preview: (
+      <p className="text-sm text-text-secondary">
+        Regular small text for labels and metadata.
+      </p>
+    ),
   },
 ];
 
-const icons = [Film, Star, TrendingUp, Home, Search, Bell, Users, Compass, BookOpen, Flame, Sparkles, WandSparkles];
+const icons = [
+  Film,
+  Star,
+  TrendingUp,
+  Home,
+  Search,
+  Bell,
+  Users,
+  Compass,
+  BookOpen,
+  Flame,
+  Sparkles,
+  WandSparkles,
+];
 
 function SectionHeader({
   badge,
@@ -143,14 +194,19 @@ function SectionHeader({
         </span>
       </h2>
 
-      <p className="mx-auto max-w-3xl text-text-secondary text-lg">{description}</p>
+      <p className="mx-auto max-w-3xl text-text-secondary text-lg">
+        {description}
+      </p>
     </motion.div>
   );
 }
 
 export default function DesignSystemPage() {
   return (
-    <main className="min-h-screen bg-on-primary-crx overflow-x-hidden" style={{ userSelect: "none" }}>
+    <main
+      className="min-h-screen bg-on-primary-crx overflow-x-hidden"
+      style={{ userSelect: "none" }}
+    >
       <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border-color bg-bg-surface/90 backdrop-blur-xl">
         <div className="container mx-auto flex h-16 items-center gap-2 overflow-x-auto px-6">
           <a
@@ -209,7 +265,9 @@ export default function DesignSystemPage() {
                 className="mb-6 inline-flex items-center gap-2 rounded-full border border-border-color bg-bg-surface-light px-4 py-2"
               >
                 <Palette className="h-4 w-4 text-primary-crx" />
-                <span className="text-sm text-text-secondary">Critix Design System Live Showcase</span>
+                <span className="text-sm text-text-secondary">
+                  Critix Design System Live Showcase
+                </span>
               </motion.div>
 
               <h1 className="mb-6 font-display font-bold text-5xl leading-tight md:text-8xl">
@@ -221,8 +279,9 @@ export default function DesignSystemPage() {
               </h1>
 
               <p className="mb-8 max-w-2xl text-text-secondary text-xl">
-                Uma pagina unica para documentar tipografia, cores, componentes, layout e motion do Critix usando as
-                mesmas classes e comportamentos do produto.
+                Uma pagina unica para documentar tipografia, cores, componentes,
+                layout e motion do Critix usando as mesmas classes e
+                comportamentos do produto.
               </p>
 
               <div className="flex flex-wrap justify-center gap-4 lg:justify-start">
@@ -256,12 +315,18 @@ export default function DesignSystemPage() {
                   <div className="text-sm text-text-secondary">Sections</div>
                 </div>
                 <div className="text-center lg:text-left">
-                  <div className="font-bold text-3xl text-color-primary">30+</div>
+                  <div className="font-bold text-3xl text-color-primary">
+                    30+
+                  </div>
                   <div className="text-sm text-text-secondary">Patterns</div>
                 </div>
                 <div className="text-center lg:text-left">
-                  <div className="font-bold text-3xl text-color-primary">100%</div>
-                  <div className="text-sm text-text-secondary">Reusable classes</div>
+                  <div className="font-bold text-3xl text-color-primary">
+                    100%
+                  </div>
+                  <div className="text-sm text-text-secondary">
+                    Reusable classes
+                  </div>
                 </div>
               </motion.div>
             </motion.div>
@@ -291,8 +356,12 @@ export default function DesignSystemPage() {
                       <BookOpen className="h-6 w-6 text-color-primary" />
                     </div>
                     <div>
-                      <div className="font-bold text-2xl text-color-primary">Tokens</div>
-                      <div className="text-text-secondary text-xs">Color and typography</div>
+                      <div className="font-bold text-2xl text-color-primary">
+                        Tokens
+                      </div>
+                      <div className="text-text-secondary text-xs">
+                        Color and typography
+                      </div>
                     </div>
                   </div>
 
@@ -304,8 +373,12 @@ export default function DesignSystemPage() {
 
                   <div className="relative mt-2 h-[70%] w-full">
                     <div className="absolute bottom-0 w-full rounded-2xl bg-black/60 p-2">
-                      <p className="mb-2 font-medium text-white/80 text-xs">Hierarchy, rhythm, readability</p>
-                      <h3 className="mb-3 line-clamp-2 font-bold text-sm text-white">Typography system preview</h3>
+                      <p className="mb-2 font-medium text-white/80 text-xs">
+                        Hierarchy, rhythm, readability
+                      </p>
+                      <h3 className="mb-3 line-clamp-2 font-bold text-sm text-white">
+                        Typography system preview
+                      </h3>
                     </div>
 
                     <OptimizedImage
@@ -338,15 +411,23 @@ export default function DesignSystemPage() {
                       <Sparkles className="h-6 w-6 text-color-like" />
                     </div>
                     <div>
-                      <div className="font-bold text-lg text-text-primary">Motion</div>
-                      <div className="text-text-secondary text-xs">Hover, reveal, floating</div>
+                      <div className="font-bold text-lg text-text-primary">
+                        Motion
+                      </div>
+                      <div className="text-text-secondary text-xs">
+                        Hover, reveal, floating
+                      </div>
                     </div>
                   </div>
 
                   <div className="relative h-[80%] w-full">
                     <div className="absolute bottom-0 w-full rounded-2xl bg-black/60 p-2">
-                      <p className="mb-2 font-medium text-white/80 text-xs">Entrance and interaction states</p>
-                      <h3 className="mb-3 line-clamp-2 font-bold text-sm text-white">Animated components</h3>
+                      <p className="mb-2 font-medium text-white/80 text-xs">
+                        Entrance and interaction states
+                      </p>
+                      <h3 className="mb-3 line-clamp-2 font-bold text-sm text-white">
+                        Animated components
+                      </h3>
                     </div>
 
                     <OptimizedImage
@@ -390,9 +471,13 @@ export default function DesignSystemPage() {
                 key={row.name}
                 className="grid gap-4 border-border-color border-b px-6 py-6 last:border-b-0 md:grid-cols-[220px_1fr_120px] md:items-center"
               >
-                <div className="font-semibold text-text-primary">{row.name}</div>
+                <div className="font-semibold text-text-primary">
+                  {row.name}
+                </div>
                 <div>{row.preview}</div>
-                <div className="text-right font-mono text-text-secondary text-xs">{row.spec}</div>
+                <div className="text-right font-mono text-text-secondary text-xs">
+                  {row.spec}
+                </div>
               </div>
             ))}
           </div>
@@ -411,55 +496,83 @@ export default function DesignSystemPage() {
           <div className="grid gap-6 lg:grid-cols-2">
             <Card className="border-border-color bg-bg-body">
               <CardHeader>
-                <CardTitle className="font-display text-2xl">Background hierarchy</CardTitle>
-                <CardDescription>Page, section and card surfaces in descending contrast.</CardDescription>
+                <CardTitle className="font-display text-2xl">
+                  Background hierarchy
+                </CardTitle>
+                <CardDescription>
+                  Page, section and card surfaces in descending contrast.
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between rounded-xl border border-border-color bg-bg-body p-4">
-                  <span className="text-sm text-text-secondary">Body background</span>
+                  <span className="text-sm text-text-secondary">
+                    Body background
+                  </span>
                   <span className="font-mono text-xs">bg-bg-body</span>
                 </div>
                 <div className="flex items-center justify-between rounded-xl border border-border-color bg-bg-surface p-4">
-                  <span className="text-sm text-text-secondary">Surface background</span>
+                  <span className="text-sm text-text-secondary">
+                    Surface background
+                  </span>
                   <span className="font-mono text-xs">bg-bg-surface</span>
                 </div>
                 <div className="flex items-center justify-between rounded-xl border border-border-color bg-bg-surface-light p-4">
-                  <span className="text-sm text-text-secondary">Surface light</span>
+                  <span className="text-sm text-text-secondary">
+                    Surface light
+                  </span>
                   <span className="font-mono text-xs">bg-bg-surface-light</span>
                 </div>
                 <div className="flex items-center justify-between rounded-xl border border-border-color bg-bg-surface/70 p-4 backdrop-blur-xl">
-                  <span className="text-sm text-text-secondary">Glass surface</span>
-                  <span className="font-mono text-xs">bg-bg-surface/70 + backdrop-blur-xl</span>
+                  <span className="text-sm text-text-secondary">
+                    Glass surface
+                  </span>
+                  <span className="font-mono text-xs">
+                    bg-bg-surface/70 + backdrop-blur-xl
+                  </span>
                 </div>
               </CardContent>
             </Card>
 
             <Card className="border-border-color bg-bg-body">
               <CardHeader>
-                <CardTitle className="font-display text-2xl">Brand gradients and accents</CardTitle>
-                <CardDescription>Primary blends used in CTA, hero and section titles.</CardDescription>
+                <CardTitle className="font-display text-2xl">
+                  Brand gradients and accents
+                </CardTitle>
+                <CardDescription>
+                  Primary blends used in CTA, hero and section titles.
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="rounded-xl border border-border-color p-4">
                   <div className="mb-3 h-10 rounded-lg bg-gradient-to-r from-primary-crx via-yellow-500 to-primary-hover-crx" />
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-text-secondary">Primary brand gradient</span>
-                    <span className="font-mono text-xs">from-primary-crx via-yellow-500 to-primary-hover-crx</span>
+                    <span className="text-text-secondary">
+                      Primary brand gradient
+                    </span>
+                    <span className="font-mono text-xs">
+                      from-primary-crx via-yellow-500 to-primary-hover-crx
+                    </span>
                   </div>
                 </div>
 
                 <div className="rounded-xl border border-border-color p-4">
                   <div className="mb-3 h-10 rounded-lg bg-gradient-to-r from-amber-600 to-primary-hover-crx/60" />
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-text-secondary">CTA button gradient</span>
-                    <span className="font-mono text-xs">from-amber-600 to-primary-hover-crx/60</span>
+                    <span className="text-text-secondary">
+                      CTA button gradient
+                    </span>
+                    <span className="font-mono text-xs">
+                      from-amber-600 to-primary-hover-crx/60
+                    </span>
                   </div>
                 </div>
 
                 <div className="rounded-xl border border-border-color p-4">
                   <div className="mb-3 h-10 rounded-lg border border-border-color bg-purple-900/90" />
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-text-secondary">Secondary dark action</span>
+                    <span className="text-text-secondary">
+                      Secondary dark action
+                    </span>
                     <span className="font-mono text-xs">bg-purple-900/90</span>
                   </div>
                 </div>
@@ -482,7 +595,9 @@ export default function DesignSystemPage() {
             <Card className="border-border-color bg-bg-surface">
               <CardHeader>
                 <CardTitle className="font-display text-2xl">Buttons</CardTitle>
-                <CardDescription>Default, outline, ghost, disabled and custom landing actions.</CardDescription>
+                <CardDescription>
+                  Default, outline, ghost, disabled and custom landing actions.
+                </CardDescription>
               </CardHeader>
               <CardContent className="flex flex-wrap items-center gap-3">
                 <Button>Default</Button>
@@ -509,12 +624,17 @@ export default function DesignSystemPage() {
             <Card className="border-border-color bg-bg-surface">
               <CardHeader>
                 <CardTitle className="font-display text-2xl">Inputs</CardTitle>
-                <CardDescription>Input examples with default, focus-like and invalid states.</CardDescription>
+                <CardDescription>
+                  Input examples with default, focus-like and invalid states.
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="ds-default">Default input</Label>
-                  <Input id="ds-default" placeholder="Search for movies or series" />
+                  <Input
+                    id="ds-default"
+                    placeholder="Search for movies or series"
+                  />
                 </div>
 
                 <div className="space-y-2">
@@ -530,7 +650,11 @@ export default function DesignSystemPage() {
 
                 <div className="space-y-2">
                   <Label htmlFor="ds-error">Error state (aria-invalid)</Label>
-                  <Input id="ds-error" placeholder="Invalid email" aria-invalid />
+                  <Input
+                    id="ds-error"
+                    placeholder="Invalid email"
+                    aria-invalid
+                  />
                 </div>
               </CardContent>
             </Card>
@@ -538,13 +662,17 @@ export default function DesignSystemPage() {
             <Card className="border-border-color bg-bg-surface">
               <CardHeader>
                 <CardTitle className="font-display text-2xl">Cards</CardTitle>
-                <CardDescription>Information density and spacing within card components.</CardDescription>
+                <CardDescription>
+                  Information density and spacing within card components.
+                </CardDescription>
               </CardHeader>
               <CardContent className="grid gap-4 md:grid-cols-2">
                 <Card className="border-border-color bg-bg-surface-light">
                   <CardHeader>
                     <CardTitle>Standard Card</CardTitle>
-                    <CardDescription>Base card using app token colors.</CardDescription>
+                    <CardDescription>
+                      Base card using app token colors.
+                    </CardDescription>
                   </CardHeader>
                   <CardFooter>
                     <Badge>Active</Badge>
@@ -554,7 +682,9 @@ export default function DesignSystemPage() {
                 <Card className="border-primary-crx/40 bg-bg-surface-light shadow-[0_0_20px_rgba(255,193,7,0.15)]">
                   <CardHeader>
                     <CardTitle>Highlighted Card</CardTitle>
-                    <CardDescription>Accent border and glow from the landing language.</CardDescription>
+                    <CardDescription>
+                      Accent border and glow from the landing language.
+                    </CardDescription>
                   </CardHeader>
                   <CardFooter>
                     <Badge variant="secondary">Featured</Badge>
@@ -565,8 +695,12 @@ export default function DesignSystemPage() {
 
             <Card className="border-border-color bg-bg-surface">
               <CardHeader>
-                <CardTitle className="font-display text-2xl">Badges and status tags</CardTitle>
-                <CardDescription>Small semantic markers with current variant system.</CardDescription>
+                <CardTitle className="font-display text-2xl">
+                  Badges and status tags
+                </CardTitle>
+                <CardDescription>
+                  Small semantic markers with current variant system.
+                </CardDescription>
               </CardHeader>
               <CardContent className="flex flex-wrap items-center gap-3">
                 <Badge>Default</Badge>
@@ -595,16 +729,23 @@ export default function DesignSystemPage() {
           <div className="space-y-6">
             <Card className="border-border-color bg-bg-body">
               <CardHeader>
-                <CardTitle className="font-display text-2xl">Pattern 1: Hero split</CardTitle>
-                <CardDescription>Large text area and visual area with strong vertical breathing room.</CardDescription>
+                <CardTitle className="font-display text-2xl">
+                  Pattern 1: Hero split
+                </CardTitle>
+                <CardDescription>
+                  Large text area and visual area with strong vertical breathing
+                  room.
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid items-center gap-8 rounded-2xl border border-border-color bg-bg-surface p-6 lg:grid-cols-2">
                   <div>
-                    <h3 className="mb-4 font-display font-bold text-3xl">Text block</h3>
+                    <h3 className="mb-4 font-display font-bold text-3xl">
+                      Text block
+                    </h3>
                     <p className="text-text-secondary">
-                      Uses the same spacing logic from landing hero: large heading, medium paragraph and grouped
-                      actions.
+                      Uses the same spacing logic from landing hero: large
+                      heading, medium paragraph and grouped actions.
                     </p>
                   </div>
                   <div className="rounded-2xl border border-border-color bg-bg-surface-light p-4">
@@ -623,15 +764,25 @@ export default function DesignSystemPage() {
 
             <Card className="border-border-color bg-bg-body">
               <CardHeader>
-                <CardTitle className="font-display text-2xl">Pattern 2: Feature grid</CardTitle>
-                <CardDescription>One to three columns responsive structure used in feature sections.</CardDescription>
+                <CardTitle className="font-display text-2xl">
+                  Pattern 2: Feature grid
+                </CardTitle>
+                <CardDescription>
+                  One to three columns responsive structure used in feature
+                  sections.
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                   {Array.from({ length: 3 }).map((_, index) => (
-                    <div key={`grid-${index + 1}`} className="rounded-2xl border border-border-color bg-bg-surface p-6">
+                    <div
+                      key={`grid-${index + 1}`}
+                      className="rounded-2xl border border-border-color bg-bg-surface p-6"
+                    >
                       <div className="mb-4 h-10 w-10 rounded-lg bg-gradient-to-br from-primary-crx to-primary-hover-crx" />
-                      <h4 className="mb-2 font-semibold text-text-primary">Grid item {index + 1}</h4>
+                      <h4 className="mb-2 font-semibold text-text-primary">
+                        Grid item {index + 1}
+                      </h4>
                       <p className="text-sm text-text-secondary">
                         Consistent paddings and vertical rhythm across cards.
                       </p>
@@ -643,21 +794,31 @@ export default function DesignSystemPage() {
 
             <Card className="border-border-color bg-bg-body">
               <CardHeader>
-                <CardTitle className="font-display text-2xl">Pattern 3: Content split</CardTitle>
-                <CardDescription>Asymmetric content split used for narrative + media sections.</CardDescription>
+                <CardTitle className="font-display text-2xl">
+                  Pattern 3: Content split
+                </CardTitle>
+                <CardDescription>
+                  Asymmetric content split used for narrative + media sections.
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid gap-4 rounded-2xl border border-border-color bg-bg-surface p-6 md:grid-cols-[1.4fr_1fr]">
                   <div className="rounded-xl border border-border-color bg-bg-surface-light p-5">
-                    <p className="mb-3 font-semibold text-text-primary">Long content column</p>
+                    <p className="mb-3 font-semibold text-text-primary">
+                      Long content column
+                    </p>
                     <p className="text-sm text-text-secondary">
-                      This side keeps editorial copy and metadata. It uses wider measure and comfortable line height.
+                      This side keeps editorial copy and metadata. It uses wider
+                      measure and comfortable line height.
                     </p>
                   </div>
                   <div className="rounded-xl border border-border-color bg-bg-surface-light p-5">
-                    <p className="mb-3 font-semibold text-text-primary">Support panel</p>
+                    <p className="mb-3 font-semibold text-text-primary">
+                      Support panel
+                    </p>
                     <p className="text-sm text-text-secondary">
-                      Secondary controls, context or media previews can live here.
+                      Secondary controls, context or media previews can live
+                      here.
                     </p>
                   </div>
                 </div>
@@ -679,8 +840,12 @@ export default function DesignSystemPage() {
           <div className="grid gap-6 lg:grid-cols-2">
             <Card className="border-border-color bg-bg-surface">
               <CardHeader>
-                <CardTitle className="font-display text-2xl">Interaction examples</CardTitle>
-                <CardDescription>Direct examples from button and card interaction model.</CardDescription>
+                <CardTitle className="font-display text-2xl">
+                  Interaction examples
+                </CardTitle>
+                <CardDescription>
+                  Direct examples from button and card interaction model.
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <motion.div
@@ -715,24 +880,34 @@ export default function DesignSystemPage() {
 
             <Card className="border-border-color bg-bg-surface">
               <CardHeader>
-                <CardTitle className="font-display text-2xl">Motion gallery</CardTitle>
-                <CardDescription>Utility animation classes and looped motion in one panel.</CardDescription>
+                <CardTitle className="font-display text-2xl">
+                  Motion gallery
+                </CardTitle>
+                <CardDescription>
+                  Utility animation classes and looped motion in one panel.
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="rounded-xl border border-border-color bg-bg-surface-light p-4">
                     <div className="mb-3 h-14 rounded-lg bg-primary-crx/20 animate-pulse" />
-                    <p className="font-mono text-text-secondary text-xs">animate-pulse</p>
+                    <p className="font-mono text-text-secondary text-xs">
+                      animate-pulse
+                    </p>
                   </div>
 
                   <div className="rounded-xl border border-border-color bg-bg-surface-light p-4">
                     <div className="mb-3 h-14 rounded-lg bg-gradient-to-r from-primary-crx via-yellow-500 to-primary-hover-crx animate-gradient-x" />
-                    <p className="font-mono text-text-secondary text-xs">animate-gradient-x</p>
+                    <p className="font-mono text-text-secondary text-xs">
+                      animate-gradient-x
+                    </p>
                   </div>
 
                   <div className="rounded-xl border border-border-color bg-bg-surface-light p-4">
                     <div className="mb-3 h-14 rounded-full bg-info-crx animate-blob " />
-                    <p className="font-mono text-text-secondary text-xs ">animate-blob</p>
+                    <p className="font-mono text-text-secondary text-xs ">
+                      animate-blob
+                    </p>
                   </div>
 
                   <div className="rounded-xl border border-border-color bg-bg-surface-light p-4">
@@ -744,7 +919,9 @@ export default function DesignSystemPage() {
                       }}
                       className="mb-3 h-14 rounded-lg bg-success-crx/25"
                     />
-                    <p className="font-mono text-text-secondary text-xs">framer-motion loop</p>
+                    <p className="font-mono text-text-secondary text-xs">
+                      framer-motion loop
+                    </p>
                   </div>
                 </div>
               </CardContent>
@@ -764,8 +941,12 @@ export default function DesignSystemPage() {
 
           <Card className="border-border-color bg-bg-body">
             <CardHeader>
-              <CardTitle className="font-display text-2xl">Icon set and size variants</CardTitle>
-              <CardDescription>Each icon inherits text color from utility classes.</CardDescription>
+              <CardTitle className="font-display text-2xl">
+                Icon set and size variants
+              </CardTitle>
+              <CardDescription>
+                Each icon inherits text color from utility classes.
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -779,14 +960,17 @@ export default function DesignSystemPage() {
                       <Icon className="h-5 w-5 text-primary-crx" />
                       <Icon className="h-6 w-6 text-color-info" />
                     </div>
-                    <p className="text-text-secondary text-xs">sizes: 16 / 20 / 24</p>
+                    <p className="text-text-secondary text-xs">
+                      sizes: 16 / 20 / 24
+                    </p>
                   </div>
                 ))}
               </div>
             </CardContent>
             <CardFooter className="justify-between border-border-color border-t pt-6">
               <p className="text-text-secondary text-sm">
-                Icons are decorative by default and should use semantic labels when interactive.
+                Icons are decorative by default and should use semantic labels
+                when interactive.
               </p>
               <Badge variant="outline">Lucide React</Badge>
             </CardFooter>

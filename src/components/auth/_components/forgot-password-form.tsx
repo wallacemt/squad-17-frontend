@@ -4,7 +4,14 @@ import { motion } from "framer-motion";
 import { Mail, ArrowRight, ArrowLeft } from "lucide-react";
 import { Input } from "@/components/ui/auth-input";
 import { AuthButton } from "@/components/ui/auth-button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
 import { postForgotPassword } from "@/services/authService";
@@ -16,7 +23,10 @@ interface ForgotPasswordFormProps {
   isLoading?: boolean;
 }
 
-export function ForgotPasswordForm({ onBack, isLoading: externalLoading = false }: ForgotPasswordFormProps) {
+export function ForgotPasswordForm({
+  onBack,
+  isLoading: externalLoading = false,
+}: ForgotPasswordFormProps) {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -42,8 +52,15 @@ export function ForgotPasswordForm({ onBack, isLoading: externalLoading = false 
       }
     } catch (err: unknown) {
       console.error("Forgot password error:", err);
-      const errorMessage = err instanceof Error ? err.message : "Erro ao enviar email. Tente novamente.";
-      setError(errorMessage.replace("Error: ", "").replace("Erro ao solicitar recuperação de senha: ", ""));
+      const errorMessage =
+        err instanceof Error
+          ? err.message
+          : "Erro ao enviar email. Tente novamente.";
+      setError(
+        errorMessage
+          .replace("Error: ", "")
+          .replace("Erro ao solicitar recuperação de senha: ", "")
+      );
     } finally {
       setIsLoading(false);
     }
@@ -53,15 +70,23 @@ export function ForgotPasswordForm({ onBack, isLoading: externalLoading = false 
 
   if (submitted) {
     return (
-      <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="w-full">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="w-full"
+      >
         <Card className="border-border-color bg-bg-surface-light/50 backdrop-blur-sm">
           <CardHeader className="space-y-4 pb-6">
             <div className="space-y-3 text-center">
               <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-color-success/20">
                 <Mail className="h-8 w-8 text-color-success" />
               </div>
-              <CardTitle className="font-bold font-display text-3xl text-text-primary">Email enviado!</CardTitle>
-              <CardDescription className="text-text-secondary">Enviamos instruções de recuperação para</CardDescription>
+              <CardTitle className="font-bold font-display text-3xl text-text-primary">
+                Email enviado!
+              </CardTitle>
+              <CardDescription className="text-text-secondary">
+                Enviamos instruções de recuperação para
+              </CardDescription>
               <p className="font-semibold text-color-primary">{email}</p>
             </div>
           </CardHeader>
@@ -98,9 +123,12 @@ export function ForgotPasswordForm({ onBack, isLoading: externalLoading = false 
       <Card className="border-border-color bg-bg-surface-light/50 backdrop-blur-sm">
         <CardHeader className="space-y-4 pb-6">
           <div className="space-y-2 text-center">
-            <CardTitle className="font-bold font-display text-3xl text-text-primary">Esqueceu a senha?</CardTitle>
+            <CardTitle className="font-bold font-display text-3xl text-text-primary">
+              Esqueceu a senha?
+            </CardTitle>
             <CardDescription className="text-text-secondary">
-              Sem problemas! Digite seu email e enviaremos instruções para redefinir sua senha.
+              Sem problemas! Digite seu email e enviaremos instruções para
+              redefinir sua senha.
             </CardDescription>
           </div>
         </CardHeader>

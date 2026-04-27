@@ -3,7 +3,10 @@ import { AuthButton } from "./auth-button";
 import type { OAuthProvider } from "@/types/auth";
 import { FcGoogle } from "react-icons/fc";
 import { FaDiscord, FaTwitch, FaTwitter } from "react-icons/fa";
-const providerConfig: Record<OAuthProvider, { name: string; icon: React.ReactNode; color: string }> = {
+const providerConfig: Record<
+  OAuthProvider,
+  { name: string; icon: React.ReactNode; color: string }
+> = {
   google: {
     name: "Google",
     icon: <FcGoogle className="h-5 w-5" />,
@@ -20,7 +23,6 @@ const providerConfig: Record<OAuthProvider, { name: string; icon: React.ReactNod
     color: "hover:bg-[#5865F2]/10 hover:border-[#5865F2]",
   },
 
- 
   twitter: {
     name: "Twitter",
     icon: <FaTwitter className="h-5 w-5" />,

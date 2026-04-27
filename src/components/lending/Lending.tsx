@@ -9,7 +9,10 @@ import CTA from "./_components/cta";
 
 export default function LendingPage({ trending }: { trending: TMDBMedia[] }) {
   return (
-    <main className="min-h-screen bg-on-primary-crx overflow-x-hidden" style={{ userSelect: "none" }}>
+    <main
+      className="min-h-screen bg-on-primary-crx overflow-x-hidden"
+      style={{ userSelect: "none" }}
+    >
       <Navbar />
       <Hero trending={trending} />
       <Features />

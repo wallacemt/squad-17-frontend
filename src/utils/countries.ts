@@ -64,7 +64,9 @@ export const genderOptions = [
  * Gera um nickname aleatório baseado no nome do usuário
  */
 export function generateNickname(fullName: string): string {
-  if (!fullName.trim()){ return ""};
+  if (!fullName.trim()) {
+    return "";
+  }
 
   // Remove espaços extras e divide o nome
   const names = fullName.trim().split(/\s+/);
@@ -102,7 +104,16 @@ export function generateNickname(fullName: string): string {
 
     // Estratégia 5: primeiro nome + adjetivo cool
     () => {
-      const adjectives = ["pro", "master", "elite", "king", "ace", "legend", "star", "vip"];
+      const adjectives = [
+        "pro",
+        "master",
+        "elite",
+        "king",
+        "ace",
+        "legend",
+        "star",
+        "vip",
+      ];
       const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
       return `${firstName}${adj}${Math.floor(Math.random() * 99)}`;
     },

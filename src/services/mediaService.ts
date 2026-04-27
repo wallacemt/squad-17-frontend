@@ -30,7 +30,9 @@ const getTrendingMedia = async (): Promise<TMDBMedia[]> => {
     return [];
   }
 };
-const getTrendingRandomPosters = async (): Promise<TMDBTrendingPostersResponse[]> => {
+const getTrendingRandomPosters = async (): Promise<
+  TMDBTrendingPostersResponse[]
+> => {
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 15_000); // 15 segundos de timeout

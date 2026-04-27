@@ -33,7 +33,9 @@ function getSalt(): Uint8Array {
 
   // Convert hex string back to Uint8Array
   const matches = salt.match(/.{1,2}/g);
-  return new Uint8Array(matches ? matches.map((byte) => Number.parseInt(byte, 16)) : []);
+  return new Uint8Array(
+    matches ? matches.map((byte) => Number.parseInt(byte, 16)) : []
+  );
 }
 
 /**
@@ -44,10 +46,16 @@ function getSalt(): Uint8Array {
  * @returns Promise resolving to encrypted password string
  */
 export async function encryptPassword(password: string): Promise<string> {
-  if (!password) {return ""};
+  if (!password) {
+    return "";
+  }
 
   // Check if Web Crypto API is available (SSR guard)
-  if (typeof window === "undefined" || !window.crypto || !window.crypto.subtle) {
+  if (
+    typeof window === "undefined" ||
+    !window.crypto ||
+    !window.crypto.subtle
+  ) {
     console.warn("Web Crypto API not available");
     return password; // Return plaintext in SSR (will be encrypted on client)
   }
@@ -83,7 +91,11 @@ export async function encryptPassword(password: string): Promise<string> {
     const iv = crypto.getRandomValues(new Uint8Array(12));
 
     // Encrypt
-    const encrypted = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, data);
+    const encrypted = await crypto.subtle.encrypt(
+      { name: "AES-GCM", iv },
+      key,
+      data
+    );
 
     // Combine IV + encrypted data
     const combined = new Uint8Array(iv.length + encrypted.byteLength);
@@ -104,11 +116,19 @@ export async function encryptPassword(password: string): Promise<string> {
  * @param encryptedPassword - Base64-encoded encrypted password
  * @returns Promise resolving to plaintext password
  */
-export async function decryptPassword(encryptedPassword: string): Promise<string> {
-  if (!encryptedPassword){ return ""};
+export async function decryptPassword(
+  encryptedPassword: string
+): Promise<string> {
+  if (!encryptedPassword) {
+    return "";
+  }
 
   // Check if Web Crypto API is available (SSR guard)
-  if (typeof window === "undefined" || !window.crypto || !window.crypto.subtle) {
+  if (
+    typeof window === "undefined" ||
+    !window.crypto ||
+    !window.crypto.subtle
+  ) {
     console.warn("Web Crypto API not available");
     return encryptedPassword; // Return as-is in SSR
   }
@@ -118,7 +138,9 @@ export async function decryptPassword(encryptedPassword: string): Promise<string
     const encoder = new TextEncoder();
 
     // Decode base64
-    const combined = Uint8Array.from(atob(encryptedPassword), (c) => c.charCodeAt(0));
+    const combined = Uint8Array.from(atob(encryptedPassword), (c) =>
+      c.charCodeAt(0)
+    );
 
     // Extract IV and encrypted data
     const iv = combined.slice(0, 12);
@@ -147,7 +169,11 @@ export async function decryptPassword(encryptedPassword: string): Promise<string
     );
 
     // Decrypt
-    const decrypted = await crypto.subtle.decrypt({ name: "AES-GCM", iv }, key, encrypted);
+    const decrypted = await crypto.subtle.decrypt(
+      { name: "AES-GCM", iv },
+      key,
+      encrypted
+    );
 
     // Convert back to string
     const decoder = new TextDecoder();

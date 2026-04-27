@@ -13,7 +13,13 @@ export function PageRedirectLoading() {
         >
           <div className="relative">
             <div className="relative  p-4 rounded-xl">
-              <Image src="/images/logo-full.png" alt="Critix Logo" width={200} height={300} className="w-full" />
+              <Image
+                src="/images/logo-full.png"
+                alt="Critix Logo"
+                width={200}
+                height={300}
+                className="w-full"
+              />
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}

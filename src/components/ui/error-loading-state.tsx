@@ -14,7 +14,11 @@ export function ErrorLoadingState() {
       >
         <motion.div
           animate={{ rotate: 360 }}
-          transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+          transition={{
+            duration: 1,
+            repeat: Number.POSITIVE_INFINITY,
+            ease: "linear",
+          }}
         >
           <Loader2 className="w-12 h-12 text-primary-crx" />
         </motion.div>

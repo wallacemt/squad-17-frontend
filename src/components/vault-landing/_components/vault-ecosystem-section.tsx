@@ -24,7 +24,7 @@ export function VaultEcosystemSection() {
               <div>
                 <p className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-primary-crx">
                   <Sparkles className="h-3.5 w-3.5" />
-                  Plataforma 
+                  Plataforma
                 </p>
 
                 <h3 className="mt-2 font-display text-3xl leading-tight md:text-4xl">
@@ -32,8 +32,9 @@ export function VaultEcosystemSection() {
                 </h3>
 
                 <p className="mt-2 max-w-3xl text-text-secondary">
-                  O Vault organiza sua biblioteca local. O Critix expande a experiencia com descoberta, comunidade e
-                  avaliacoes. Dois produtos, uma visao de cinema centrada no usuario.
+                  O Vault organiza sua biblioteca local. O Critix expande a
+                  experiencia com descoberta, comunidade e avaliacoes. Dois
+                  produtos, uma visao de cinema centrada no usuario.
                 </p>
               </div>
 
