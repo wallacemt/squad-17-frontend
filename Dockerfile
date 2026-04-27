@@ -7,7 +7,7 @@ WORKDIR /app
 
 FROM base AS deps
 
-COPY package.json bun.lockb* package-lock.json* yarn.lock* pnpm-lock.yaml* ./
+COPY package.json bun.lock* package-lock.json* ./
 
 RUN bun install
 
