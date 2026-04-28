@@ -20,9 +20,7 @@ export default function BackendStatusGate({
   const [loading, setLoading] = useState(true);
   const [attempt, setAttempt] = useState(0);
 
-  const statusUrl = baseUrl
-    ? `${baseUrl}/status`
-    : "https://api.critix.com.br/status/";
+  const statusUrl =`${baseUrl}/status`
 
   useEffect(() => {
     let mounted = true;
