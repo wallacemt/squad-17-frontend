@@ -10,20 +10,24 @@ interface OptimizedImageProps extends Omit<ImageProps, "alt"> {
   loading?: "lazy" | "eager";
   priority?: boolean;
   fallbackSrc?: string;
+  quality?:number;
 }
 
 export function OptimizedImage({
   alt,
   title,
   priority = false,
-  fallbackSrc = "https://res.cloudinary.com/dg9hqvlas/image/upload/q_auto:low/c_scale,w_1200/f_webp/v1764631407/placeholder_v3gsdr.png",
+  fallbackSrc = "/images/placeholder.webp",
+  quality = 85,
   onError,
   ...props
 }: OptimizedImageProps) {
   const [imgSrc, setImgSrc] = useState(props.src);
+
   const handleError = () => {
     setImgSrc(fallbackSrc);
   };
+
   return (
     <Image
       {...props}
@@ -31,12 +35,13 @@ export function OptimizedImage({
       alt={alt}
       title={title || alt}
       priority={priority}
+      quality={quality}
       onError={handleError}
+      sizes="100vw"
       style={{
         objectFit: "cover",
         ...props.style,
       }}
-      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
     />
   );
 }
