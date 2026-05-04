@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "destination": "https://critix.wallacedev.com.br/$1",
+      "permanent": true
+    }
+  ]
+}
