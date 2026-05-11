@@ -17,18 +17,14 @@ export function VaultNavbar({ repositoryUrl }: VaultNavbarProps) {
           className="flex hover:scale-105 transition-all items-center  group cursor-pointer"
         >
           <Image
-            src={"/images/logo-full.png"}
+            src={"/images/vault/logo-full.png"}
             width={100}
             height={100}
             alt="Critix Logo"
             title="Critix"
             className=""
           />
-          <span className="w-3 h-3 bg-amber-400 rounded-tl-full rounded-bl-full rounded-tr-full" />
-          <span className="font-display font-bold text-text-primary text-4xl">
-            {" "}
-            <span className="text-primary animate-pulse">V</span>ault
-          </span>
+        
         </Link>
 
         <div className="hidden items-center gap-2 md:flex">
