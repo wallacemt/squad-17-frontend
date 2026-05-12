@@ -4,7 +4,7 @@ import { Metadata } from "next";
 
 export const revalidate = 3600;
 
-const defaultMsStoreUrl = "https://apps.microsoft.com/";
+const defaultMsStoreUrl = "https://apps.microsoft.com/store/detail/9NN8QWP08TXP?cid=DevShareMCLPCS";
 const isDevMode = process.env.NODE_ENV !== "production";
 
 export const metadata: Metadata = {
