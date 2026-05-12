@@ -11,7 +11,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import SpotlightCard from "@/components/ui/blocks/elements/SpotlightCard/SpotlightCard";
-import type { VaultDownloadData } from "@/types/vault-downloads";
+import type {
+  VaultDownloadData,
+  VaultDownloadPlatform,
+  VaultInstallableAsset,
+} from "@/types/vault-downloads";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
@@ -22,12 +26,126 @@ import {
   TestTubeDiagonal,
 } from "lucide-react";
 import { useMemo, useState } from "react";
-import { BorderGradientPanel, formatDate, platformLabel } from "./shared";
+import { BorderGradientPanel, formatDate } from "./shared";
 
 interface VaultDownloadSectionProps {
   downloadData: VaultDownloadData;
   msStoreUrl: string;
   isDevMode: boolean;
+}
+
+const OS_GROUPS: {
+  platform: VaultDownloadPlatform;
+  label: string;
+  badgeClass: string;
+  dividerClass: string;
+}[] = [
+  {
+    platform: "windows",
+    label: "Windows",
+    badgeClass: "border-blue-500/40 bg-blue-500/10 text-blue-400",
+    dividerClass: "bg-blue-500/20",
+  },
+  {
+    platform: "linux",
+    label: "Linux",
+    badgeClass: "border-orange-500/40 bg-orange-500/10 text-orange-400",
+    dividerClass: "bg-orange-500/20",
+  },
+  {
+    platform: "macos",
+    label: "macOS",
+    badgeClass: "border-white/20 bg-white/10 text-text-secondary",
+    dividerClass: "bg-white/15",
+  },
+];
+
+function assetFormat(name: string): string {
+  const lower = name.toLowerCase();
+  if (lower.endsWith(".exe")) return "NSIS (.exe)";
+  if (lower.endsWith(".msi")) return "MSI";
+  if (lower.endsWith(".appimage")) return "AppImage";
+  if (lower.endsWith(".deb")) return "Debian (.deb)";
+  if (lower.endsWith(".rpm")) return "RPM";
+  if (lower.endsWith(".dmg")) return "DMG";
+  if (lower.endsWith(".pkg")) return "PKG";
+  return name.split(".").pop()?.toUpperCase() ?? "Instalador";
+}
+
+function OsAssetCard({ asset }: { asset: VaultInstallableAsset }) {
+  return (
+    <SpotlightCard
+      key={`${asset.releaseTag}-${asset.name}`}
+      className="rounded-xl"
+      spotlightColor="rgba(255, 193, 7, 0.22)"
+    >
+      <Card className="border-white/10 bg-bg-surface/85">
+        <CardHeader>
+          <CardTitle className="flex items-center justify-between gap-3 text-lg">
+            <span>{assetFormat(asset.name)}</span>
+            <Badge
+              variant="outline"
+              className="border-primary-crx/30 bg-primary-crx/10 text-primary-crx"
+            >
+              {asset.releaseTag}
+            </Badge>
+          </CardTitle>
+          <CardDescription className="line-clamp-2 text-text-secondary">
+            {asset.name}
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <p className="text-sm text-text-secondary">
+            Tamanho: {asset.sizeLabel}
+          </p>
+          <Button
+            asChild
+            className="w-full rounded-full bg-primary-crx text-on-primary-crx hover:bg-primary-hover-crx"
+          >
+            <a href={asset.downloadUrl} target="_blank" rel="noreferrer">
+              <Download className="h-4 w-4" />
+              Baixar instalador
+            </a>
+          </Button>
+        </CardContent>
+      </Card>
+    </SpotlightCard>
+  );
+}
+
+function OsGroupedDownloads({
+  assets,
+}: {
+  assets: VaultInstallableAsset[];
+}) {
+  return (
+    <div className="mt-8 space-y-8">
+      {OS_GROUPS.map(({ platform, label, badgeClass, dividerClass }, index) => {
+        const group = assets.filter((a) => a.platform === platform);
+        if (group.length === 0) return null;
+
+        return (
+          <motion.div
+            key={platform}
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.4, delay: index * 0.08 }}
+          >
+            <div className="mb-4 flex items-center gap-3">
+              <Badge className={badgeClass}>{label}</Badge>
+              <div className={`h-px flex-1 ${dividerClass}`} />
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+              {group.map((asset) => (
+                <OsAssetCard key={`${asset.releaseTag}-${asset.name}`} asset={asset} />
+              ))}
+            </div>
+          </motion.div>
+        );
+      })}
+    </div>
+  );
 }
 
 export function VaultDownloadSection({
@@ -156,50 +274,7 @@ export function VaultDownloadSection({
       </div>
 
       {hasInstallableAssets ? (
-        <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {installableAssets.map((asset) => (
-            <SpotlightCard
-              key={`${asset.releaseTag}-${asset.name}`}
-              className="rounded-xl"
-              spotlightColor="rgba(255, 193, 7, 0.22)"
-            >
-              <Card className="border-white/10 bg-bg-surface/85">
-                <CardHeader>
-                  <CardTitle className="flex items-center justify-between gap-3 text-lg">
-                    <span>{platformLabel(asset)}</span>
-                    <Badge
-                      variant="outline"
-                      className="border-primary-crx/30 bg-primary-crx/10 text-primary-crx"
-                    >
-                      {asset.releaseTag}
-                    </Badge>
-                  </CardTitle>
-                  <CardDescription className="line-clamp-2 text-text-secondary">
-                    {asset.name}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <p className="text-sm text-text-secondary">
-                    Tamanho: {asset.sizeLabel}
-                  </p>
-                  <Button
-                    asChild
-                    className="w-full rounded-full bg-primary-crx text-on-primary-crx hover:bg-primary-hover-crx"
-                  >
-                    <a
-                      href={asset.downloadUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <Download className="h-4 w-4" />
-                      Baixar instalador
-                    </a>
-                  </Button>
-                </CardContent>
-              </Card>
-            </SpotlightCard>
-          ))}
-        </div>
+        <OsGroupedDownloads assets={installableAssets} />
       ) : (
         <BorderGradientPanel className="mt-8">
           <div className="space-y-5 px-6 py-6">
