@@ -149,6 +149,7 @@ function mapRelease(release: GithubReleaseApiResponse): VaultGithubRelease {
     draft: release.draft,
     htmlUrl: release.html_url,
     publishedAt: release.published_at,
+    changelog: release.body?.trim() || null,
     assets,
   };
 }

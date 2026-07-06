@@ -6,6 +6,7 @@ export interface GithubReleaseApiResponse {
   draft: boolean;
   html_url: string;
   published_at: string | null;
+  body: string | null;
   assets: GithubAssetApiResponse[];
 }
 

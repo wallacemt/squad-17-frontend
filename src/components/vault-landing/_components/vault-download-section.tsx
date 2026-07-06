@@ -1,8 +1,16 @@
 "use client";
 
-import { vaultMockInstallableAssets } from "@/components/vault-landing/content";
+import {
+  vaultMockInstallableAssets,
+  vaultMockReleases,
+} from "@/components/vault-landing/content";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import {
   Card,
   CardContent,
@@ -10,15 +18,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import SpotlightCard from "@/components/ui/blocks/elements/SpotlightCard/SpotlightCard";
 import type {
   VaultDownloadData,
   VaultDownloadPlatform,
+  VaultGithubRelease,
   VaultInstallableAsset,
 } from "@/types/vault-downloads";
 import { motion } from "framer-motion";
 import {
-  ArrowRight,
+  ChevronDown,
   Download,
   ExternalLink,
   Github,
@@ -72,78 +80,166 @@ function assetFormat(name: string): string {
   return name.split(".").pop()?.toUpperCase() ?? "Instalador";
 }
 
-function OsAssetCard({ asset }: { asset: VaultInstallableAsset }) {
+function DownloadPill({ asset }: { asset: VaultInstallableAsset }) {
   return (
-    <SpotlightCard
-      key={`${asset.releaseTag}-${asset.name}`}
-      className="rounded-xl"
-      spotlightColor="rgba(255, 193, 7, 0.22)"
+    <a
+      href={asset.downloadUrl}
+      target="_blank"
+      rel="noreferrer"
+      className="flex items-center justify-between gap-3 rounded-lg border border-white/10 bg-black/20 px-4 py-2.5 text-sm transition-colors hover:border-primary-crx/40 hover:bg-primary-crx/10"
     >
-      <Card className="border-white/10 bg-bg-surface/85">
-        <CardHeader>
-          <CardTitle className="flex items-center justify-between gap-3 text-lg">
-            <span>{assetFormat(asset.name)}</span>
-            <Badge
-              variant="outline"
-              className="border-primary-crx/30 bg-primary-crx/10 text-primary-crx"
-            >
-              {asset.releaseTag}
-            </Badge>
-          </CardTitle>
-          <CardDescription className="line-clamp-2 text-text-secondary">
-            {asset.name}
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          <p className="text-sm text-text-secondary">
-            Tamanho: {asset.sizeLabel}
-          </p>
-          <Button
-            asChild
-            className="w-full rounded-full bg-primary-crx text-on-primary-crx hover:bg-primary-hover-crx"
-          >
-            <a href={asset.downloadUrl} target="_blank" rel="noreferrer">
-              <Download className="h-4 w-4" />
-              Baixar instalador
-            </a>
-          </Button>
-        </CardContent>
-      </Card>
-    </SpotlightCard>
+      <span className="flex flex-col">
+        <span className="font-medium">{assetFormat(asset.name)}</span>
+        <span className="text-xs text-text-secondary">{asset.sizeLabel}</span>
+      </span>
+      <Download className="h-4 w-4 shrink-0 text-primary-crx" />
+    </a>
   );
 }
 
-function OsGroupedDownloads({
-  assets,
-}: {
-  assets: VaultInstallableAsset[];
-}) {
+function ReleaseDownloads({ assets }: { assets: VaultInstallableAsset[] }) {
+  if (assets.length === 0) {
+    return (
+      <p className="text-sm text-text-secondary">
+        Sem instaladores publicados para esta versao.
+      </p>
+    );
+  }
+
   return (
-    <div className="mt-8 space-y-8">
-      {OS_GROUPS.map(({ platform, label, badgeClass, dividerClass }, index) => {
+    <div className="space-y-4">
+      {OS_GROUPS.map(({ platform, label, badgeClass }) => {
         const group = assets.filter((a) => a.platform === platform);
         if (group.length === 0) return null;
 
         return (
-          <motion.div
-            key={platform}
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.4, delay: index * 0.08 }}
-          >
-            <div className="mb-4 flex items-center gap-3">
-              <Badge className={badgeClass}>{label}</Badge>
-              <div className={`h-px flex-1 ${dividerClass}`} />
-            </div>
-            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          <div key={platform}>
+            <Badge className={`${badgeClass} mb-2`}>{label}</Badge>
+            <div className="grid gap-2 sm:grid-cols-2">
               {group.map((asset) => (
-                <OsAssetCard key={`${asset.releaseTag}-${asset.name}`} asset={asset} />
+                <DownloadPill
+                  key={`${asset.releaseTag}-${asset.name}`}
+                  asset={asset}
+                />
               ))}
             </div>
-          </motion.div>
+          </div>
         );
       })}
+    </div>
+  );
+}
+
+function ReleaseCard({
+  release,
+  assets,
+  isLatest,
+  defaultOpen,
+}: {
+  release: VaultGithubRelease;
+  assets: VaultInstallableAsset[];
+  isLatest: boolean;
+  defaultOpen: boolean;
+}) {
+  const [open, setOpen] = useState(defaultOpen);
+
+  return (
+    <Collapsible open={open} onOpenChange={setOpen}>
+      <BorderGradientPanel>
+        <div className="px-6 py-5">
+          <CollapsibleTrigger className="flex w-full items-center justify-between gap-4 text-left">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="font-display text-xl">
+                {release.name || release.tagName}
+              </span>
+              <Badge
+                variant="outline"
+                className="border-primary-crx/30 bg-primary-crx/10 text-primary-crx"
+              >
+                {release.tagName}
+              </Badge>
+              {isLatest ? (
+                <Badge className="border-emerald-500/30 bg-emerald-500/15 text-emerald-400">
+                  Mais recente
+                </Badge>
+              ) : null}
+              {release.prerelease ? (
+                <Badge
+                  variant="outline"
+                  className="border-amber-500/30 bg-amber-500/10 text-amber-400"
+                >
+                  Pre-release
+                </Badge>
+              ) : null}
+            </div>
+            <div className="flex shrink-0 items-center gap-3 text-sm text-text-secondary">
+              <span>{formatDate(release.publishedAt)}</span>
+              <ChevronDown
+                className={`h-4 w-4 transition-transform ${open ? "rotate-180" : ""}`}
+              />
+            </div>
+          </CollapsibleTrigger>
+
+          <CollapsibleContent className="mt-5 space-y-5">
+            {release.changelog ? (
+              <div className="max-h-64 overflow-y-auto rounded-lg border border-white/10 bg-black/20 p-4">
+                <p className="whitespace-pre-wrap text-sm text-text-secondary">
+                  {release.changelog}
+                </p>
+              </div>
+            ) : (
+              <p className="text-sm text-text-secondary">
+                Sem notas de versao para este lancamento.
+              </p>
+            )}
+
+            <ReleaseDownloads assets={assets} />
+
+            <a
+              href={release.htmlUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1.5 text-sm text-primary-crx hover:underline"
+            >
+              Ver release completa no GitHub
+              <ExternalLink className="h-3.5 w-3.5" />
+            </a>
+          </CollapsibleContent>
+        </div>
+      </BorderGradientPanel>
+    </Collapsible>
+  );
+}
+
+function ReleaseList({
+  releases,
+  installableAssets,
+}: {
+  releases: VaultGithubRelease[];
+  installableAssets: VaultInstallableAsset[];
+}) {
+  const visibleReleases = releases.filter((release) => !release.draft);
+
+  return (
+    <div className="mt-8 space-y-4">
+      {visibleReleases.map((release, index) => (
+        <motion.div
+          key={release.id}
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.4, delay: index * 0.05 }}
+        >
+          <ReleaseCard
+            release={release}
+            assets={installableAssets.filter(
+              (asset) => asset.releaseTag === release.tagName
+            )}
+            isLatest={index === 0}
+            defaultOpen={index === 0}
+          />
+        </motion.div>
+      ))}
     </div>
   );
 }
@@ -163,7 +259,15 @@ export function VaultDownloadSection({
     return downloadData.installableAssets;
   }, [downloadData.installableAssets, isDevMode, isMockInstallersEnabled]);
 
-  const hasInstallableAssets = installableAssets.length > 0;
+  const releases = useMemo(() => {
+    if (isDevMode && isMockInstallersEnabled) {
+      return vaultMockReleases;
+    }
+
+    return downloadData.releases;
+  }, [downloadData.releases, isDevMode, isMockInstallersEnabled]);
+
+  const hasReleases = releases.some((release) => !release.draft);
 
   return (
     <section
@@ -273,98 +377,55 @@ export function VaultDownloadSection({
         </BorderGradientPanel>
       </div>
 
-      {hasInstallableAssets ? (
-        <OsGroupedDownloads assets={installableAssets} />
+      {hasReleases ? (
+        <ReleaseList releases={releases} installableAssets={installableAssets} />
       ) : (
         <BorderGradientPanel className="mt-8">
           <div className="space-y-5 px-6 py-6">
             <p className="text-text-muted text-sm uppercase tracking-[0.18em]">
               Estado atual do repositorio
             </p>
-            <h3 className="font-display text-3xl">
-              Sem assets de instalacao em releases
-            </h3>
+            <h3 className="font-display text-3xl">Sem releases publicadas</h3>
             <p className="max-w-3xl text-text-secondary">
-              A lista de versoes abaixo e carregada pela API do GitHub. Quando
-              houver release com instalador para desktop, os botoes de download
-              direto serao habilitados automaticamente nesta secao.
+              Ainda nao ha releases publicadas no GitHub. Assim que uma release
+              sair, ela aparece automaticamente aqui com changelog e
+              instaladores por sistema operacional.
             </p>
 
-            <div className="grid gap-3 md:grid-cols-2">
-              {downloadData.releases.length > 0
-                ? downloadData.releases.map((release) => (
-                    <Card
-                      key={release.id}
-                      className="border-white/10 bg-black/25"
-                    >
-                      <CardHeader className="pb-4">
-                        <CardTitle className="text-lg">
-                          {release.tagName}
-                        </CardTitle>
-                        <CardDescription className="text-text-secondary">
-                          Publicada em {formatDate(release.publishedAt)}
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <Button
-                          asChild
-                          variant="outline"
-                          className="w-full rounded-full border-white/20 bg-black/20 hover:bg-black/35"
-                        >
-                          <a
-                            href={release.htmlUrl}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            Ver release
-                            <ArrowRight className="h-4 w-4" />
-                          </a>
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  ))
-                : downloadData.tags.map((tag) => (
-                    <Card
-                      key={tag.name}
-                      className="border-white/10 bg-black/25"
-                    >
-                      <CardHeader className="pb-4">
-                        <CardTitle className="text-lg">{tag.name}</CardTitle>
-                        <CardDescription className="text-text-secondary">
-                          Commit {tag.commitSha.slice(0, 8)}
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent className="flex flex-wrap gap-2">
-                        <Button
-                          asChild
-                          variant="outline"
-                          className="rounded-full border-white/20 bg-black/20 hover:bg-black/35"
-                        >
-                          <a
-                            href={tag.zipballUrl}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            Fonte zip
-                          </a>
-                        </Button>
-                        <Button
-                          asChild
-                          variant="outline"
-                          className="rounded-full border-white/20 bg-black/20 hover:bg-black/35"
-                        >
-                          <a
-                            href={tag.tarballUrl}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            Fonte tar.gz
-                          </a>
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  ))}
-            </div>
+            {downloadData.tags.length > 0 ? (
+              <div className="grid gap-3 md:grid-cols-2">
+                {downloadData.tags.map((tag) => (
+                  <Card key={tag.name} className="border-white/10 bg-black/25">
+                    <CardHeader className="pb-4">
+                      <CardTitle className="text-lg">{tag.name}</CardTitle>
+                      <CardDescription className="text-text-secondary">
+                        Commit {tag.commitSha.slice(0, 8)}
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="flex flex-wrap gap-2">
+                      <Button
+                        asChild
+                        variant="outline"
+                        className="rounded-full border-white/20 bg-black/20 hover:bg-black/35"
+                      >
+                        <a href={tag.zipballUrl} target="_blank" rel="noreferrer">
+                          Fonte zip
+                        </a>
+                      </Button>
+                      <Button
+                        asChild
+                        variant="outline"
+                        className="rounded-full border-white/20 bg-black/20 hover:bg-black/35"
+                      >
+                        <a href={tag.tarballUrl} target="_blank" rel="noreferrer">
+                          Fonte tar.gz
+                        </a>
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            ) : null}
           </div>
         </BorderGradientPanel>
       )}

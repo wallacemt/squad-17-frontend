@@ -20,6 +20,7 @@ export interface VaultGithubRelease {
   draft: boolean;
   htmlUrl: string;
   publishedAt: string | null;
+  changelog: string | null;
   assets: VaultReleaseAsset[];
 }
 

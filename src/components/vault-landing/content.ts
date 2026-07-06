@@ -1,4 +1,7 @@
-import type { VaultInstallableAsset } from "@/types/vault-downloads";
+import type {
+  VaultGithubRelease,
+  VaultInstallableAsset,
+} from "@/types/vault-downloads";
 
 export const vaultSectionLinks = [
   { id: "visao", label: "Visao" },
@@ -169,5 +172,20 @@ export const vaultMockInstallableAssets: VaultInstallableAsset[] = [
     name: "CritixVault_1.0.0_x64.dmg",
     downloadUrl: "https://github.com/wallacemt/critix-vault-desktop/releases",
     sizeLabel: "93.4 MB",
+  },
+];
+
+export const vaultMockReleases: VaultGithubRelease[] = [
+  {
+    id: -1,
+    name: "Critix Vault Mock Release",
+    tagName: "v1.0.0-mock",
+    prerelease: false,
+    draft: false,
+    htmlUrl: "https://github.com/wallacemt/critix-vault-desktop/releases",
+    publishedAt: new Date().toISOString(),
+    changelog:
+      "### Novidades\n- Suporte a temas customizados\n- Melhoria de performance no scanner de biblioteca\n\n### Correcoes\n- Corrige travamento ao importar colecoes grandes",
+    assets: [],
   },
 ];
